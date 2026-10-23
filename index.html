@@ -109,7 +109,10 @@ svg#map.picking { cursor: crosshair; }
 .zoom { position: absolute; right: max(10px, env(safe-area-inset-right, 0px)); bottom: 34px; display: grid; gap: 4px; }
 .zoom button { width: 36px; height: 36px; font: 600 18px var(--sans); background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
 .coords { position: absolute; left: 10px; bottom: 10px; font: 12px var(--mono); background: color-mix(in srgb, var(--panel) 88%, transparent); color: var(--ink); padding: 4px 8px; border-radius: 6px; pointer-events: none; }
-.legend { position: absolute; left: 10px; bottom: 38px; background: color-mix(in srgb, var(--panel) 92%, transparent); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: 12px; display: grid; gap: 3px; max-width: 220px; }
+.legend { position: absolute; left: 10px; bottom: 38px; background: color-mix(in srgb, var(--panel) 92%, transparent); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; font-size: 12px; display: grid; gap: 3px; max-width: 290px; }
+.legend .lgt { font-weight: 700; margin-bottom: 2px; }
+.legend .lgn { color: var(--muted); font-size: 11.5px; line-height: 1.35; margin-top: 4px; }
+.legend .lgx { margin-top: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 4px 10px; font: 500 12px var(--sans); cursor: pointer; justify-self: start; }
 .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
 .banner { position: absolute; left: 50%; transform: translateX(-50%); top: 62px; background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; text-align: center; max-width: calc(100% - 40px); box-shadow: 0 4px 14px rgb(0 0 0 / .2); }
 .panel h2 { font-family: var(--serif); font-weight: 600; font-size: 24px; line-height: 1.2; margin: 0 0 4px; text-wrap: balance; }
@@ -259,9 +262,13 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .cardbtn:hover { border-color: var(--accent); }
 .cardbtn b { display: block; font-size: 15px; margin-bottom: 2px; }
 .cardbtn span { color: var(--muted); font-size: 13px; }
-.cardbtn .ic { font-size: 20px; display: block; margin-bottom: 6px; }
+.cardbtn .ic { display: block; width: 22px; height: 22px; margin-bottom: 8px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.lessons .ck { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.cv { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; display: block; margin: auto; }
+.crumb button .cv { width: 16px; height: 16px; }
+.bk { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; margin-right: 2px; }
 .mob { display: none; }
-@media (max-width: 860px) { .desk { display: none; } .mob { display: block; } .dialog { padding: 18px 16px 14px; } .dialog .cardbtn { padding: 10px; } .dialog .cardbtn .ic { display: inline; margin: 0 4px 0 0; font-size: 16px; } .dialog .cardbtn b { display: inline; } .dialog .cardbtn > span:last-child { display: block; } .dialog .tips { margin: 10px 0 12px; font-size: 13.5px; } }
+@media (max-width: 860px) { .desk { display: none; } .mob { display: block; } .dialog { padding: 18px 16px 14px; } .dialog .cardbtn { padding: 10px; } .dialog .cardbtn .ic { display: inline-block; width: 18px; height: 18px; margin: 0 6px -3px 0; } .dialog .cardbtn b { display: inline; } .dialog .cardbtn > span:last-child { display: block; } .dialog .tips { margin: 10px 0 12px; font-size: 13.5px; } }
 .bar { display: grid; grid-template-columns: 110px 1fr 54px; align-items: center; gap: 8px; font-size: 13px; margin: 5px 0; }
 .bar .track { height: 7px; background: var(--tag); border-radius: 9px; overflow: hidden; } .bar .track i { display: block; height: 100%; background: var(--accent); border-radius: 9px; }
 .bar .n { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
@@ -320,7 +327,8 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
   .layers label { min-height: 38px; align-items: center; }
   .zoom { right: 10px; bottom: 24px; }
   .coords { display: none; }
-  .legend { left: 10px; bottom: 24px; max-width: 60%; }
+  .legend { left: 10px; bottom: 24px; max-width: 62%; }
+  .legend .lgn { display: none; }
   .banner { top: 62px; font-size: 13px; }
   .toast { bottom: calc(16px + var(--navh)); }
   .tile b { font-size: 16px; }
@@ -333,6 +341,20 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 
 </head><body>
 <div class="app" id="app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-learn" viewBox="0 0 24 24"><path d="M3 8.5l9-4 9 4-9 4z"/><path d="M7 10.5v5c1.3 1.4 3 2 5 2s3.7-.6 5-2v-5"/><path d="M21 8.5v5"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-ruler" viewBox="0 0 24 24"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6.5 8v3M10.5 8v4M14.5 8v3M18.5 8v4"/></symbol>
+<symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1"/><circle cx="15" cy="15" r="1.1"/><circle cx="15" cy="9" r="1.1"/><circle cx="9" cy="15" r="1.1"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5"/><path d="M3.5 16.5l8.5 4.5 8.5-4.5"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></symbol>
+<symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+</defs></svg>
+
   <a class="skip" href="#panel">Skip to reading panel</a>
   <div class="brand" role="banner">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 16h26M16 3c4 4 5.5 8.5 5.5 13S20 25 16 29M16 3c-4 4-5.5 8.5-5.5 13S12 25 16 29" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="20.5" cy="12" r="2.6" fill="var(--sel)"/></svg>
@@ -371,6 +393,16 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
           <option value="natural">Natural Earth · balanced</option>
           <option value="mercator">Mercator · web maps</option>
           <option value="globe">Globe · drag to turn</option>
+        </select>
+        <div class="lh">Today's world</div>
+        <label for="themesel" class="vh">Today's world layer</label>
+        <select id="themesel">
+          <option value="">None</option>
+          <option value="wars">Wars and armed conflict</option>
+          <option value="minerals">Critical minerals</option>
+          <option value="age">Median age</option>
+          <option value="growth">Population change to 2050</option>
+          <option value="money">Shared currencies</option>
         </select>
         <div class="lh">Layers</div>
         <label><input type="checkbox" id="L-labels" checked> Country names</label>
@@ -741,7 +773,7 @@ function countryPanel(k) {
     <div class="tile"><small>Area</small><b>${shortNum(f.a)} km²</b><em>${esc(vsNg)}</em></div>
     <div class="tile"><small>Land neighbours</small><b>${nbs.length}</b><em>${f.land ? "landlocked" : f.b.length === 0 ? "island state" : "has a coast"}</em></div>
   </div>
-  <div class="actrow"><button class="btn" data-act="share" data-c3="${esc(f.c3)}">Share</button><button class="btn" data-act="random">Surprise me</button>${S.sel === k && nbs.length ? `<button class="btn" data-act="walk" data-k="${k}">Next door →</button>` : ""}</div>
+  <div class="actrow"><button class="btn" data-act="share" data-c3="${esc(f.c3)}">Share</button><button class="btn" data-act="random">Surprise me</button>${S.sel === k && nbs.length ? `<button class="btn" data-act="walk" data-k="${k}">Next door</button>` : ""}</div>
   <dl class="facts">
     <dt>Centre (approx.)</dt><dd style="font-family:var(--mono);font-size:13px">${latStr(c[1])}, ${lonStr(c[0])}</dd>
     <dt>Exact area</dt><dd>${fmt(f.a)} km²</dd>
@@ -758,7 +790,7 @@ function countryPanel(k) {
   <div class="mm"><h4 style="margin-top:0">Mental-map summary</h4>
     <p><b>Where it sits.</b> ${esc(f.n)} lies in ${esc(f.sub || cont)}, ${hemi}. ${esc(nbText)}</p>
     <p><b>To place it on a blank map:</b> ${esc(memo)}</p></div>
-  ${f.c3 === "NGA" ? `<p><button class="btn primary" data-mode-go="nigeria">Open the full Nigeria study →</button></p>` :
+  ${f.c3 === "NGA" ? `<p><button class="btn primary" data-mode-go="nigeria">Open the full Nigeria study</button></p>` :
   PROFILES[f.c3] ? profileHTML(f) : `<div class="note"><span class="kind">Not written yet</span>Every one of the 195 countries has a full profile. ${esc(f.n)} is a territory or dependency, so it gets the facts above rather than a full profile.</div>`}
   <p class="src">Facts: world-countries dataset (area, capital, borders, languages). Population and demography: ${f.w ? "UN World Population Prospects 2024 (medium variant)" : "Natural Earth, " + (f.popY || 2019) + " estimate"}. Income group: Natural Earth. Shapes: Natural Earth. You have opened ${seen} ${seen === 1 ? "place" : "places"} so far.</p>`; }
 
@@ -795,7 +827,7 @@ function selectCountry(k, fly = true, keepMode = false) {
 function goCity(name, c3, k) { const c = D.cities.find(x => x.c3 === c3 && x.cap && norm(x.n) === norm(name)) || D.cities.find(x => x.c3 === c3 && x.cap);
   if (!c) return selectCountry(k, true); if (S.mode !== "explore") setMode("explore", true);
   S.sel = k; paint(); setPins([{c: [c.x, c.y]}]); flyToPoint([c.x, c.y], 8);
-  setPanel(pointPanel(c.n, [c.x, c.y], "Capital of " + nameOf(k), c) + `<p><button class="btn" data-go="${k}">Open ${esc(nameOf(k))} →</button></p>`); }
+  setPanel(pointPanel(c.n, [c.x, c.y], "Capital of " + nameOf(k), c) + `<p><button class="btn" data-go="${k}">Open ${esc(nameOf(k))}</button></p>`); }
 function goPoint(name, c, kind, extra) { if (S.mode !== "explore") setMode("explore", true); S.sel = null; paint();
   setPins([{c}]); flyToPoint(c, kind === "ocean" ? 2 : 5); setPanel(pointPanel(name, c, kind, extra)); }
 
@@ -818,7 +850,7 @@ panel.addEventListener("click", e => {
 
 /* ---------- modes ---------- */
 function setMode(m, silent) {
-  VIEW.length = 0; hidePeek();
+  VIEW.length = 0; hidePeek(); if (S.theme) { S.theme = null; $("#themesel").value = ""; }
   if (S.quiz && S.quiz.stop) S.quiz.stop();
   S.quiz = null; S.mode = m; S.color = null; S.sel = null; S.tool = null; S.ghost = null; banner(null); legend(null);
   if (G.ghost) G.ghost.selectAll("*").remove();
@@ -836,7 +868,7 @@ function setMode(m, silent) {
   if (!silent) { MODES[m](); afterMode(m); } }
 
 const MODES = {
-  explore() { resetView(); setPanel(`<div class="eyebrow">Explore</div><h2>Start anywhere on Earth</h2>
+  explore() { resetView(); setPanel(`<h2>Explore the map</h2>
     <p>Tap a country to see its capital, size, neighbours and where it sits. Tap a neighbour to walk across the map. Search finds countries, capitals, cities, seas, deserts and mountain ranges.</p>
     <p>Change the projection above the map to see how flat maps bend the world, or switch to the globe and drag it.</p>
     <h4>Suggested first walk</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>
@@ -900,7 +932,7 @@ function lessonPanel() {
   <p>Close to most coasts the sea floor stays shallow, usually under about 200 m, for some distance: this is the <b>continental shelf</b>, where most fishing and offshore oil happen, including Nigeria's. Beyond it the floor drops to the deep ocean plains, 3,000–6,000 m down, and in a few places into <b>trenches</b> deeper than 7,000 m. The Mariana Trench in the Pacific reaches about 11,000 m, deeper than Everest is tall.</p>
   <div class="btnrow"><button class="btn primary" data-act="depths">Show ocean depths</button></div>
   <p class="note"><span class="kind">Not included</span>Land elevation (hills and contour lines) needs raster terrain data, which this atlas does not carry. The Layers menu shows mountain ranges, plateaus, deserts and peaks instead.</p>
-  <p><button class="btn primary" data-mode-go="quiz">Test yourself →</button></p>`); }
+  <p><button class="btn primary" data-mode-go="quiz">Test yourself</button></p>`); }
 ACT.tzshow = () => { $("#L-tz").checked = true; applyLayers(); render(); resetView(); legend([["--tz1", "Whole-hour zones (alternating)"], ["--tz3", "Half- or quarter-hour zones"]]); banner("Time zones from Natural Earth; a few countries changed zone recently and may be shown out of date"); setTimeout(() => banner(null), 5000); };
 ACT.globe = () => setProjection("globe");
 ACT.flat = () => setProjection("equal");
@@ -950,7 +982,7 @@ function africaMode() {
   labelVisibility();
   flyToKeys(un.map(([k]) => k), {pad: .95, maxk: 4});
   const bySub = {}; afr.forEach(([k, f]) => (bySub[f.sub] ??= []).push(k));
-  setPanel(`<div class="eyebrow">Africa learning journey</div><h2>Africa, region by region</h2>
+  setPanel(`<div class="eyebrow">Africa</div><h2>Africa, region by region</h2>
   <p>Every African country now has a full profile: tap any country to read it. Africa has <b>${un.length}</b> UN member states, more than any other continent, and covers about a fifth of the Earth's land. The colours follow the UN's five African regions. Other bodies draw them differently: the African Union, for example, puts some countries in other regions.</p>
   <div class="tree">${Object.keys(AFR_COL).map(s => `<details><summary><i style="background:var(${AFR_COL[s]})"></i>${s.replace("Middle", "Middle (Central)")} <span class="src" style="margin:0 0 0 auto">${(bySub[s] || []).length}</span></summary><div class="subs"><div class="chips">${(bySub[s] || []).sort((a, b) => nameOf(a).localeCompare(nameOf(b))).map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div></div></details>`).join("")}</div>
   <h3>The big physical picture</h3>
@@ -965,7 +997,7 @@ function africaMode() {
   <div class="btnrow"><button class="btn" data-act="bloc" data-b="ECOWAS">ECOWAS</button><button class="btn" data-act="bloc" data-b="AES">Alliance of Sahel States</button></div>
   <p><b>ECOWAS</b>, the Economic Community of West African States, now has 12 members after Burkina Faso, Mali and Niger left in January 2025. Those three formed the <b>Alliance of Sahel States</b>. Members are sometimes suspended after coups, so check the current position.</p>
   <p>The <b>African Union</b> includes all 54 UN member states in Africa plus the Sahrawi Arab Democratic Republic. Other blocs, such as SADC in the south and the East African Community, will get their own map views in the next batch.</p>
-  <p><button class="btn primary" data-mode-go="nigeria">Zoom into Nigeria →</button></p>
+  <p><button class="btn primary" data-mode-go="nigeria">Zoom into Nigeria</button></p>
   <p class="src">Borders, rivers and landform labels: Natural Earth. Membership lists: checked against ECOWAS and AES announcements as of 2025; verify before relying on them.</p>`); }
 ACT.river = el => { const r = el.dataset.r;
   G.rivers.selectAll("path").style("stroke", d => d.properties.name === r ? "var(--sel)" : null).style("stroke-width", d => d.properties.name === r ? "3px" : null);
@@ -1044,7 +1076,7 @@ function statePanel(s) {
   <p>One of the ${ZONES[z].length} states and territories in the ${esc(z)} zone: ${ZONES[z].map(stName).join(", ")}.</p>
   ${cs.length ? `<p>Cities on this map: ${cs.map(c => esc(c.n)).join(", ")}.</p>` : ""}
   <p class="note"><span class="kind">Not written yet</span>State profiles come in a later batch.</p>
-  <p><button class="btn" data-mode-go="nigeria">← Back to Nigeria</button></p>`;
+  <p><button class="btn" data-mode-go="nigeria"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to Nigeria</button></p>`;
   setPanel(html); }
 ACT.zone = el => { const z = el.dataset.z; G.states.selectAll("path.state").classed("on", d => zoneOf(d.properties.name) === z).style("opacity", d => zoneOf(d.properties.name) === z ? 1 : .35);
   const fs = G.states.selectAll("path.state").data().filter(d => zoneOf(d.properties.name) === z); flyTo({type: "FeatureCollection", features: fs}, {pad: .85, maxk: 30}); };
@@ -1121,39 +1153,46 @@ ACT.qmc = () => { const qs = shuffle(MCQ); let i = 0, score = 0;
 
 /* ---------- sources ---------- */
 function aboutPanel() {
-  setPanel(`<div class="eyebrow">Sources &amp; limits</div><h2>What this atlas is built on</h2>
-  <h3>Data</h3><ul>
-  <li><b>Country shapes:</b> Natural Earth 1:50m admin-0 countries, through the world-atlas 2.0.2 package (TopoJSON). Public domain.</li>
-  <li><b>Population, income group, sovereignty:</b> Natural Earth 1:50m admin-0 attributes (population estimates mostly for 2019).</li>
-  <li><b>Capitals, borders, area, regions, languages:</b> the world-countries 5.1.0 dataset (mledoze/countries). One correction applied: Vatican City is marked as a UN observer, not a member.</li>
-  <li><b>Nigeria's states:</b> Natural Earth 1:10m admin-1, simplified for speed.</li>
-  <li><b>History and world-politics lessons:</b> written for this atlas, using Geoffrey Blainey, <i>A Very Short History of the World</i> (2004) and Peu Ghosh, <i>International Relations</i> (5th ed., 2020) as guides, updated with newer research and with memberships checked in October 2026 (UN, OPEC, AU, ECOWAS, ASEAN, BRICS and SCO announcements as reported). Slave-trade figures: the SlaveVoyages database.</li>
-  <li><b>Population and demography:</b> United Nations, World Population Prospects 2024, compact demographic indicators, medium variant (estimates to 2023, projections from 2024). Nigeria's figures are projections: its last census was in 2006.</li>
-  <li><b>Nigerian history lesson:</b> written for this atlas using Toyin Falola and Matthew M. Heaton, <i>A History of Nigeria</i> (2008) and Wole Soyinka, <i>The Open Sore of a Continent</i> (1996), with events after 2007 from news reports up to September 2026.</li>
-  <li><b>Rivers, lakes, seas, landforms, peaks, cities:</b> Natural Earth 1:50m and 1:10m physical and cultural layers.</li>
-  <li><b>Nigeria border lengths:</b> CIA World Factbook.</li></ul>
-  <h3>Conventions</h3>
-  <p>195 countries: 193 UN members plus Vatican City and Palestine as UN observer states. Taiwan, Kosovo, Western Sahara, Somaliland and Northern Cyprus are shown with status notes. Natural Earth draws some boundaries as they are controlled on the ground, so a line on this map does not settle any dispute.</p>
-  <h3>What works now</h3>
-  <ul><li>Real boundaries, zoom, pan, four projections including a draggable globe.</li><li>Search across countries, capitals, cities, seas, landforms and peaks.</li><li>Country panels computed from the data: neighbours with directions, size versus Nigeria, distance from Lagos.</li><li>Continent and region explorer, the Africa journey, the Nigeria study with all 37 states and territories, three quiz types, and progress saved in this browser.</li></ul>
-  <h3>Added in batch 2</h3>
-  <ul><li>Full profiles for all 16 West African countries.</li><li>The borders course: nine case studies on the map.</li><li>Chokepoints, landlocked countries and sea corridors, and the SADC, EAC and ECOWAS map views.</li><li>Distance and true-size tools.</li><li>Six new games: capitals, flags, shapes, bigger or smaller, further north, and Nigeria's states.</li></ul>
-  <h3>Added in batch 3</h3>
-  <ul><li>Profiles for all 54 African countries.</li><li>Time-zone layer (Natural Earth 1:10m time zones). Natural Earth does not update time zones often, so countries that changed zone in recent years may be shown out of date.</li><li>"Who am I?" clue game built from the profiles.</li></ul>
-  <h3>Added in batch 4</h3>
-  <ul><li>Profiles for all 48 countries and territories of Asia, from Türkiye to Japan, including Taiwan and Palestine with their status explained.</li><li>"Who am I?" now has a World round using every profiled country.</li></ul>
-  <h3>Added in batch 5</h3>
-  <ul><li>Profiles for all 46 countries of Europe, including the microstates and Kosovo.</li></ul>
-  <h3>Added in batch 6</h3>
-  <ul><li>Profiles for all 35 countries of the Americas and all 14 of Oceania. Every one of the 195 countries now has a full profile.</li></ul>
-  <h3>Added in batch 7</h3>
-  <ul><li>History tab: eight reconstructed world maps from AD 200 to 1994 (historical-basemaps by André Ourednik, GPL-3.0), each with a short summary.</li><li>"Who ruled it in 1914?" game, with an answer key written from the historical record.</li><li>Profiles for 11 major territories, including Greenland, Hong Kong, Western Sahara and Antarctica.</li></ul>
-  <h3>Added in batch 8</h3>
-  <ul><li>Ocean-depth layer: continental shelf, deep ocean and trenches (Natural Earth 1:10m bathymetry, simplified).</li><li>History maps for 1783 and 1945.</li></ul>
-  <h3>Not built yet</h3>
-  <ul><li>Profiles for the remaining small territories.</li><li>Elevation, climate and population-density layers.</li><li>Historical maps for more years.</li></ul>
-  <p class="src">Flags use your device's emoji; some Windows computers show letters instead of flags.</p>
-  <p class="src">Build date: October 2026. Population figures are estimates and dated; check national statistics for current numbers.</p>`); }
+  const n = Object.values(D.facts).filter(f => f.un || f.obs).length, qs = QB.length, passed = COURSE.filter(([id]) => saved.mastered[id]).length;
+  setPanel(`<h2>About this atlas</h2>
+  <p>Geography is usually taught as lists: capitals, rivers, and a map that draws Africa too small. The news then talks about Hormuz, the Sahel, BRICS or the naira as if everyone already knew where they are and why they matter. This atlas fills that gap. The aim is a map of the world you can picture without looking, and the habit of asking what a place means today.</p>
+
+  <h3>What you gain</h3>
+  <ul>
+  <li><b>You can place any country</b> and say what surrounds it. Every one of the ${n} countries has a profile: its neighbours, its people, how its borders were made, why its location matters, and a line to help you remember it.</li>
+  <li><b>You read maps critically.</b> You will know why Africa looks small on most maps, why the shortest flight looks curved, and when a "natural" border is really a political choice.</li>
+  <li><b>You understand Nigeria from the inside.</b> From Nok and the old kingdoms to 1914, the civil war, June 12 and the Fourth Republic, with the national question argued from several sides.</li>
+  <li><b>You can follow the news with a map in mind.</b> Wars, chokepoints, blocs, currencies and the minerals the world now fights over, checked against sources dated 2026.</li>
+  <li><b>You think in more than one frame.</b> Lessons separate facts from interpretation and set rival views side by side (realist and liberal, geography and institutions, Soyinka and Achebe), so you form your own judgement.</li>
+  <li><b>You remember it.</b> Each lesson ends with a short check, and a daily review brings back what you missed at growing intervals, one of the best-supported methods in memory research.</li></ul>
+
+  <h3>How to use it, ten minutes a day</h3>
+  <ol><li><b>Clear your daily review</b> if one is waiting (on the home page). Two or three minutes.</li>
+  <li><b>Read one part of a lesson</b> under Learn, with the map beside it. Pass its check when you finish the lesson.</li>
+  <li><b>Take one walk</b> in Explore: open a country you have never visited and step across its borders, or switch on a Today's world layer from the Map button.</li></ol>
+  <p>You have passed ${passed} of ${COURSE.length} lesson checks, and the review bank holds ${qs} questions. Your progress stays in this browser only; nothing is sent anywhere.</p>
+
+  <h3>Who it is for</h3>
+  <p>Curious readers who want truth over half-truths; students of geography, history, economics and International Relations (the lessons cover Westphalia, geopolitics, non-alignment, Nigerian foreign policy and the CFA debate); teachers who want a map that changes as they talk; travellers who want context before they go.</p>
+
+  <h3>How to read what it tells you</h3>
+  <p>Labels mark the difference between a fact, an <span class="kind">Interpretation</span> and something <span class="kind">Debated</span>. Fast-changing facts carry a date: memberships were checked in October 2026, population comes from the UN's 2024 projections for mid-2026, and Nigeria has not held a census since 2006. If a fact looks wrong to you, it may have changed; check the date, then the source.</p>
+
+  <h3>Where the facts come from</h3>
+  <ul>
+  <li><b>Maps:</b> Natural Earth (public domain) for borders, rivers, seas, landforms, cities, time zones and ocean depths; historical borders from André Ourednik's historical-basemaps (GPL-3.0).</li>
+  <li><b>Country facts:</b> the world-countries dataset (capitals, borders, area, languages, currencies, corrected for changes to 2026).</li>
+  <li><b>People:</b> United Nations, World Population Prospects 2024.</li>
+  <li><b>Today's world layers:</b> the list of ongoing armed conflicts as compiled in October 2026 (built on UCDP and ACLED data), and the US Geological Survey's Mineral Commodity Summaries 2026.</li>
+  <li><b>Lessons</b> are written for this atlas, using as guides Blainey's <i>A Very Short History of the World</i>, Ghosh's <i>International Relations</i>, Falola and Heaton's <i>A History of Nigeria</i> and Soyinka's <i>The Open Sore of a Continent</i>, updated with newer research and news to October 2026. Slave-trade figures: the SlaveVoyages database. Nigerian economic figures: CBN and NBS as reported.</li></ul>
+  <p class="src">Counting convention: 193 UN members plus 2 observer states (Vatican City and Palestine). Taiwan, Kosovo, Western Sahara, Somaliland and Northern Cyprus are shown with notes on their status. Some boundaries are drawn as controlled on the ground, which is not a judgement on any claim.</p>
+
+  <h3>What is coming, in order of usefulness</h3>
+  <ol><li><b>Current economic figures for every country</b> (GDP, income per person, inflation, debt), from the IMF World Economic Outlook.</li>
+  <li><b>More of today's world:</b> energy (oil, gas and power), trade partners, migration and refugees.</li>
+  <li><b>Climate risk:</b> who is most exposed to drought, flooding and heat, and why that shapes migration and conflict.</li>
+  <li>Lesson checks extended into the games, and teacher-friendly printouts.</li></ol>
+  <p class="src">Flags use your device's emoji; some Windows computers show letters instead. Built in October 2026.</p>`); }
 
 /* ---------- batch 2: West Africa profiles ---------- */
 const PROFILES = {
@@ -2343,14 +2382,14 @@ BOL: { phys: "Landlocked: the high Altiplano with Lake Titicaca and the Uyuni sa
 PRY: { phys: "Landlocked; the Paraguay River splits the dry Chaco in the west from wetter lands in the east.", people: "Spanish and Guaraní are official; most people speak Guaraní.", hist: "Lost much of its male population in the War of the Triple Alliance (1864–1870).", econ: "Soybeans, beef, and hydropower from the Itaipú dam shared with Brazil.", why: "It exports by river barges down to the Atlantic.", memo: "The landlocked country between Brazil, Bolivia and Argentina." },
 URY: { phys: "Low rolling grassland between Brazil and the Río de la Plata.", people: "Spanish is official.", hist: "Independent in 1825 as a buffer between Brazil and Argentina.", econ: "Beef, soybeans, pulp, software; one of Latin America's richest and most stable countries.", why: "Montevideo is a port at the mouth of the Plata river system.", memo: "The small country across the river from Buenos Aires." },
 GUY: { phys: "Coastal plain, rainforest and savanna; its name means 'land of many waters'.", people: "English is official; people of Indian and African descent are the largest groups.", hist: "British Guiana; independent in 1966. Venezuela claims about two-thirds of its land.", econ: "Offshore oil since 2019 has made it one of the world's fastest-growing economies.", why: "Culturally part of the English-speaking Caribbean, on South America's north coast.", memo: "The first of the three Guianas, east of Venezuela." },
-SUR: { phys: "Mostly rainforest, with a narrow coastal plain.", people: "Dutch is official; Sranan Tongo is widely spoken; very diverse population.", hist: "A Dutch colony; independent in 1975.", econ: "Gold, oil and bauxite.", why: "The only Dutch-speaking country in the Americas.", memo: "Between Guyana and French Guiana." },
+SUR: { phys: "Mostly rainforest, with a narrow coastal plain.", people: "Dutch is official; Sranan Tongo is widely spoken; descendants of Africans, Indians, Javanese, Indigenous peoples and Europeans.", hist: "A Dutch colony; independent in 1975.", econ: "Gold, oil and bauxite.", why: "The only Dutch-speaking country in the Americas.", memo: "Between Guyana and French Guiana." },
 /* Oceania */
 AUS: { phys: "The smallest continent and largest country in Oceania: mostly dry, with deserts and the Outback in the centre and west, the Great Dividing Range in the east and the Great Barrier Reef offshore.",
   people: "English is official; Aboriginal and Torres Strait Islander peoples have lived here for at least 50,000 years. Most people live in coastal cities in the south-east.", hist: "British colonies from 1788 federated in 1901.",
   econ: "Iron ore, coal, gas, lithium, gold, education and farming; China is its biggest customer.", why: "It links the Indian and Pacific Oceans.", memo: "The island continent south of Indonesia." },
 NZL: { phys: "Two main islands, North and South, with volcanoes, geysers and the Southern Alps.", people: "English, Māori and New Zealand Sign Language are official.", hist: "Settled by Polynesian Māori around the 1300s. The Treaty of Waitangi (1840) with Britain remains the founding document.", econ: "Dairy, meat, wine and tourism.", why: "Remote, it gave women the vote first, in 1893.", memo: "The two islands south-east of Australia." },
 PNG: { phys: "The eastern half of New Guinea plus many islands; high mountains and rainforest.", people: "More than 800 languages, the most of any country; Tok Pisin is the common language.", hist: "Governed by Australia until independence in 1975.", econ: "Gas, gold, copper and farming.", why: "It lies just north of Australia across the Torres Strait.", memo: "The eastern half of the big island north of Australia." },
-FJI: { phys: "More than 300 islands, the largest volcanic, straddling the 180° meridian.", people: "English, Fijian and Fiji Hindi are official.", hist: "A British colony until 1970.", econ: "Tourism and sugar.", why: "A hub for the South Pacific.", memo: "The cluster east of Vanuatu, on the date line." },
+FJI: { phys: "More than 300 islands, the largest volcanic, straddling the 180° meridian.", people: "English, Fijian and Fiji Hindi are official.", hist: "A British colony until 1970.", econ: "Tourism and sugar.", why: "Its airport, port and the University of the South Pacific make it the region's main crossroads.", memo: "The cluster east of Vanuatu, on the date line." },
 SLB: { phys: "Hundreds of islands east of Papua New Guinea.", people: "English is official; Pijin is widely spoken.", hist: "Guadalcanal was a major Second World War battleground. Independent from Britain in 1978.", econ: "Timber, fish and farming.", why: "Its 2022 security pact with China drew attention to Pacific rivalry.", memo: "The double chain east of New Guinea." },
 VUT: { phys: "A Y-shaped chain of about 80 volcanic islands.", people: "Bislama, English and French are official.", hist: "Jointly ruled by Britain and France until independence in 1980.", econ: "Farming, tourism and citizenship sales.", why: "Very exposed to cyclones and earthquakes.", memo: "South-east of the Solomon Islands, west of Fiji." },
 WSM: { phys: "Two main volcanic islands in Polynesia.", people: "Samoan and English are official.", hist: "The first Pacific island state to become independent, from New Zealand in 1962.", econ: "Remittances, tourism and farming.", why: "It moved west of the International Date Line in 2011 to align with Australia and New Zealand.", memo: "North-east of Fiji." },
@@ -2435,7 +2474,7 @@ function showEra(y) {
       $("#erainfo").innerHTML = `<b>${esc(p.NAME || "Unnamed area")}</b>${p.SUBJECTO && p.SUBJECTO !== p.NAME ? ` · part of ${esc(p.SUBJECTO)}` : ""}<br><span class="src">Border precision in the source: ${prec}.</span><p>${ERAS[y]}</p>`;
       const c = invertPointer(ev), now = c && [...featByKey.values()].find(f => d3.geoContains(f, c));
       showPeekHTML(`<span class="ps">In ${esc(y)}</span><b class="pn">${esc(p.NAME || "Unnamed area")}</b>${p.SUBJECTO && p.SUBJECTO !== p.NAME ? `<span class="ps">Part of ${esc(p.SUBJECTO)}</span>` : ""}
-        <p class="ps" style="margin:6px 0 8px">Border precision in the source: ${prec}.</p>${now ? `<div class="pb"><button class="btn" data-peek="open" data-k="${esc(now.key)}">Today: ${esc(nameOf(now.key))} →</button></div>` : ""}`); })
+        <p class="ps" style="margin:6px 0 8px">Border precision in the source: ${prec}.</p>${now ? `<div class="pb"><button class="btn" data-peek="open" data-k="${esc(now.key)}">Today: ${esc(nameOf(now.key))}</button></div>` : ""}`); })
     .append("title").text(d => d.properties.NAME || "");
   const lab = keep.filter(f => f.properties.NAME).map(f => ({c: labelPoint(f), t: f.properties.NAME, a: d3.geoArea(f)})).filter(d => d.a < 2 * Math.PI).sort((a, b) => b.a - a.a).slice(0, 70)
     .map(d => ({...d, minz: d.a > .02 ? 0 : d.a > .004 ? 2 : 4}));
@@ -2621,7 +2660,7 @@ function storyStop(i, quiet) {
   else if (s.fly === "keys") flyToKeys(s.keys.map(k3).filter(Boolean), {pad: .9, maxk: 4});
   else if (pts.length) flyTo({type: "MultiPoint", coordinates: pts}, {pad: .75, maxk: 6});
   $("#storyinfo").innerHTML = `<div class="eyebrow">Stop ${i + 1} of ${STORY.length} · ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
-    <div class="btnrow"><button class="btn" data-act="story" data-i="${i - 1}" ${i ? "" : "disabled"}>← Back</button>${i + 1 < STORY.length ? `<button class="btn primary" data-act="story" data-i="${i + 1}">Next: ${esc(STORY[i + 1].t)} →</button>` : `<button class="btn primary" data-act="africaDebate">Debate: why did Africa's story unfold this way? →</button>`}</div>`;
+    <div class="btnrow"><button class="btn" data-act="story" data-i="${i - 1}" ${i ? "" : "disabled"}><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button>${i + 1 < STORY.length ? `<button class="btn primary" data-act="story" data-i="${i + 1}">Next: ${esc(STORY[i + 1].t)}</button>` : `<button class="btn primary" data-act="africaDebate">Debate: why did Africa's story unfold this way?</button>`}</div>`;
   if ($("#suezcut")) { const cape = STORY[STORY.length - 1].routes[0].geo.coordinates, suez = STORY[STORY.length - 1].routes[1].geo.coordinates;
     $("#suezcut").textContent = `on the routes drawn here, from about ${fmt(Math.round(routeKm(cape) / 100) * 100)} km around Africa to about ${fmt(Math.round(routeKm(suez) / 100) * 100)} km through Suez.`; }
   document.querySelectorAll("#storychips .chip").forEach((c, j) => c.classList.toggle("on", j === i));
@@ -2646,7 +2685,7 @@ ACT.africaDebate = () => {
   <p><b>3. Connection, not isolation.</b> Many historians of Africa reject the picture of a cut-off continent. Saharan caravans, Nile boats and Indian Ocean monsoons tied Africa to the wider world; Malian gold mattered to Mediterranean money, and Swahili ports traded as far as China.</p>
   <h4>Testing the explanations</h4>
   <p>Geography explains constraints, not outcomes: the same desert and rivers that "isolated" Africa also carried the trade that built Mali and Kanem-Bornu. The extraction view explains a lot after 1500 but less about differences between African societies before it. A fair conclusion is that geography set the board, and trade, power and violence decided much of the game. Which weighting you choose depends on how much you think places shape people, or people shape places.</p>
-  <div class="btnrow"><button class="btn" data-act="story" data-i="0">Start the journey again</button><button class="btn primary" data-mode-go="history">Next lesson: History through maps →</button></div>`;
+  <div class="btnrow"><button class="btn" data-act="story" data-i="0">Back to the first stop</button><button class="btn primary" data-mode-go="history">Next lesson: History through maps</button></div>`;
   $("#storyinfo").scrollIntoView({block: "start", behavior: "smooth"}); };
 MODES.story = () => { clearMap();
   setPanel(`<div class="eyebrow">World history</div><h2>The human story on the map</h2>
@@ -2729,13 +2768,13 @@ MODES.politics = () => { clearMap(); resetView();
   <p>Textbooks list the elements of national power: geography (size, location, terrain, access to the sea), population, natural resources, economic strength, military force, and harder-to-measure things such as leadership, diplomacy and national morale. None works alone: a large population is a strength only if it is healthy, educated and employed; oil is power only if it can be shipped.</p>
   <div class="btnrow"><button class="btn" data-act="pol" data-v="pop">Map population</button></div>
   <p class="src">UN World Population Prospects 2024, projections for mid-2026. ${Object.values(D.facts).filter(f => f.pop > 2e8).length} countries are above 200 million: ${Object.values(D.facts).filter(f => f.pop > 2e8).sort((a, b) => b.pop - a.pop).map(f => esc(f.n)).join(", ")}.</p>
-  <p><b>Demography is slow destiny.</b> Population numbers alone say little; age says more. A country with a median age near 18, like Nigeria, has a huge generation entering work every year: a "demographic dividend" if there are jobs and schools, a source of unrest and emigration if there are not. Countries with a median age above 45, like Japan or Italy, face shrinking workforces and heavy pension bills. The two maps below are the ones that will shape the 2050 world.</p>
+  <p>Population totals say little on their own; age says more. A country with a median age near 18, like Nigeria, has a huge generation entering work every year: a "demographic dividend" if there are jobs and schools, a source of unrest and emigration if there are not. Countries with a median age above 45, like Japan or Italy, face shrinking workforces and heavy pension bills. The two maps below show how this will change by 2050.</p>
   <div class="btnrow"><button class="btn" data-act="pol" data-v="age">Map median age</button><button class="btn" data-act="pol" data-v="growth">Map change, 2026 to 2050</button></div>
   <p id="demonote" class="src"></p>
 
   <h3>3. Geopolitics: theories drawn on maps</h3>
   <p><b>Mahan</b> (1890) argued that sea power, navies and bases at chokepoints made Britain great. <b>Mackinder</b> (1904, 1919) answered that railways would let a land power in the Eurasian "Heartland" dominate: "Who rules the Heartland commands the World-Island." <b>Spykman</b> (1942–44) replied that the real prize was the "Rimland", the populous coastal crescent around it, which became the logic of US alliances in the Cold War.</p>
-  <div class="btnrow"><button class="btn" data-act="pol" data-v="heart">Show Heartland and Rimland</button><button class="btn" data-mode-go="geo">Mahan's chokepoints →</button></div>
+  <div class="btnrow"><button class="btn" data-act="pol" data-v="heart">Show Heartland and Rimland</button><button class="btn" data-mode-go="geo">Mahan's chokepoints</button></div>
   <p><span class="kind">Read critically</span>These are theories, not laws. In Germany, Karl Haushofer bent such ideas into the Nazi claim to <i>Lebensraum</i> ("living space"). Geography constrains states; it does not decide what they do.</p>
 
   <h3>4. Balance of power, alliances and buffers</h3>
@@ -2763,7 +2802,7 @@ MODES.politics = () => { clearMap(); resetView();
   <p class="src">Income groups: World Bank classes as recorded by Natural Earth, several years old.</p>
   ${NGFP_HTML()}
   ${SRC_BOOKS}
-  <div class="btnrow"><button class="btn primary" data-act="game" data-g="concepts" data-scope="World">Quiz: IR concepts →</button><button class="btn" data-act="game" data-g="blocs" data-scope="World">Quiz: Blocs and powers →</button></div>`); };
+  <div class="btnrow"><button class="btn primary" data-act="game" data-g="concepts" data-scope="World">Quiz: IR concepts</button><button class="btn" data-act="game" data-g="blocs" data-scope="World">Quiz: Blocs and powers</button></div>`); };
 
 /* ===== new games ===== */
 const HIST_PLACES = [["Uruk", "IRQ", "an early Mesopotamian city where writing developed"], ["Mohenjo-daro", "PAK", "a planned city of the Indus civilisation"], ["Harappa", "PAK", "the Indus city that gave the civilisation its name"], ["Anyang", "CHN", "the last capital of the Shang"],
@@ -2899,7 +2938,7 @@ function ngStop(i, quiet) {
   setPins(s.pins || []);
   $("#ngstoryinfo").innerHTML = `<div class="eyebrow">Part ${i + 1} of ${NGSTORY.length} · ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
     ${s.map ? `<p class="src" id="ngmapcap"></p>` : ""}
-    <div class="btnrow"><button class="btn" data-act="ngstop" data-i="${i - 1}" ${i ? "" : "disabled"}>← Back</button>${i + 1 < NGSTORY.length ? `<button class="btn primary" data-act="ngstop" data-i="${i + 1}">Next: ${esc(NGSTORY[i + 1].t)} →</button>` : `<button class="btn primary" data-act="ngdebate">The national question: four views →</button>`}</div>`;
+    <div class="btnrow"><button class="btn" data-act="ngstop" data-i="${i - 1}" ${i ? "" : "disabled"}><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button>${i + 1 < NGSTORY.length ? `<button class="btn primary" data-act="ngstop" data-i="${i + 1}">Next: ${esc(NGSTORY[i + 1].t)}</button>` : `<button class="btn primary" data-act="ngdebate">The national question: four views</button>`}</div>`;
   if (s.map) ngMap(s.map);
   const w = D.wpp && D.wpp.NGA; if (w && $("#ngpop26")) { $("#ngpop26").textContent = shortNum(w.p2026); $("#ngpop50").textContent = shortNum(w.p2050); }
   document.querySelectorAll("#ngchips .chip").forEach((c, j) => c.classList.toggle("on", j === i));
@@ -2917,7 +2956,7 @@ ACT.ngdebate = () => { ngMap(1996); setPins([]);
   <p><b>4. Achebe: leadership.</b> Chinua Achebe argued in <i>The Trouble with Nigeria</i> (1983) that the trouble is simply a failure of leadership, not the land, the climate or the people. On this view, restructuring without better leaders would change little.</p>
   <h4>Testing the views</h4>
   <p>The "artificial borders" argument proves less than it seems: Italy, Germany and Indonesia were also assembled recently, and Tanzania joined Tanganyika and Zanzibar by agreement in 1964. Yet the civil war and the Biafra and Ambazonia movements show that a state can hold territory by force without holding consent. Soyinka's test (does the state serve its people?) and Achebe's (who leads?) both move the question from maps to institutions. The 2014 National Conference under President Jonathan produced hundreds of recommendations; few have been put into practice. Which view you find strongest depends on whether you think the problem is the design of the federation, the conduct of those who run it, or both.</p>
-  <div class="btnrow"><button class="btn" data-act="ngstop" data-i="0">Back to the start</button><button class="btn primary" data-mode-go="story">Next lesson: The human story on the map →</button></div>`;
+  <div class="btnrow"><button class="btn" data-act="ngstop" data-i="0">Back to the start</button><button class="btn primary" data-mode-go="story">Next lesson: The human story on the map</button></div>`;
   $("#ngstoryinfo").scrollIntoView({block: "start", behavior: "smooth"}); };
 MODES.ngstory = () => { clearMap();
   setPanel(`<div class="eyebrow">Nigerian history</div><h2>How Nigeria was made</h2>
@@ -3001,15 +3040,15 @@ function groupsOf(c3) {
 function showPeek(k) {
   const f = byKey.get(k), el = $("#peek"); banner(null);
   G.countries.selectAll("path").classed("peeked", d => d.key === k).filter(d => d.key === k).raise();
-  if (!f) { el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button><b class="pn">${esc(nameOf(k))}</b><p class="ps">${esc(STATUS[k.replace(/^x:/, "")] || "Disputed or special status.")}</p>`; el.hidden = false; return; }
+  if (!f) { el.innerHTML = `<button class="px" data-peek="close" aria-label="Close"><svg class="cv" aria-hidden="true"><use href="#i-close"/></svg></button><b class="pn">${esc(nameOf(k))}</b><p class="ps">${esc(STATUS[k.replace(/^x:/, "")] || "Disputed or special status.")}</p>`; el.hidden = false; return; }
   const gs = groupsOf(f.c3);
-  el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button>
+  el.innerHTML = `<button class="px" data-peek="close" aria-label="Close"><svg class="cv" aria-hidden="true"><use href="#i-close"/></svg></button>
     <div class="ph"><span class="pf">${esc(f.flag || "")}</span><div><b class="pn">${esc(f.n)}</b><span class="ps">${esc(f.sub || continentOf(f) || "")}</span></div></div>
     <div class="pfacts"><span><small>Capital</small>${esc((f.cap || [])[0] || "—")}</span><span><small>People</small>${f.pop ? shortNum(f.pop) : "—"}</span><span><small>Median age</small>${f.w && f.w.ma != null ? Math.round(f.w.ma) : "—"}</span></div>
     ${gs.length ? `<div class="pg">${gs.map(g => `<i>${esc(g)}</i>`).join("")}</div>` : ""}
     <div class="pb"><button class="btn primary" data-peek="open" data-k="${esc(k)}">Open profile</button><button class="btn" data-peek="zoom" data-k="${esc(k)}">Zoom to</button></div>`;
   el.hidden = false; }
-function showPeekHTML(html) { const el = $("#peek"); el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button>${html}`; el.hidden = false; }
+function showPeekHTML(html) { const el = $("#peek"); el.innerHTML = `<button class="px" data-peek="close" aria-label="Close"><svg class="cv" aria-hidden="true"><use href="#i-close"/></svg></button>${html}`; el.hidden = false; }
 function hidePeek() { const el = $("#peek"); if (el) el.hidden = true; G.countries.selectAll("path.peeked").classed("peeked", false); }
 $("#peek").addEventListener("click", e => { const b = e.target.closest("[data-peek]"); if (!b) return; e.stopPropagation();
   const v = b.dataset.peek, k = b.dataset.k;
@@ -3142,7 +3181,7 @@ function pickCheck(l) { // missed and unseen questions first, then the rest
 /* runner */
 function runQs(items, ctx) { let i = 0, score = 0; const res = [];
   const ask = () => { const q = items[i], ord = shuffle(q.o.map((_, j) => j));
-    setPanel(`<button class="back" data-act="popview">← ${esc(ctx.backLabel)}</button><div class="eyebrow">${esc(ctx.title)}</div>
+    setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>${esc(ctx.backLabel)}</button><div class="eyebrow">${esc(ctx.title)}</div>
       <div class="progress"><i style="width:${i / items.length * 100}%"></i></div><p class="src" style="margin-top:-6px">Question ${i + 1} of ${items.length}${ctx.mixed ? " · from " + esc(NAV_LABEL[q.l]) : ""}</p>
       <div class="q">${esc(q.q)}</div><div class="opts">${ord.map(j => `<button data-j="${j}">${esc(q.o[j])}</button>`).join("")}</div><div id="why"></div>`);
     panel.querySelectorAll(".opts button").forEach(b => b.onclick = () => { if (panel.querySelector(".opts .right")) return;
@@ -3152,16 +3191,16 @@ function runQs(items, ctx) { let i = 0, score = 0; const res = [];
         <button class="btn primary" id="nextq">${i + 1 < items.length ? "Next" : "See result"}</button>`;
       $("#nextq").onclick = () => { i++; i < items.length ? ask() : ctx.done(score, res); }; }); };
   ask(); }
-function whereBtn(q) { return `<button class="btn" data-act="goto" data-id="${q.id}">Re-read: ${esc(typeof q.at === "string" ? q.at.replace(/^\d+\.\s*/, "") : q.at.debate ? "the debate" : "part " + (q.at.stop + 1))} →</button>`; }
+function whereBtn(q) { return `<button class="btn" data-act="goto" data-id="${q.id}">Re-read: ${esc(typeof q.at === "string" ? q.at.replace(/^\d+\.\s*/, "") : q.at.debate ? "the debate" : "part " + (q.at.stop + 1))}</button>`; }
 function pushPanel(html) { if (!VIEW.length) { const s = snapshot(); try { history.pushState({mmaView: 1}, "", location.href); s.pushed = true; } catch (e) {} VIEW.push(s); } setPanel(html); }
 ACT.check = el => { const l = el.dataset.l, items = pickCheck(l), title = `Check: ${NAV_LABEL[l]}`;
   pushPanel(""); runQs(items, {title, backLabel: "Back to the lesson", done(score, res) {
     const pass = score === items.length; if (pass) { saved.mastered[l] = DAY(); store.set(saved); }
     const missed = res.filter(r => !r.ok), left = QB.filter(q => q.l === l && !items.includes(q)).length;
-    setPanel(`<button class="back" data-act="popview">← Back to the lesson</button><div class="eyebrow">${esc(title)}</div><p class="score">${score} / ${items.length}</p>
-    ${pass ? `<p><b>Passed.</b> These questions will come back in your daily review, spaced further apart each time you get them right (1, 3, 7, 21 and 60 days). Spacing is what moves knowledge into long-term memory.</p>
-      <div class="btnrow"><button class="btn primary" data-act="popview">Back to the lesson</button>${COURSE_IDS.indexOf(l) + 1 < COURSE.length ? `<button class="btn" data-mode-go="${COURSE_IDS[COURSE_IDS.indexOf(l) + 1]}">Next lesson →</button>` : ""}</div>`
-    : `<p><b>Not yet.</b> Passing needs ${items.length} out of ${items.length}. Here is the plan:</p>
+    setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to the lesson</button><div class="eyebrow">${esc(title)}</div><p class="score">${score} / ${items.length}</p>
+    ${pass ? `<p><b>Passed.</b> These questions will come back in your daily review, spaced further apart each time you get them right (1, 3, 7, 21 and 60 days). Spacing reviews out over time is one of the best-supported ways to remember.</p>
+      <div class="btnrow"><button class="btn primary" data-act="popview">Back to the lesson</button>${COURSE_IDS.indexOf(l) + 1 < COURSE.length ? `<button class="btn" data-mode-go="${COURSE_IDS[COURSE_IDS.indexOf(l) + 1]}">Next lesson</button>` : ""}</div>`
+    : `<p><b>Not yet.</b> Passing needs ${items.length} out of ${items.length}. What to do next:</p>
       <ol><li><b>Re-read</b> the part that covers what you missed (below).</li>
       <li><b>Try again now.</b> You'll get the questions you have not answered correctly yet first, then fresh ones${left ? "" : " (this lesson's bank is small, so some repeat with the options shuffled)"}.</li>
       <li><b>Tomorrow</b>, what you missed comes back in your daily review, mixed with other lessons. Getting it right then moves it to 3 days, then 7, 21 and 60.</li></ol>
@@ -3171,7 +3210,7 @@ ACT.review = () => { const items = shuffle(dueItems()).slice(0, 10);
   if (!items.length) { toast(nextDue() ? `Nothing due. Next review ${whenTxt(nextDue())}.` : "Nothing to review yet: take a lesson check first."); return; }
   pushPanel(""); runQs(items, {title: "Daily review", mixed: true, backLabel: "Back", done(score, res) {
     const wrong = res.filter(r => !r.ok), nd = nextDue();
-    setPanel(`<button class="back" data-act="popview">← Back</button><div class="eyebrow">Daily review</div><p class="score">${score} / ${items.length}</p>
+    setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button><div class="eyebrow">Daily review</div><p class="score">${score} / ${items.length}</p>
     <p>${score === items.length ? "All correct: each question moved up a box and will return later than last time." : `${items.length - score} to see again tomorrow. The rest moved up a box.`}${dueCount() ? ` ${dueCount()} more are due today.` : ""}${nd ? ` Next review: ${whenTxt(nd)}.` : ""}</p>
     ${wrong.map(m => `<div class="note"><b>${esc(m.q.q)}</b><br>Answer: ${esc(m.q.o[m.q.a])}. ${esc(m.q.why)}<div class="btnrow" style="margin:8px 0 0">${whereBtn(m.q)}</div></div>`).join("")}
     <div class="btnrow">${dueCount() ? `<button class="btn primary" data-act="review">Continue reviewing</button>` : ""}<button class="btn" data-act="popview">Done</button></div>`); }}); };
@@ -3266,6 +3305,36 @@ QB.push(...[
  ["mo6", "money", "'Dutch disease' describes…", ["a commodity boom that strengthens the currency and hurts other exports and industry", "a banking crisis caused by tulip speculation", "inflation caused by printing money", "a trade war between Europe and Africa"], 0, "Booming commodity exports raise the currency and crowd out farming and manufacturing.", "7. What an economy sells"]
 ].map(([id, l, q, o, a, why, at]) => ({id, l, q, o, a, why, at})));
 
+/* ---------- batch 15: Today's world layers (Map menu) ---------- */
+const WARS = { major: ["UKR","RUS","ISR","PSE","LBN","MMR","SDN","COD","SOM","MLI","BFA","NER","NGA","MEX"],
+  minor: ["IRN","PAK","ETH","COL","AFG","ECU","VEN","YEM","SYR","CMR","CAF","HTI"] };
+const MINERALS = [
+  ["cobalt", "Cobalt", "var(--c-sa)", [["COD", "73% of world mine output"], ["IDN", "14%"]], "batteries for phones and electric cars"],
+  ["lithium", "Lithium", "var(--c-oc)", [["AUS", "32%"], ["CHL", "19%"], ["ZWE", "10%"], ["ARG", "8%"]], "rechargeable batteries"],
+  ["ree", "Rare earths", "var(--sel)", [["CHN", "69%"], ["USA", "13%"]], "magnets in motors, wind turbines, electronics and weapons"]];
+const THEME_INFO = {
+  wars: () => ({ t: "Wars and armed conflict, 2025–26", items: [["--miss", "Major war: 10,000+ deaths in a year"], ["--sel", "Smaller war: 1,000–9,999 deaths"]],
+    note: "Countries where fighting takes place, from the list of ongoing armed conflicts (UCDP/ACLED-based), checked October 2026. Nigeria appears for the jihadist insurgency in the north-east and Sahel. Death counts are per conflict, not per country.", groups: [[WARS.minor, "var(--sel)"], [WARS.major, "var(--miss)"]] }),
+  minerals: () => ({ t: "Critical minerals: who mines them (2025)", items: MINERALS.map(m => [m[2].slice(4, -1), `${m[1]}: ${m[3].map(([c, s]) => nameOf(k3(c)) + " " + s).join(", ")}`]),
+    note: "These minerals power the energy transition: cobalt and lithium for batteries, rare earths for magnets. Mining is concentrated in a few countries, which is why they now shape trade deals and rivalries. Source: USGS Mineral Commodity Summaries 2026.", groups: MINERALS.map(m => [m[3].map(x => x[0]), m[2]]) }),
+  age: () => { const g = [[], [], [], [], []]; Object.values(D.facts).forEach(f => { if (!f.w || f.w.ma == null) return; const a = f.w.ma; g[a < 20 ? 0 : a < 25 ? 1 : a < 32 ? 2 : a < 40 ? 3 : 4].push(f.c3); });
+    return { t: "Median age, 2026", items: [["--sel", "Under 20"], ["--nb", "20–25"], ["--d1", "25–32"], ["--d2", "32–40"], ["--d4", "40 and over"]],
+      note: `Half the people are younger than this age. World ${D.wpp.WORLD.ma.toFixed(0)}, Nigeria ${D.wpp.NGA.ma.toFixed(0)}. Young countries need jobs and schools; old ones need workers and pensions. UN WPP 2024.`, groups: [[g[0], "var(--sel)"], [g[1], "var(--nb)"], [g[2], "var(--d1)"], [g[3], "var(--d2)"], [g[4], "var(--d4)"]], dim: false }; },
+  growth: () => { const g = [[], [], [], [], []]; Object.values(D.facts).forEach(f => { if (!f.w || !f.w.p2050) return; const c = f.w.p2050 / f.w.p2026 - 1; g[c < -0.05 ? 0 : c < 0.05 ? 1 : c < 0.25 ? 2 : c < 0.5 ? 3 : 4].push(f.c3); });
+    return { t: "Population change, 2026 to 2050", items: [["--d4", "Shrinking more than 5%"], ["--d1", "About stable"], ["--c-oc", "Growing 5–25%"], ["--nb", "Growing 25–50%"], ["--sel", "Growing over 50%"]],
+      note: `By 2050 about a quarter of humanity will be African. Nigeria: ${shortNum(D.wpp.NGA.p2026)} to ${shortNum(D.wpp.NGA.p2050)}. UN medium projection.`, groups: [[g[0], "var(--d4)"], [g[1], "var(--d1)"], [g[2], "var(--c-oc)"], [g[3], "var(--nb)"], [g[4], "var(--sel)"]], dim: false }; },
+  money: () => ({ t: "Shared currencies", items: [["--c-eu", "Euro (21)"], ["--sel", "West African CFA franc (8)"], ["--miss", "Central African CFA franc (6)"], ["--c-oc", "Rand area"], ["--c-sa", "US dollar as official currency"]],
+    note: "Countries that share or borrow a currency give up control of their own exchange rate. See the Money lesson.", groups: [[EURO, "var(--c-eu)"], [XOF, "var(--sel)"], [XAF, "var(--miss)"], [CMA, "var(--c-oc)"], [USDO, "var(--c-sa)"]] })
+};
+function setTheme(v) { S.theme = v || null; $("#themesel").value = v || "";
+  if (!v) { S.color = null; G.countries.selectAll("path").classed("dim", false); paint(); legend(null); return; }
+  const th = THEME_INFO[v](); S.sel = null; colorGroups(th.groups, {fly: false, dim: th.dim === false ? false : true});
+  const l = $("#legend"); l.innerHTML = `<div class="lgt">${esc(th.t)}</div>${th.items.map(([c, t]) => `<div><i style="background:var(${c})"></i>${esc(t)}</div>`).join("")}<div class="lgn">${esc(th.note)}</div><button class="lgx" data-theme-off>Turn off</button>`; l.hidden = false;
+  if (window.innerWidth <= 860) toast(th.note, 7000); }
+$("#themesel").addEventListener("change", e => { setTheme(e.target.value); toggleLayers(false); });
+$("#legend").addEventListener("click", e => { if (e.target.closest("[data-theme-off]")) setTheme(null); });
+ACT.themes = () => { toggleLayers(true); $("#themesel").focus(); };
+
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
   ["learn", "Reading the map", "Globes, projections, the grid, distance and direction"],
@@ -3292,11 +3361,11 @@ function updateNav(m) {
   document.querySelectorAll("nav.primary button").forEach(b => b.dataset.nav === g ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
   const cb = $("#crumb"), i = COURSE_IDS.indexOf(m);
   if (i < 0) { cb.hidden = true; return; }
-  cb.innerHTML = `<button data-crumb="${i - 1}" ${i === 0 ? "disabled" : ""} aria-label="Previous lesson">‹</button>
+  cb.innerHTML = `<button data-crumb="${i - 1}" ${i === 0 ? "disabled" : ""} aria-label="Previous lesson"><svg class="cv" aria-hidden="true"><use href="#i-back"/></svg></button>
     <div class="cl"><span>Lesson ${i + 1} of ${COURSE.length}</span><b>${esc(COURSE[i][1])}</b>
     <div class="dots">${COURSE.map(([id], j) => `<i class="${j === i ? "cur" : saved.lessons[id] ? "done" : ""}"></i>`).join("")}</div></div>
     <button data-crumb="all">All lessons</button>
-    <button data-crumb="${i + 1}" ${i === COURSE.length - 1 ? "disabled" : ""} aria-label="Next lesson">›</button>`;
+    <button data-crumb="${i + 1}" ${i === COURSE.length - 1 ? "disabled" : ""} aria-label="Next lesson"><svg class="cv" aria-hidden="true"><use href="#i-next"/></svg></button>`;
   cb.hidden = false; }
 $("#crumb").addEventListener("click", e => { const b = e.target.closest("[data-crumb]"); if (!b || b.disabled) return;
   const v = b.dataset.crumb; setMode(v === "all" ? "course" : COURSE_IDS[+v]); });
@@ -3321,7 +3390,7 @@ function routeHash(initial) {
 window.addEventListener("popstate", () => { closeOverlay(); if (VIEW.length) { popView(); return; } routeHash(false); });
 function countryHash(k) { const f = byKey.get(k); return "c/" + (f ? f.c3 : k); }
 
-function backLink() { if (VIEW.length) return `<button class="back" data-act="popview">← Back to ${esc(VIEW[0].label)}</button>`; return S.back ? `<button class="back" data-mode-go="${S.back}">← Back to ${esc(NAV_LABEL[S.back] || "previous")}</button>` : ""; }
+function backLink() { if (VIEW.length) return `<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to ${esc(VIEW[0].label)}</button>`; return S.back ? `<button class="back" data-mode-go="${S.back}"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to ${esc(NAV_LABEL[S.back] || "previous")}</button>` : ""; }
 
 /* small helpers */
 let toastT; function toast(t, ms = 2400) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, ms); }
@@ -3345,18 +3414,20 @@ MODES.explore = () => { resetView();
   const cd = countryOfDay(), cf = cd && byKey.get(cd), cp = cf && PROFILES[cf.c3];
   const li = saved.lastLesson ? COURSE_IDS.indexOf(saved.lastLesson) : -1;
   const games = Object.keys(saved.best).length;
-  setPanel(`<div class="eyebrow">Explore</div><h2>Start anywhere on Earth</h2>
+  setPanel(`<h2>Explore the map</h2>
   <p>Tap any country on the map, or search above. Every country opens a page with its neighbours, so you can walk across the world one border at a time.</p>
   ${reviewCard()}
-  ${li >= 0 ? `<div class="card accent"><h4>Pick up where you left off</h4><p style="margin:0">Lesson ${li + 1} of ${COURSE.length}: <b>${esc(COURSE[li][1])}</b></p><button class="btn primary go" data-mode-go="${COURSE[li][0]}">Continue →</button></div>` : ""}
+  ${li >= 0 ? `<div class="card accent"><h4>Continue the course</h4><p style="margin:0">Lesson ${li + 1} of ${COURSE.length}: <b>${esc(COURSE[li][1])}</b></p><button class="btn primary go" data-mode-go="${COURSE[li][0]}">Continue</button></div>` : ""}
   ${cf ? `<div class="card"><h4>Country of the day</h4><div class="cotd"><span class="fl">${esc(cf.flag)}</span><div><b style="font-size:17px">${esc(cf.n)}</b><br><span class="src" style="margin:0">${esc(cf.sub || continentOf(cf))}</span></div></div>
-    ${cp ? `<p style="margin:10px 0 6px">${cp.memo}</p>` : ""}<button class="btn go" data-go="${cd}">Open ${esc(cf.n)} →</button></div>` : ""}
+    ${cp ? `<p style="margin:10px 0 6px">${cp.memo}</p>` : ""}<button class="btn go" data-go="${cd}">Open ${esc(cf.n)}</button></div>` : ""}
   <h4>Where to next</h4>
   <div class="cards">
-    <button class="cardbtn" data-mode-go="course"><span class="ic">🎓</span><b>Take the course</b><span>${COURSE.length} short lessons, in order</span></button>
-    <button class="cardbtn" data-mode-go="quiz"><span class="ic">🎯</span><b>Play a game</b><span>Quizzes on places, flags and shapes</span></button>
-    <button class="cardbtn" data-mode-go="tools"><span class="ic">📏</span><b>Measure the world</b><span>Distances and true sizes</span></button>
-    <button class="cardbtn" data-act="random"><span class="ic">🎲</span><b>Surprise me</b><span>A country you have not opened yet</span></button>
+    <button class="cardbtn" data-mode-go="course"><svg class="ic" aria-hidden="true"><use href="#i-learn"/></svg><b>Take the course</b><span>${COURSE.length} short lessons, in order</span></button>
+    <button class="cardbtn" data-mode-go="quiz"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><b>Play a game</b><span>Quizzes on places, flags and shapes</span></button>
+    <button class="cardbtn" data-mode-go="tools"><svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg><b>Measure the world</b><span>Distances and true sizes</span></button>
+    <button class="cardbtn" data-act="random"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg><b>Surprise me</b><span>A country you have not opened yet</span></button>
+    <button class="cardbtn" data-act="themes"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><b>Today's world</b><span>Wars, minerals, ageing, growth and currencies on the map</span></button>
+    <button class="cardbtn" data-mode-go="about"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><b>What you'll gain</b><span>How to use the atlas in ten minutes a day</span></button>
   </div>
   <h4>A first walk across Africa</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>
   <h4>Your progress</h4>${progressBars()}
@@ -3366,13 +3437,13 @@ MODES.explore = () => { resetView();
 MODES.course = () => { resetView();
   const next = COURSE.find(([id]) => !saved.mastered[id]), done = COURSE.filter(([id]) => saved.lessons[id]).length, passed = COURSE.filter(([id]) => saved.mastered[id]).length;
   const go = next ? next[0] : saved.lastLesson || COURSE_IDS[0];
-  setPanel(`<div class="eyebrow">Learn</div><h2>The course</h2>
+  setPanel(`<h2>The course</h2>
   <p>Eleven short lessons. Each one changes the map beside you as you read, so the picture builds in your head. Each ends with a three-question check; what you miss comes back in a daily review until it sticks.</p>
   ${reviewCard()}
   <div class="progress"><i style="width:${passed / COURSE.length * 100}%"></i></div><p class="src" style="margin-top:-8px">${passed} of ${COURSE.length} checks passed · ${done} lessons opened</p>
   <ol class="lessons">${COURSE.map(([id, n, d], i) => { const s = lessonStatus(id), m = saved.mastered[id];
-    return `<li class="${m ? "done" : saved.lessons[id] ? "seen" : ""}"><button data-mode-go="${id}"><span class="num">${m ? "✓" : i + 1}</span><span><b>${esc(n)}</b><span>${esc(d)}</span>${s && saved.lessons[id] ? `<span class="stat ${s.k}">${esc(s.t)}</span>` : ""}</span><span class="arr">›</span></button></li>`; }).join("")}</ol>
-  <div class="btnrow"><button class="btn primary" data-mode-go="${go}">${done === 0 ? "Start lesson 1" : next ? "Continue with lesson " + (COURSE_IDS.indexOf(next[0]) + 1) : "Review the last lesson"} →</button><button class="btn" data-mode-go="quiz">Games</button></div>`); };
+    return `<li class="${m ? "done" : saved.lessons[id] ? "seen" : ""}"><button data-mode-go="${id}"><span class="num">${m ? '<svg class="ck" aria-hidden="true"><use href="#i-check"/></svg>' : i + 1}</span><span><b>${esc(n)}</b><span>${esc(d)}</span>${s && saved.lessons[id] ? `<span class="stat ${s.k}">${esc(s.t)}</span>` : ""}</span><span class="arr"><svg class="cv" aria-hidden="true"><use href="#i-next"/></svg></span></button></li>`; }).join("")}</ol>
+  <div class="btnrow"><button class="btn primary" data-mode-go="${go}">${done === 0 ? "Start lesson 1" : next ? "Continue with lesson " + (COURSE_IDS.indexOf(next[0]) + 1) : "Review the last lesson"}</button><button class="btn" data-mode-go="quiz">Games</button></div>`); };
 
 /* theme */
 const THEMES = ["auto", "light", "dark"], THEME_TXT = {auto: "automatic (follows your device)", light: "light", dark: "dark"};
@@ -3389,10 +3460,10 @@ function showWelcome(isHelp) {
     <h2 id="dlgT">${isHelp ? "How to use the atlas" : "Welcome to the Mental Map Atlas"}</h2>
     <p>The goal is a map of the world you can see with your eyes closed: where each country sits, what borders it, and why that matters.</p>
     <div class="cards">
-      <button class="cardbtn" data-dlg="explore"><span class="ic">🧭</span><b>Explore</b><span>Tap countries and walk across borders</span></button>
-      <button class="cardbtn" data-dlg="course"><span class="ic">🎓</span><b>Learn</b><span>${COURSE.length} lessons that build the picture</span></button>
-      <button class="cardbtn" data-dlg="quiz"><span class="ic">🎯</span><b>Play</b><span>Test what has stuck</span></button>
-      <button class="cardbtn" data-dlg="tools"><span class="ic">📏</span><b>Tools</b><span>Distances and true sizes</span></button>
+      <button class="cardbtn" data-dlg="explore"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg><b>Explore</b><span>Tap countries and walk across borders</span></button>
+      <button class="cardbtn" data-dlg="course"><svg class="ic" aria-hidden="true"><use href="#i-learn"/></svg><b>Learn</b><span>${COURSE.length} lessons that build the picture</span></button>
+      <button class="cardbtn" data-dlg="quiz"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><b>Play</b><span>Test what has stuck</span></button>
+      <button class="cardbtn" data-dlg="tools"><svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg><b>Tools</b><span>Distances and true sizes</span></button>
     </div>
     <dl class="tips">
       <dt>Tap</dt><dd>Open a country. Drag and pinch (or scroll) to move and zoom.</dd>
