@@ -67,6 +67,30 @@ svg#map.picking { cursor: crosshair; }
 .labels.seas text { font-style: italic; fill: var(--sealabel); stroke: var(--sea); font-size: .95em; letter-spacing: .06em; }
 .labels.cities text { font-size: .85em; text-anchor: start; dominant-baseline: auto; }
 .labels.states text { font-size: .8em; font-weight: 500; }
+.country.peeked { stroke: var(--ink); stroke-width: 2.2; }
+.peek { position: absolute; z-index: 4; top: 68px; left: 12px; width: min(330px, calc(100% - 80px)); background: var(--panel); color: var(--ink); border-radius: 14px; box-shadow: var(--shadow-lg); padding: 12px 14px 12px; font-size: 14px; }
+.peek .px { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; border: 0; background: none; color: var(--muted); font-size: 20px; border-radius: 8px; cursor: pointer; }
+.peek .px:hover { background: var(--tag); }
+.peek .ph { display: flex; gap: 10px; align-items: center; padding-right: 28px; }
+.peek .pf { font-size: 30px; line-height: 1; }
+.peek .pn { display: block; font: 600 18px var(--serif); line-height: 1.2; }
+.peek .ps { display: block; color: var(--muted); font-size: 12.5px; margin: 0; }
+.peek .pfacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0 8px; }
+.peek .pfacts span { background: var(--tag); border-radius: 9px; padding: 6px 8px; font-weight: 600; font-size: 13.5px; min-width: 0; overflow-wrap: anywhere; }
+.peek .pfacts small { display: block; font: 500 10px var(--sans); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.peek .pg { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; }
+.peek .pg i { font: 500 11.5px var(--sans); font-style: normal; border: 1px solid var(--line); border-radius: 99px; padding: 2px 8px; color: var(--muted); }
+.peek .pb { display: flex; gap: 6px; } .peek .pb .btn { min-height: 36px; padding: 6px 12px; }
+@media (max-width: 860px) {
+  .peek { top: auto; bottom: 26px; left: 10px; right: 62px; width: auto; padding: 9px 12px 10px; }
+  .mapwrap:has(.peek:not([hidden])) .legend { display: none; }
+  .peek .pf { font-size: 24px; } .peek .pn { font-size: 16px; }
+  .peek .pfacts { display: flex; flex-wrap: wrap; gap: 0; margin: 6px 0 8px; }
+  .peek .pfacts span { background: none; padding: 0; font-weight: 500; font-size: 13px; }
+  .peek .pfacts span + span::before { content: "·"; margin: 0 6px; color: var(--muted); }
+  .peek .pfacts small { display: none; }
+  .peek .pfacts span:nth-child(3)::after { content: " median age"; color: var(--muted); }
+  .peek .pg { display: none; } }
 .labels.pinlab text { font-weight: 600; text-anchor: start; fill: var(--ink); stroke: var(--panel); }
 :root[data-theme="dark"] .labels.phys text { fill: #D9B98A; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .labels.phys text { fill: #D9B98A; } }
@@ -340,6 +364,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
         <label><input type="checkbox" id="L-tz"> Time zones</label>
         <label><input type="checkbox" id="L-depth"> Ocean depths</label>
       </div>
+      <div class="peek" id="peek" role="dialog" aria-label="Place card" hidden></div>
       <div class="banner" id="banner" role="status" hidden></div>
       <div class="legend" id="legend" hidden></div>
       <div class="zoom" role="group" aria-label="Zoom">
@@ -631,7 +656,7 @@ function nameOf(k) { const f = byKey.get(k); if (f) return f.n; const ft = featB
 function searchIndex() {
   const out = [];
   Object.entries(D.facts).forEach(([k, f]) => {
-    out.push({t: f.n, sub: (f.ind || f.un || f.obs) ? "Country" : "Territory", go: () => selectCountry(k, true), keys: [f.n, f.o, ...f.alt].join(" ")});
+    out.push({t: f.n, sub: (f.ind || f.un || f.obs) ? "Country" : "Territory", go: () => inStackMode() ? openProfile(k) : selectCountry(k, true), keys: [f.n, f.o, ...f.alt].join(" ")});
     (f.cap || []).forEach(c => out.push({t: c, sub: "Capital of " + f.n, go: () => goCity(c, f.c3, k), keys: c})); });
   ["Somaliland","N. Cyprus","Siachen Glacier"].forEach(n => out.push({t: n, sub: "Disputed / limited recognition", go: () => selectCountry("x:" + n, true), keys: n}));
   D.cities.filter(c => !c.cap).forEach(c => out.push({t: c.n, sub: "City · " + (byC3.has(c.c3) ? nameOf(byC3.get(c.c3)) : c.c3), go: () => goPoint(c.n, [c.x, c.y], "City", c), keys: c.n}));
@@ -737,7 +762,7 @@ function pointPanel(name, c, kind, extra) {
 /* ---------- interactions ---------- */
 function onCountryClick(k) {
   if (S.quiz && S.quiz.onClick) return S.quiz.onClick(k);
-  if (S.mode === "regions" || S.mode === "africa" || S.mode === "learn") { selectCountry(k, false, true); return; }
+  if (inStackMode()) { showPeek(k); return; } // lessons keep their place: show a place card instead of leaving
   selectCountry(k, true); }
 function selectCountry(k, fly = true, keepMode = false) {
   if (!keepMode && S.mode !== "explore") { const prev = S.mode; setMode("explore", true); S.back = prev; }
@@ -755,6 +780,7 @@ function goPoint(name, c, kind, extra) { if (S.mode !== "explore") setMode("expl
 
 svg.on("click", ev => {
   if (S.quiz && S.quiz.onSea) return S.quiz.onSea();
+  hidePeek();
   const c = invertPointer(ev); if (!c) return;
   if (S.tool && S.tool.onMap) return S.tool.onMap(c);
   $("#coords").textContent = `${latStr(c[1])}, ${lonStr(c[0])}`;
@@ -765,12 +791,13 @@ function invertPointer(ev) { const [x, y] = d3.pointer(ev, svg.node()); const p 
   if (S.proj === "globe" && !visibleOnGlobe(c)) return null; return c; }
 
 panel.addEventListener("click", e => {
-  const g = e.target.closest("[data-go]"); if (g) { selectCountry(g.dataset.go, true, S.mode !== "explore" && S.mode !== "quiz"); return; }
+  const g = e.target.closest("[data-go]"); if (g) { if (inStackMode()) openProfile(g.dataset.go); else selectCountry(g.dataset.go, true); return; }
   const m = e.target.closest("[data-mode-go]"); if (m) { setMode(m.dataset.modeGo); return; }
   const a = e.target.closest("[data-act]"); if (a && ACT[a.dataset.act]) ACT[a.dataset.act](a); });
 
 /* ---------- modes ---------- */
 function setMode(m, silent) {
+  VIEW.length = 0; hidePeek();
   if (S.quiz && S.quiz.stop) S.quiz.stop();
   S.quiz = null; S.mode = m; S.color = null; S.sel = null; S.tool = null; S.ghost = null; banner(null); legend(null);
   if (G.ghost) G.ghost.selectAll("*").remove();
@@ -2782,7 +2809,8 @@ function ngMap(year) {
   else { names = Object.keys(spec.units); const pal = names.length <= 5 ? ["var(--r-n)", "var(--r-w)", "var(--r-e)", "var(--c-oc)", "var(--sel)"] : [...d3.schemeTableau10, ...d3.schemeSet3];
     cols = Object.fromEntries(names.map((n, i) => [n, pal[i % pal.length]])); unitOf = s => names.find(n => spec.units[n].includes(s)); }
   G.states.selectAll("path").data(st).join("path").attr("class", "state").style("fill", d => cols[unitOf(d.properties.name)] || "var(--land)")
-    .style("stroke-opacity", spec.zones ? null : .25).on("click", (ev, d) => { ev.stopPropagation(); toast(`${stName(d.properties.name)} · in ${year === 1996 ? "the " + zoneOf(d.properties.name) + " zone" : unitOf(d.properties.name) + " (" + year + ")"}`); });
+    .style("stroke-opacity", spec.zones ? null : .25).on("click", (ev, d) => { ev.stopPropagation(); const s = d.properties.name;
+      showPeekHTML(`<b class="pn">${esc(stName(s))}</b><span class="ps">${esc(zoneOf(s))} zone</span><p style="margin:8px 0 0">${year === 1996 ? "One of today's 36 states and the FCT." : `In ${year}: part of <b>${esc(unitOf(s))}</b>.`}</p>`); });
   const geoms = Object.values(D.ng.states.objects)[0].geometries;
   const labs = spec.zones ? st.map(f => ({c: d3.geoCentroid(f), n: stName(f.properties.name).replace("FCT (Abuja)", "FCT")}))
     : names.map(n => ({c: d3.geoCentroid(topojson.merge(D.ng.states, geoms.filter(g => spec.units[n].includes(g.properties.name)))), n: n.replace(" (with Lagos Colony)", "").replace(" (federal territory)", "")}));
@@ -2928,6 +2956,60 @@ Object.assign(GAMES, { concepts: { name: "IR concepts", desc: "Twenty key ideas,
   const [q, o, a, why] = this.deck.pop(), idx = shuffle(o.map((_, i) => i));
   return {q: esc(q), opts: idx.map(i => o[i]), a: idx.indexOf(a), why: why.replace(/<\/?i>/g, "")}; } } });
 
+/* ---------- batch 11: keep your place — place card and a view stack ---------- */
+/* In Explore, tapping a country opens its profile as before. Inside a lesson, tool or the course page, a tap opens a small
+   place card instead, so the lesson text and its map stay put. "Open profile" pushes the profile on top of the lesson;
+   Back (the button or the browser's Back) restores the lesson exactly: text, scroll position, colours, pins, routes and view. */
+const VIEW = [];
+const inStackMode = () => S.mode !== "explore" && S.mode !== "quiz";
+function groupsOf(c3) {
+  const f = byKey.get(k3(c3)), out = [];
+  if (!f) return out;
+  if ((f.reg === "Africa" && f.un) || c3 === "ESH") out.push(BLOC9.AU.groups[1][0].includes(c3) ? "AU (suspended)" : "AU");
+  if (ECOWAS.includes(c3)) out.push("ECOWAS"); if (AES.includes(c3)) out.push("AES");
+  const named = {NATO: "NATO", EU: "EU", ASEAN: "ASEAN", SCO: "SCO", OPEC: "OPEC"};
+  Object.entries(named).forEach(([k, n]) => { if (BLOC9[k].groups[0][0].includes(c3)) out.push(n); });
+  const br = BLOC9.BRICS.groups; if (br[1][0].includes(c3)) out.push("BRICS"); else if (br[0][0].includes(c3)) out.push("BRICS partner");
+  const sc = BLOC9.UNSC.groups; if (sc[0][0].includes(c3)) out.push("UN Security Council (permanent)"); else if (sc[1][0].includes(c3) || sc[2][0].includes(c3)) out.push("UN Security Council (elected)");
+  if (BLOC9.NUKE.groups.some(g => g[0].includes(c3))) out.push("nuclear-armed");
+  return out; }
+function showPeek(k) {
+  const f = byKey.get(k), el = $("#peek"); banner(null);
+  G.countries.selectAll("path").classed("peeked", d => d.key === k).filter(d => d.key === k).raise();
+  if (!f) { el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button><b class="pn">${esc(nameOf(k))}</b><p class="ps">${esc(STATUS[k.replace(/^x:/, "")] || "Disputed or special status.")}</p>`; el.hidden = false; return; }
+  const gs = groupsOf(f.c3);
+  el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button>
+    <div class="ph"><span class="pf">${esc(f.flag || "")}</span><div><b class="pn">${esc(f.n)}</b><span class="ps">${esc(f.sub || continentOf(f) || "")}</span></div></div>
+    <div class="pfacts"><span><small>Capital</small>${esc((f.cap || [])[0] || "—")}</span><span><small>People</small>${f.pop ? shortNum(f.pop) : "—"}</span><span><small>Median age</small>${f.w && f.w.ma != null ? Math.round(f.w.ma) : "—"}</span></div>
+    ${gs.length ? `<div class="pg">${gs.map(g => `<i>${esc(g)}</i>`).join("")}</div>` : ""}
+    <div class="pb"><button class="btn primary" data-peek="open" data-k="${esc(k)}">Open profile</button><button class="btn" data-peek="zoom" data-k="${esc(k)}">Zoom to</button></div>`;
+  el.hidden = false; }
+function showPeekHTML(html) { const el = $("#peek"); el.innerHTML = `<button class="px" data-peek="close" aria-label="Close">×</button>${html}`; el.hidden = false; }
+function hidePeek() { const el = $("#peek"); if (el) el.hidden = true; G.countries.selectAll("path.peeked").classed("peeked", false); }
+$("#peek").addEventListener("click", e => { const b = e.target.closest("[data-peek]"); if (!b) return; e.stopPropagation();
+  const v = b.dataset.peek, k = b.dataset.k;
+  if (v === "close") hidePeek();
+  else if (v === "zoom") { if (featByKey.has(k)) flyTo(featByKey.get(k), {maxk: 10}); else if (centroid.has(k)) flyToPoint(centroid.get(k), 12); }
+  else if (v === "open") openProfile(k); });
+function snapshot() { return { html: panel.innerHTML, scroll: panel.scrollTop, label: NAV_LABEL[S.mode] || "previous view", mode: S.mode,
+  t: S.proj === "globe" ? null : S.t, rot: S.proj === "globe" ? projection.rotate() : null, k: S.k,
+  pins: G.pins.selectAll("circle").data().slice(), routes: G.routes.selectAll("path").data().slice(),
+  legend: {html: $("#legend").innerHTML, hidden: $("#legend").hidden}, pushed: false }; }
+function openProfile(k) {
+  hidePeek();
+  if (!VIEW.length) { const s = snapshot(); try { history.pushState({mmaView: 1}, "", location.href); s.pushed = true; } catch (e) {} VIEW.push(s); }
+  S.sel = k; paint(); setPins([]); setRoutes([]); legend(null);
+  if (featByKey.has(k)) flyTo(featByKey.get(k)); else if (centroid.has(k)) flyToPoint(centroid.get(k), 14);
+  markSeen(k); setPanel(countryPanel(k)); }
+function popView() { const v = VIEW.pop(); VIEW.length = 0; if (!v) return; hidePeek();
+  if (v.mode !== S.mode) return;
+  S.sel = null; paint(); setPins(v.pins); setRoutes(v.routes);
+  const l = $("#legend"); l.innerHTML = v.legend.html; l.hidden = v.legend.hidden;
+  panel.innerHTML = v.html; panel.scrollTop = v.scroll;
+  if (v.t) svg.transition().duration(700).call(zoom.transform, v.t);
+  else if (v.rot) { projection.rotate(v.rot); S.k = v.k; projection.scale(baseScale * v.k); render(); } }
+ACT.popview = () => { const v = VIEW[0]; if (v && v.pushed) { try { history.back(); return; } catch (e) {} } popView(); };
+
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
   ["learn", "Reading the map", "Globes, projections, the grid, distance and direction"],
@@ -2979,10 +3061,10 @@ function routeHash(initial) {
       if (k) { if (S.mode !== "explore" || initial) { setMode("explore", true); MODES.explore(); } selectCountry(k, true); return; } }
     setMode(MODES[h] ? h : "explore");
   } finally { routing = false; } }
-window.addEventListener("popstate", () => { closeOverlay(); routeHash(false); });
+window.addEventListener("popstate", () => { closeOverlay(); if (VIEW.length) { popView(); return; } routeHash(false); });
 function countryHash(k) { const f = byKey.get(k); return "c/" + (f ? f.c3 : k); }
 
-function backLink() { return S.back ? `<button class="back" data-mode-go="${S.back}">← Back to ${esc(NAV_LABEL[S.back] || "previous")}</button>` : ""; }
+function backLink() { if (VIEW.length) return `<button class="back" data-act="popview">← Back to ${esc(VIEW[0].label)}</button>`; return S.back ? `<button class="back" data-mode-go="${S.back}">← Back to ${esc(NAV_LABEL[S.back] || "previous")}</button>` : ""; }
 
 /* small helpers */
 let toastT; function toast(t, ms = 2400) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, ms); }
@@ -3115,7 +3197,7 @@ q.addEventListener("keydown", e => { const btns = [...$("#results").querySelecto
 $("#results").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pickResult(+b.dataset.i); });
 document.addEventListener("click", e => { if (!e.target.closest(".search")) $("#results").hidden = true; }, true);
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") { toggleLayers(false); $("#results").hidden = true; closeOverlay(); }
+  if (e.key === "Escape") { toggleLayers(false); $("#results").hidden = true; closeOverlay(); hidePeek(); }
   if (e.key === "/" && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
 let rz, lastSize = [0, 0]; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(refit, 200); });
 var refit = function (force) { if (force) lastSize = [0, 0]; const r = $("#mapwrap").getBoundingClientRect();
