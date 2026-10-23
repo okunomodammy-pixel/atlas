@@ -189,8 +189,18 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .iconbtn:hover { background: var(--tag); color: var(--ink); }
 .main { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr) 420px; min-height: 0; }
 .side { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--panel); border-left: 1px solid var(--line); position: relative; }
-.panel { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding: 20px max(20px, env(safe-area-inset-right, 0px)) 48px 20px; outline: none; scroll-behavior: smooth; }
+.panel { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding: 20px max(20px, env(safe-area-inset-right, 0px)) 48px 20px; outline: none; }
 .grip { display: none; }
+.panel { position: relative; }
+.toc { position: relative; border-bottom: 1px solid var(--line); background: var(--panel); z-index: 2; }
+.tocbtn { width: 100%; display: flex; align-items: center; gap: 8px; border: 0; background: none; color: var(--ink); padding: 8px 14px; cursor: pointer; text-align: left; min-height: 38px; }
+.tocbtn .tl { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
+.tocbtn b { flex: 1; min-width: 0; font: 600 13.5px var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tocbtn svg { width: 18px; height: 18px; fill: none; stroke: var(--muted); stroke-width: 2; flex: none; transition: transform .2s; }
+.tocbtn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.toclist { position: absolute; left: 8px; right: 8px; top: 100%; background: var(--panel); border-radius: 12px; box-shadow: var(--shadow-lg); padding: 6px; max-height: 50vh; overflow-y: auto; }
+.toclist button { display: block; width: 100%; text-align: left; border: 0; background: none; color: var(--ink); font: 14px var(--sans); padding: 9px 10px; border-radius: 8px; cursor: pointer; }
+.toclist button:hover, .toclist button.on { background: var(--tag); } .toclist button.on { font-weight: 600; }
 .country { transition: fill .18s ease; }
 /* lesson bar */
 .crumb { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 6%, var(--panel)); }
@@ -377,6 +387,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
     <aside class="side" id="side">
       <button class="grip" id="grip" aria-label="Resize map and reading panel"><i></i></button>
       <div class="crumb" id="crumb" hidden></div>
+      <div class="toc" id="toc" hidden><button class="tocbtn" id="tocbtn" aria-expanded="false" aria-controls="toclist"><span class="tl">On this page</span><b id="toccur"></b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button><div class="toclist" id="toclist" hidden></div></div>
       <div class="panel" id="panel" tabindex="-1"></div>
     </aside>
   </div>
@@ -2410,7 +2421,10 @@ function showEra(y) {
   G.countrylabels.attr("display", "none"); G.seas.attr("display", "none"); G.phys.attr("display", "none");
   G.hist.selectAll("path").data(keep).join("path").attr("class", "hpoly").style("fill", d => hcol(d.properties.SUBJECTO || d.properties.NAME))
     .on("click", (ev, d) => { ev.stopPropagation(); const p = d.properties, prec = ["", "approximate", "moderately precise", "precise"][p.BORDERPRECISION] || "unknown";
-      $("#erainfo").innerHTML = `<b>${esc(p.NAME || "Unnamed area")}</b>${p.SUBJECTO && p.SUBJECTO !== p.NAME ? ` · part of ${esc(p.SUBJECTO)}` : ""}<br><span class="src">Border precision in the source: ${prec}.</span><p>${ERAS[y]}</p>`; })
+      $("#erainfo").innerHTML = `<b>${esc(p.NAME || "Unnamed area")}</b>${p.SUBJECTO && p.SUBJECTO !== p.NAME ? ` · part of ${esc(p.SUBJECTO)}` : ""}<br><span class="src">Border precision in the source: ${prec}.</span><p>${ERAS[y]}</p>`;
+      const c = invertPointer(ev), now = c && [...featByKey.values()].find(f => d3.geoContains(f, c));
+      showPeekHTML(`<span class="ps">In ${esc(y)}</span><b class="pn">${esc(p.NAME || "Unnamed area")}</b>${p.SUBJECTO && p.SUBJECTO !== p.NAME ? `<span class="ps">Part of ${esc(p.SUBJECTO)}</span>` : ""}
+        <p class="ps" style="margin:6px 0 8px">Border precision in the source: ${prec}.</p>${now ? `<div class="pb"><button class="btn" data-peek="open" data-k="${esc(now.key)}">Today: ${esc(nameOf(now.key))} →</button></div>` : ""}`); })
     .append("title").text(d => d.properties.NAME || "");
   const lab = keep.filter(f => f.properties.NAME).map(f => ({c: labelPoint(f), t: f.properties.NAME, a: d3.geoArea(f)})).filter(d => d.a < 2 * Math.PI).sort((a, b) => b.a - a.a).slice(0, 70)
     .map(d => ({...d, minz: d.a > .02 ? 0 : d.a > .004 ? 2 : 4}));
@@ -3010,6 +3024,24 @@ function popView() { const v = VIEW.pop(); VIEW.length = 0; if (!v) return; hide
   else if (v.rot) { projection.rotate(v.rot); S.k = v.k; projection.scale(baseScale * v.k); render(); } }
 ACT.popview = () => { const v = VIEW[0]; if (v && v.pushed) { try { history.back(); return; } catch (e) {} } popView(); };
 
+/* ---------- batch 11b: "On this page" — section index and position for long panels ---------- */
+let tocH = [];
+function buildToc() {
+  tocH = [...panel.querySelectorAll(":scope > h3")];
+  const t = $("#toc"); if (tocH.length < 3) { t.hidden = true; return; }
+  $("#toclist").innerHTML = tocH.map((h, i) => `<button data-i="${i}">${esc(h.textContent)}</button>`).join("");
+  t.hidden = false; spyToc(); }
+function spyToc() { if ($("#toc").hidden) return;
+  const y = panel.scrollTop + 24; let cur = -1; tocH.forEach((h, i) => { if (h.offsetTop <= y) cur = i; });
+  $("#toccur").textContent = cur < 0 ? "Introduction" : tocH[cur].textContent;
+  $("#toclist").querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", i === cur)); }
+function tocOpen(open) { $("#toclist").hidden = !open; $("#tocbtn").setAttribute("aria-expanded", open); }
+new MutationObserver(buildToc).observe(panel, {childList: true});
+let tocRaf = 0; panel.addEventListener("scroll", () => { if (!tocRaf) tocRaf = requestAnimationFrame(() => { tocRaf = 0; spyToc(); }); }, {passive: true});
+$("#tocbtn").addEventListener("click", e => { e.stopPropagation(); tocOpen($("#toclist").hidden); });
+$("#toclist").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const h = tocH[+b.dataset.i];
+  tocOpen(false); panel.scrollTo({top: h.offsetTop - 8, behavior: "smooth"}); });
+document.addEventListener("click", e => { if (!e.target.closest("#toc")) tocOpen(false); }, true);
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
   ["learn", "Reading the map", "Globes, projections, the grid, distance and direction"],
@@ -3197,7 +3229,7 @@ q.addEventListener("keydown", e => { const btns = [...$("#results").querySelecto
 $("#results").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pickResult(+b.dataset.i); });
 document.addEventListener("click", e => { if (!e.target.closest(".search")) $("#results").hidden = true; }, true);
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") { toggleLayers(false); $("#results").hidden = true; closeOverlay(); hidePeek(); }
+  if (e.key === "Escape") { toggleLayers(false); $("#results").hidden = true; closeOverlay(); hidePeek(); tocOpen(false); }
   if (e.key === "/" && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
 let rz, lastSize = [0, 0]; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(refit, 200); });
 var refit = function (force) { if (force) lastSize = [0, 0]; const r = $("#mapwrap").getBoundingClientRect();
