@@ -105,6 +105,20 @@
    "unit": "naira per us dollar",
    "confirmed": "2026-10-24T14:26:28Z",
    "how": "approved d27cdea38123310c"
+  },
+  "ca": {
+   "fingerprint": "bb40084b11583c4f",
+   "label": "Current account balance, percent of GDP",
+   "unit": "Percent of GDP",
+   "confirmed": "2026-10-24T15:46:38Z",
+   "how": "approved 9a102c1dbe1cfa56"
+  },
+  "unemp": {
+   "fingerprint": "42109f47deb6d468",
+   "label": "Unemployment rate",
+   "unit": "Percent",
+   "confirmed": "2026-10-24T15:46:38Z",
+   "how": "approved 42467357a27c1ca4"
   }
  }
 }
