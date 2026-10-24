@@ -35,6 +35,7 @@ tests/test_pipeline.py    pipeline checks against recorded live responses (tests
 npm ci
 python3 build/dist.py              # writes out/
 python3 tests/smoke.py             # needs: pip install playwright (and its Chromium)
+python3 tests/test_atlas_pipeline.py   # the atlas with pipeline figures, fallbacks, stale data, offline
 python3 build/verify.py            # optional: proves the build and data are reproducible
 ```
 
@@ -61,6 +62,7 @@ Nothing publishes automatically. To release: build, run the tests, copy
 | hist.json | historical-basemaps (André Ourednik, GPL-3.0) | build_data.py | Yes, from data/intermediate |
 | econ.json | world-countries currencies + Natural Earth economy class + 6 hand corrections | build_econ.py | Yes, with the Natural Earth clone |
 | wpp.json | UN World Population Prospects 2024, compact indicators workbook | build_wpp.py | Yes, given the 26 MB workbook (not stored here) |
+| data/atlas/pipeline.json | IMF DataMapper and World Bank APIs, via pipeline/run.py | the pipeline | Yes, from data/normal (no network): embedded as d-pipeline; build with --no-pipeline to leave it out |
 | now.json | IMF WEO Oct 2026 annex tables; Energy Institute 2026; UN migrant stock 2024; ND-GAIN 2026; Nigeria MPI 2022 | assemble_now.py | From data/extracted only (see below) |
 
 ## Known gaps

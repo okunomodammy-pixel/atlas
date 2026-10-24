@@ -66,19 +66,29 @@ check("approval confirms the definition", set(J(root, "pipeline", "config", "def
 check("review files are removed once published", not glob.glob(os.path.join(root, "data", "review", "*.json")))
 atl = J(root, "data", "atlas", "pipeline.json")["indicators"]
 check("atlas file has all six indicators", set(atl) == set(res3))
-check("atlas file keeps 2015-2031 only", all(2015 <= int(y) <= 2031 for c in atl["gdp_pc"]["v"].values() for y in c))
+ATL = J(root, "data", "atlas", "pipeline.json"); CODES = {v: k for k, v in ATL["status_codes"].items()}
+def A(ind, c, y):
+    r = atl[ind]; s = r["v"].get(c)
+    if not s: return None
+    i = y - r["y0"]
+    return None if i < 0 or i >= len(s[0]) or s[0][i] is None else (s[0][i], CODES[s[1][i]])
+check("atlas file keeps 2015-2031 only", all(atl[i]["y0"] == 2015 and len(s[0]) <= 17 for i in atl if i != "income_group" for s in atl[i]["v"].values()))
+check("atlas file: values and status strings line up", all(len(s[0]) == len(s[1]) for i in atl if i != "income_group" for s in atl[i]["v"].values()))
 check("atlas file: Nigeria GDP per person 2025 observed, 2026 projection (IMF appendix)",
-      atl["gdp_pc"]["v"]["NGA"]["2025"][1] == "observed" and atl["gdp_pc"]["v"]["NGA"]["2026"][1] == "projection")
-check("atlas file: Libya 2020 is an IMF estimate (national accounts actual only to 2019)", atl["gdp_pc"]["v"]["LBY"]["2020"][1] == "estimate")
-check("atlas file: Afghanistan has no 2026 value rather than a zero", "2026" not in atl["gdp_pc"]["v"]["AFG"])
+      A("gdp_pc", "NGA", 2025)[1] == "observed" and A("gdp_pc", "NGA", 2026)[1] == "projection")
+check("atlas file: Libya 2020 is an IMF estimate (national accounts actual only to 2019)", A("gdp_pc", "LBY", 2020)[1] == "estimate")
+check("atlas file: Afghanistan has no 2026 value rather than a zero", A("gdp_pc", "AFG", 2026) is None and A("gdp_pc", "AFG", 2025) is not None)
 check("atlas file: Cuba, Monaco and North Korea are absent from IMF data, not zero", not ({"CUB", "MCO", "PRK"} & set(atl["gdp_usd"]["v"])))
 check("atlas file: Kosovo and Palestine joined by code (UVK, WBG)", "UNK" in atl["gdp_usd"]["v"] and "PSE" in atl["gdp_usd"]["v"])
-check("atlas file: World Bank values marked 'reported'", {s for c in atl["gdp_pc_obs"]["v"].values() for _, s in c.values()} == {"reported"})
-check("atlas file: world total labelled aggregate before 2026", atl["gdp_growth"]["v"]["WORLD"]["2025"][1] == "aggregate")
+check("atlas file: World Bank values marked 'reported' and kept to the source's 1 decimal",
+      set("".join(s[1] for s in atl["gdp_pc_obs"]["v"].values())) <= {"r", "-"} and all(x is None or round(x, 1) == x for s in atl["gdp_pc_obs"]["v"].values() for x in s[0]))
+check("atlas file: world total labelled aggregate before 2026", A("gdp_growth", "WORLD", 2025)[1] == "aggregate")
+check("atlas file: income group is one code per country", atl["income_group"]["v"]["NGA"] == "LMC")
+check("atlas file: last-confirmed date and no newer version waiting", all(atl[i]["confirmed_current"] and atl[i]["newer_held"] is False for i in atl))
 check("atlas file: edition recorded", atl["gdp_usd"]["edition"] == "2026-10" and atl["gdp_pc_obs"]["edition"] == "2026-10-08")
 
 before = snapshot(root); res4 = run(root); after = snapshot(root)
-check("unchanged source: every indicator reports no change", all(r["outcome"] == "no change" for r in res4.values()))
+check("unchanged source: every indicator reports no change", all(r["outcome"] == "no change" for r in res4.values()), str({k: v["outcome"] for k, v in res4.items()}))
 check("unchanged source: published files are byte-identical",
       all(before[k] == after[k] for k in before if "/normal/" in k or "/raw/" in k) and len([k for k in after if "/raw/" in k]) == len([k for k in before if "/raw/" in k]))
 
@@ -105,9 +115,10 @@ def held_case(name, edit=None, only="gdp_usd", expect="", root_fn=None):
     ok = r["outcome"] == "held for review" and expect in txt
     same = open(os.path.join(root, "data", "normal", f"{only}.json"), "rb").read() == good
     a_ind = lambda b: json.loads(b)["indicators"][only]
-    atlas_same = a_ind(open(os.path.join(root, "data", "atlas", "pipeline.json"), "rb").read()) == a_ind(atlas_before)
+    after_ind = a_ind(open(os.path.join(root, "data", "atlas", "pipeline.json"), "rb").read())
+    atlas_same = after_ind["v"] == a_ind(atlas_before)["v"] and after_ind["edition"] == a_ind(atlas_before)["edition"] and after_ind["newer_held"] is True
     check(f"held: {name}", ok and same and atlas_same and exists(root, "data", "review", f"{only}.json"),
-          f"{r['outcome']} | {txt[:200]} | last good kept {same} | atlas kept {atlas_same}")
+          f"{r['outcome']} | {txt[:200]} | last good kept {same} | atlas values kept, newer version flagged {atlas_same}")
     return root, r
 
 def big(v): v["NGA"]["2024"] = 400.0

@@ -170,7 +170,9 @@
     2015,
     2031
    ],
-   "movement_from": 2015
+   "movement_from": 2015,
+   "atlas_decimals": 1,
+   "atlas_decimals_note": "the World Bank publishes this indicator to 1 decimal place (its 'decimal' field)"
   },
   {
    "id": "income_group",

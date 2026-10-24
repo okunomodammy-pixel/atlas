@@ -13,6 +13,11 @@ NM=os.path.join(R,"node_modules")
 O=os.path.join(R,"out")
 s=open(f"{R}/src/index.html").read()
 blocks="".join(f'<script type="application/json" id="d-{n}">'+open(f"{R}/src/data/{n}.json").read().replace("</","<\\/")+'</script>\n' for n in ["world","facts","physical","cities","nigeria","hist","wpp","econ","now"])
+# figures from the automatic pipeline (pipeline/run.py); optional: the app falls back without it
+PL=os.path.join(R,"data","atlas","pipeline.json")
+if os.path.exists(PL) and "--no-pipeline" not in __import__("sys").argv:
+    blocks+='<script type="application/json" id="d-pipeline">'+open(PL).read().replace("</","<\\/")+'</script>\n'
+
 i=s.index('<script src="https://cdnjs')
 art=s[:i]+blocks+s[i:]
 os.makedirs(f"{O}/dist",exist_ok=True); open(f"{O}/dist/index.html","w").write(art)
