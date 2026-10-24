@@ -1,6 +1,7 @@
 """Fetch, check and publish the pilot indicators.
 
-    python3 -m pipeline.run [--only ID,ID] [--dry-run]
+    python3 -m pipeline.run [--only ID,ID] [--dry-run] [--scheduled]
+  --scheduled  skip sources checked more recently than their check_every_days (pipeline/config/sources.json)
 
 For each indicator in pipeline/config/indicators.json:
   1. if a held update has been approved in pipeline/config/approvals.json, publish it
@@ -24,6 +25,8 @@ from .normalise import normalise, crosswalk, load_edition, set_not_in_atlas
 from .validate import validate
 from .sources.imf import IMF
 from .sources.worldbank import WorldBank, WorldBankCountry
+from .sources.nbs import NBS
+from .sources.cbn import CBN
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATUS_CODES = {"observed": "o", "estimate": "e", "projection": "p", "unstated": "u", "aggregate": "a", "reported": "r"}
@@ -50,7 +53,7 @@ def content_hash(doc):
 
 
 class Run:
-    def __init__(self, root=ROOT, transport=None, sleep=None, now=None, dry=False):
+    def __init__(self, root=ROOT, transport=None, sleep=None, now=None, dry=False, force=True):
         self.root, self.dry = root, dry
         P = lambda *a: os.path.join(root, *a)
         self.P = P
@@ -66,7 +69,9 @@ class Run:
         self.stamp = self.now.strftime("%Y-%m-%dT%H:%M:%SZ")
         http = self.src_cfg["http"]
         wb = WorldBank(self.src_cfg["worldbank"], http, transport, sleep)
-        self.sources = {"imf": IMF(self.src_cfg["imf"], http, transport, sleep), "worldbank": wb, "worldbank_country": WorldBankCountry(wb)}
+        self.sources = {"imf": IMF(self.src_cfg["imf"], http, transport, sleep), "worldbank": wb, "worldbank_country": WorldBankCountry(wb),
+                        "nbs": NBS(http, transport, sleep), "cbn": CBN(http, transport, sleep)}
+        self.force = force
         self.manifest = jload(P("data", "manifest.json"), {"sources": {}, "indicators": {}})
         self.results = []
 
@@ -110,7 +115,13 @@ class Run:
             self.publish(ind, held["staged"], f"approved {held['hash']}")
             man.update(state="published", published_hash=held["hash"], published_at=self.stamp, published_edition=held["staged"].get("edition"))
             res["approved"] = held["hash"]
-        # 2. fetch
+        # 2. fetch, if this source is due (each source is checked about as often as it publishes)
+        every = (self.src_cfg.get(src) or self.src_cfg.get(src.split("_")[0]) or {}).get("check_every_days", 0)
+        last = smap.get("last_success")
+        if not self.force and every and last and (self.now - dt.datetime.fromisoformat(last.replace("Z", "+00:00"))).days < every:
+            man.update(last_check_result=f"not due (checked {last[:10]}; this source is checked every {every} days)")
+            res.update(outcome="not due", reason=f"last checked {last[:10]}; checked every {every} days")
+            return res
         try:
             fetched = self.sources[src].fetch(ind)
         except FetchError as e:
@@ -122,7 +133,7 @@ class Run:
         smap.update(last_status="ok", last_success=self.stamp, last_error=None)
         # 3. normalise
         ed_table = load_edition(fetched["edition"], self.root) if src == "imf" else None
-        aggregates = set(self.countries["aggregates"]["imf"]) if src == "imf" else self.sources["worldbank"].aggregates()
+        aggregates = set(self.countries["aggregates"]["imf"]) if src == "imf" else self.sources["worldbank"].aggregates() if src.startswith("worldbank") else set()
         doc = normalise(ind, fetched, self.xwalk, aggregates, self.stamp, ed_table)
         doc["attempts"] = fetched["attempts"]
         h = content_hash(doc); doc["hash"] = h
@@ -149,6 +160,7 @@ class Run:
         confirmed = (self.defs["confirmed"].get(iid) or {}).get("fingerprint")
         review_edition = (self.src_cfg.get(src) or self.src_cfg.get("worldbank") or {}).get("review_new_edition", False)
         v = validate(ind, doc, old, confirmed, ed_table is not None or src != "imf", cc, review_edition)
+        v["notes"] += fetched.get("source_notes", [])
         counts = {}
         for ys in doc["series"].values():
             for _, st in ys.values(): counts[st] = counts.get(st, 0) + 1
@@ -190,6 +202,9 @@ class Run:
             meta["newer_held"] = bool(os.path.exists(self.review_path(ind["id"])))
             if ind["kind"] == "classification":
                 meta["v"] = {c: ys["current"][0] for c, ys in d["series"].items()}
+            elif ind.get("period", "year") != "year":   # monthly, daily or quarterly national series: {ISO3: {period: [value, status letter]}}
+                keep = {"day": 400, "month": 36, "quarter": 16}[ind["period"]]
+                meta.update(period=ind["period"], v={c: {k: [x[0], STATUS_CODES[x[1]]] for k, x in sorted(ys.items())[-keep:]} for c, ys in d["series"].items()})
             else:
                 lo, hi = ind.get("atlas_years", [0, 9999]); dp = ind.get("atlas_decimals")
                 years = list(range(lo, hi + 1)); v = {}
@@ -251,7 +266,7 @@ def annotate(report):
 
 def main(argv):
     only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else None
-    rep = Run(dry="--dry-run" in argv).go(only)
+    rep = Run(dry="--dry-run" in argv, force="--scheduled" not in argv).go(only)
     for r in rep["results"]:
         print(f"{r['indicator']:<13} {r['outcome']}" + (f"  [approve with {r['approve_with']}]" if r.get("approve_with") else ""))
         for x in (r.get("review") or []) + (r.get("failures") or []) + ([r["reason"]] if r.get("reason") else []):

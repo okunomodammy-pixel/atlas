@@ -6,7 +6,8 @@
   "terms": "https://www.imf.org/en/About/copyright-and-terms",
   "notes": "DataMapper returns every economy and year for an indicator; country and year filters in the URL are ignored. An unknown indicator returns HTTP 200 with no values.",
   "review_new_edition": true,
-  "review_note": "A new WEO edition changes figures for every economy and needs its latest-actual table, so a person reviews it once (April and October)."
+  "review_note": "A new WEO edition changes figures for every economy and needs its latest-actual table, so a person reviews it once (April and October).",
+  "check_every_days": 13
  },
  "worldbank": {
   "name": "World Bank, World Development Indicators, via the Indicators API v2",
@@ -14,7 +15,8 @@
   "releases": "several times a year; the response header carries 'lastupdated'",
   "terms": "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets",
   "notes": "Single-country and long date-range calls sometimes time out after 60 s on the first request; all-country calls with mrv are fast. Per-value obs_status is blank, so values are not flagged as estimates. First run on 24 Oct 2026: mrv=8 timed out at 60, 90 and 120 s; responses are cached for about a day (cache-control max-age 86221), so a slow first request is followed by fast ones.",
-  "review_new_edition": false
+  "review_new_edition": false,
+  "check_every_days": 6
  },
  "http": {
   "timeout": [
@@ -30,5 +32,21 @@
   "max_retry_after": 120,
   "pause": 1.0,
   "user_agent": "mental-map-atlas-pipeline/0.1 (+https://github.com/okunomodammy-pixel/atlas)"
+ },
+ "nbs": {
+  "name": "National Bureau of Statistics, Nigeria: headline figures on its homepage dashboard",
+  "base": "https://nigerianstat.gov.ng/",
+  "check_every_days": 6,
+  "releases": "CPI monthly (around the 15th); fuel prices monthly; GDP quarterly",
+  "review_new_edition": false,
+  "notes": "No data API; the e-library stopped listing new reports in December 2024. The homepage dashboard carries the latest official CPI (headline, core, food, with monthly history), average fuel prices and the latest quarterly GDP growth sentence. Layout changes fail safely (last good data kept)."
+ },
+ "cbn": {
+  "name": "Central Bank of Nigeria: official exchange rates API",
+  "base": "https://www.cbn.gov.ng/api/GetAllExchangeRates",
+  "check_every_days": 6,
+  "releases": "daily",
+  "review_new_edition": false,
+  "notes": "JSON, ~8 MB, all currencies since 2019, newest first; rates are strings."
  }
 }

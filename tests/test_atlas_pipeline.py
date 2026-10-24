@@ -5,6 +5,7 @@
 import os, re, json, datetime as dt
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "harness.py")).read())
 RES = []
+def real_errs(errs): return [e for e in errs if "ERR_FAILED" not in e and "net::" not in e]
 def check(name, ok, detail=""):
     RES.append((name, bool(ok))); print(("PASS " if ok else "FAIL ") + name + (f"  [{detail}]" if detail and not ok else ""))
 
@@ -90,6 +91,23 @@ with sync_playwright() as pw:
     held = json.loads(json.dumps(PLJ)); held["indicators"]["gdp_usd"]["newer_held"] = True
     variant("held", held); q, e4 = open_variant(b, "held")
     check("held update: the atlas says a newer version is waiting for review", "waiting for review" in q.evaluate("freshness('imfdm').t") and not e4)
+
+    # Nigerian monthly figures (NBS dashboard, CBN rates), using an atlas file built from the recorded responses
+    NGJ = json.load(open(A + "/tests/fixtures/atlas_pipeline_with_ng.json"))
+    variant("ng", NGJ); q, e6 = open_variant(b, "ng", 390, 844)
+    last = lambda i: sorted(NGJ["indicators"][i]["v"]["NGA"].items())[-1]
+    q.evaluate("selectCountry('566', false)"); q.wait_for_timeout(400); t = q.inner_text("#panel")
+    want = [f"{last('ng_cpi')[1][0]:.2f}%", f"{last('ng_cpi_core')[1][0]:.2f}%", f"{last('ng_cpi_food')[1][0]:.2f}%"]
+    check("NBS figures: headline, core and food inflation on Nigeria's page, from the data", all(w in t for w in want) and "everyday prices" in t.lower(), str(want))
+    check("NBS figures: inflation is tagged with its month, and a 12-month line is drawn",
+          q.evaluate("IND.cpi_yoy.period") == q.evaluate(f"periodLabel('{last('ng_cpi')[0]}')") and q.evaluate("panel.querySelectorAll('svg.spark').length") >= 2)
+    i_core = t.find("Core inflation"); i_head = t.find("Inflation, latest month"); i_avg = t.find("Inflation, 2025 (annual")
+    check("NBS figures: core and food sit directly under headline inflation", 0 <= i_head < i_core < i_avg)
+    check("CBN rate: official rate and its date come from the data, the parallel rate is labelled as a press report",
+          q.evaluate("IND.fx_ngn.period") == q.evaluate(f"periodLabel('{last('ng_fx_usd')[0]}')") and "press report" in t)
+    check("NBS and CBN: no script errors", not real_errs(e6), str(e6))
+    q, e7 = open_variant(b, "nopl", 390, 844); q.evaluate("selectCountry('566', false)"); q.wait_for_timeout(300)
+    check("without the pipeline file: the hand-entered inflation and exchange rate remain", "14.63%" in q.inner_text("#panel") and "everyday prices" not in q.inner_text("#panel").lower())
 
     # offline standalone
     ctx = b.new_context(viewport={"width": 390, "height": 844}, offline=True); q = ctx.new_page(); e5 = []

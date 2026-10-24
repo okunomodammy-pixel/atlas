@@ -188,6 +188,195 @@
     "HIC",
     "INX"
    ]
+  },
+  {
+   "id": "ng_cpi",
+   "source": "nbs",
+   "code": "cpi:All-Items",
+   "name": "Headline inflation (all items, year on year)",
+   "unit": "% year on year",
+   "kind": "rate",
+   "period": "month",
+   "bounds": [
+    -20,
+    300
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 0.3
+   },
+   "movement": {
+    "abs": 4.0
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_cpi_core",
+   "source": "nbs",
+   "code": "cpi:Core",
+   "name": "Core inflation (year on year)",
+   "unit": "% year on year",
+   "kind": "rate",
+   "period": "month",
+   "bounds": [
+    -20,
+    300
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 0.3
+   },
+   "movement": {
+    "abs": 4.0
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_cpi_food",
+   "source": "nbs",
+   "code": "cpi:Food",
+   "name": "Food inflation (year on year)",
+   "unit": "% year on year",
+   "kind": "rate",
+   "period": "month",
+   "bounds": [
+    -20,
+    300
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 0.3
+   },
+   "movement": {
+    "abs": 5.0
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_petrol",
+   "source": "nbs",
+   "code": "fuel:PMS",
+   "name": "Petrol (PMS), average price",
+   "unit": "naira per litre",
+   "kind": "level",
+   "period": "month",
+   "bounds": [
+    50,
+    20000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.02
+   },
+   "movement": {
+    "rel": 0.35
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_diesel",
+   "source": "nbs",
+   "code": "fuel:AGO",
+   "name": "Diesel (AGO), average price",
+   "unit": "naira per litre",
+   "kind": "level",
+   "period": "month",
+   "bounds": [
+    50,
+    20000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.02
+   },
+   "movement": {
+    "rel": 0.35
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_kerosene",
+   "source": "nbs",
+   "code": "fuel:NHK",
+   "name": "Kerosene (NHK), average price",
+   "unit": "naira per litre",
+   "kind": "level",
+   "period": "month",
+   "bounds": [
+    50,
+    20000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.02
+   },
+   "movement": {
+    "rel": 0.35
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_lpg",
+   "source": "nbs",
+   "code": "fuel:LPG",
+   "name": "Cooking gas (LPG), 5 kg refill",
+   "unit": "naira per 5 kg",
+   "kind": "level",
+   "period": "month",
+   "bounds": [
+    200,
+    100000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.02
+   },
+   "movement": {
+    "rel": 0.35
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_gdp_q",
+   "source": "nbs",
+   "code": "gdp:real_yoy",
+   "name": "Real GDP growth (quarter, year on year)",
+   "unit": "% year on year",
+   "kind": "rate",
+   "period": "quarter",
+   "bounds": [
+    -30,
+    40
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 0.5
+   },
+   "movement": {
+    "abs": 6.0
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "ng_fx_usd",
+   "source": "cbn",
+   "code": "US DOLLAR:sellingrate",
+   "name": "Official naira rate per US dollar (selling)",
+   "unit": "naira per us dollar",
+   "kind": "level",
+   "period": "day",
+   "bounds": [
+    50,
+    20000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.005
+   },
+   "movement": {
+    "rel": 0.25
+   },
+   "movement_from": 2015
   }
  ]
 }

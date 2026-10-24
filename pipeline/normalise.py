@@ -15,7 +15,8 @@ Status values:
   reported    World Bank value; the API does not flag estimates per value
   classification
 """
-import hashlib, json, math, os
+import hashlib, json, math, os, re
+PERIOD_KEY = {"month": re.compile(r"^\d{4}-\d{2}$"), "day": re.compile(r"^\d{4}-\d{2}-\d{2}$"), "quarter": re.compile(r"^\d{4}-Q[1-4]$")}
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,6 +37,7 @@ def crosswalk(countries_cfg, facts):
         m[countries_cfg["world"][src]] = "WORLD"
         out[src] = m
     out["worldbank_country"] = out["worldbank"]
+    out["nbs"] = out["cbn"] = {c: c for c in atlas}   # national sources: Nigeria only, keyed by the atlas code
     return out
 
 
@@ -66,7 +68,9 @@ def normalise(ind, fetched, xwalk, aggregates, retrieved, edition_table=None):
             if ind["kind"] == "classification":
                 if v is not None: rec[y] = [v, "classification"]
                 continue
-            if not (str(y).isdigit() and lo <= int(y) <= hi): continue
+            if ind.get("period", "year") == "year":
+                if not (str(y).isdigit() and lo <= int(y) <= hi): continue
+            elif not PERIOD_KEY.get(ind["period"], re.compile("$^")).match(str(y)): continue   # monthly 2026-09, daily 2026-10-23, quarterly 2026-Q1
             if v is None: continue                     # missing stays missing; never zero
             if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v):
                 bad.append(f"{code} {y}: {v!r}"); continue
@@ -74,13 +78,13 @@ def normalise(ind, fetched, xwalk, aggregates, retrieved, edition_table=None):
                 st = imf_status(edition_table, code, ind["status_area"], y) if edition_table else "unstated"
                 if atlas == "WORLD" and st == "unstated": st = "aggregate"
             else:
-                st = "reported"
+                st = fetched.get("status", "reported")
             rec[str(y)] = [v, st]
         if rec: series[atlas] = dict(sorted(rec.items()))
     basis = {"imf": (f"IMF WEO Database Appendix {fetched['edition']}: latest actual year per economy ({ind.get('status_area')}); "
                      f"projections from {edition_table['projection_start']}" if edition_table else "no edition table: status not stated"),
              "worldbank": "World Bank Indicators API: values are not flagged as estimates (obs_status blank)",
-             "worldbank_country": "classification as listed; the API does not date it"}[src]
+             "worldbank_country": "classification as listed; the API does not date it"}.get(src) or fetched.get("status_basis", "")
     return {"indicator": ind["id"], "source": src, "source_code": ind["code"], "name": ind["name"], "unit": ind["unit"],
             "kind": ind["kind"], "definition": fetched["definition"], "fingerprint": fingerprint(fetched["definition"]),
             "edition": fetched["edition"], "edition_label": fetched["edition_label"], "edition_date": fetched["edition_date"],

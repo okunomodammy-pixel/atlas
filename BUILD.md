@@ -14,6 +14,7 @@ build/build_data.py       rebuilds world, facts, physical, cities, nigeria, hist
 build/build_econ.py       rebuilds econ.json (currencies)
 build/build_wpp.py        rebuilds wpp.json from the UN WPP 2024 workbook
 build/assemble_now.py     rebuilds now.json from data/extracted/
+build/extract_mpi_states.py  reads the state tables of the Nigeria MPI 2022 report (with its own consistency checks)
 build/verify.py           rebuilds everything and checks it is identical to what is committed
 build/batches/            the batch files used to write src/index.html; already merged, kept for history
 data/intermediate/        simplified map layers used by build_data.py
@@ -65,6 +66,7 @@ same locally: build, test, refresh `index.html` and the offline cache name in `s
 | econ.json | world-countries currencies + Natural Earth economy class + 6 hand corrections | build_econ.py | Yes, with the Natural Earth clone |
 | wpp.json | UN World Population Prospects 2024, compact indicators workbook | build_wpp.py | Yes, given the 26 MB workbook (not stored here) |
 | data/atlas/pipeline.json | IMF DataMapper and World Bank APIs, via pipeline/run.py | the pipeline | Yes, from data/normal (no network): embedded as d-pipeline; build with --no-pipeline to leave it out |
+| now.json (mpis) | Nigeria MPI 2022 report, Appendix D: state deprivations, out-of-school children, confidence intervals, zones, rural/urban | extract_mpi_states.py, then assemble_now.py | From data/extracted/mpi_states.json; re-extracting needs the report's text (`pdftotext -layout`) |
 | now.json | IMF WEO Oct 2026 annex tables; Energy Institute 2026; UN migrant stock 2024; ND-GAIN 2026; Nigeria MPI 2022 | assemble_now.py | From data/extracted only (see below) |
 
 ## Known gaps

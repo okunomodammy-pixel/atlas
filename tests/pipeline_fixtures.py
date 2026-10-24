@@ -14,10 +14,12 @@ ROUTES = [  # (url fragment, fixture) - first match wins
     ("v2/indicator/NY.GDP.PCAP.CD", "wb_indicator_meta"),
     ("v2/country/all/indicator/NY.GDP.PCAP.CD", "wb_all_gdppc_mrv"),
     ("v2/country?format=json", "wb_countries"),
+    ("cbn.gov.ng/api/GetAllExchangeRates", "cbn_rates"),        # recorded 24 Oct 2026; last 400 days kept
+    ("nigerianstat.gov.ng/", "nbs_home.html"),                  # recorded 24 Oct 2026
 ]
 
 
-def body(name): return open(os.path.join(FX, name + ".json"), "rb").read()
+def body(name): return open(os.path.join(FX, name if "." in name else name + ".json"), "rb").read()
 
 
 class Replay:
@@ -37,7 +39,8 @@ class Replay:
         for frag, name in ROUTES:
             if frag in url:
                 b = body(name)
-                if name in self.edit: b = json.dumps(self.edit[name](json.loads(b))).encode()
+                if name in self.edit:
+                    b = self.edit[name](b.decode("utf-8", "replace")).encode() if name.endswith(".html") else json.dumps(self.edit[name](json.loads(b))).encode()
                 return 200, {"Content-Type": "application/json"}, b
         return 404, {}, b"not recorded"
 

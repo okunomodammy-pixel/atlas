@@ -63,7 +63,7 @@ function statusMix(id, codes) { const r = IND[id], n = {}; if (!r || !r.st) retu
 const indSheetBase = indSheet;
 indSheet = function (id) { indSheetBase(id); const r = IND[id], s = SOURCES[r.src], dl = $("#overlay dl.tips"); if (!dl || !s) return;
   let add = "";
-  if (r.st) add += `<dt>Each value</dt><dd>${esc(statusMix(id).text)}. The tag beside a country's figure says which it is.</dd>`;
+  if (r.st && !r.geo) add += `<dt>Each value</dt><dd>${esc(statusMix(id).text)}. The tag beside a country's figure says which it is.</dd>`;
   if (s.auto) add += `<dt>Edition</dt><dd>${esc(s.edition || "—")}${s.pub ? ", published " + esc(ymLabel(s.pub)) : ""}</dd>
     <dt>How it updates</dt><dd>Fetched from the source's API and checked before it reaches the atlas: definition and units, coverage, revisions and unusual jumps. Changes that need a person's judgement wait for review. Last confirmed current: ${esc(dayLabel(s.checked))}.</dd>`;
   dl.insertAdjacentHTML("beforeend", add); };
