@@ -115,7 +115,8 @@ class Run:
         except FetchError as e:
             smap.update(last_status="failed", last_error=str(e))
             man.update(state=man.get("state", "never published"), last_check=self.stamp, last_check_result="fetch failed: " + str(e))
-            res.update(outcome="fetch failed, last good data kept", reason=str(e))
+            kept = "last good data kept" if os.path.exists(self.normal_path(iid)) else "nothing published yet"
+            res.update(outcome=f"fetch failed, {kept}", reason=str(e))
             return res
         smap.update(last_status="ok", last_success=self.stamp, last_error=None)
         # 3. normalise

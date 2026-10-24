@@ -13,18 +13,18 @@
   "base": "https://api.worldbank.org/v2/",
   "releases": "several times a year; the response header carries 'lastupdated'",
   "terms": "https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets",
-  "notes": "Single-country and long date-range calls sometimes time out after 60 s on the first request; all-country calls with mrv are fast. Per-value obs_status is blank, so values are not flagged as estimates.",
+  "notes": "Single-country and long date-range calls sometimes time out after 60 s on the first request; all-country calls with mrv are fast. Per-value obs_status is blank, so values are not flagged as estimates. First run on 24 Oct 2026: mrv=8 timed out at 60, 90 and 120 s; responses are cached for about a day (cache-control max-age 86221), so a slow first request is followed by fast ones.",
   "review_new_edition": false
  },
  "http": {
   "timeout": [
-   60,
    90,
-   120
+   180,
+   300
   ],
   "backoff": [
-   5,
-   20,
+   30,
+   60,
    60
   ],
   "max_retry_after": 120,

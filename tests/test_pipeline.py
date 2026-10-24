@@ -168,7 +168,7 @@ root, r = failure_case("IMF unavailable (HTTP 503 every attempt)", Replay(fail={
 m = J(root, "data", "manifest.json")
 check("failure: manifest records the failed attempt and the earlier success",
       m["sources"]["imf"]["last_status"] == "failed" and m["indicators"]["gdp_usd"]["state"] == "published" and "fetch failed" in m["indicators"]["gdp_usd"]["last_check_result"])
-check("failure: back-off waits between attempts", SLEPT[:2] == [5, 20], str(SLEPT[:3]))
+check("failure: back-off waits between attempts", SLEPT[:2] == [30, 60], str(SLEPT[:3]))
 check("failure: the log says the last good data was kept", "fetch failed, last good data kept" in open(os.path.join(root, "data", "UPDATE_LOG.md")).read())
 failure_case("World Bank timeouts on every attempt", Replay(fail={"country/all/indicator": ["timeout"] * 3}), only="gdp_pc_obs", expect="timeout after")
 failure_case("IMF answers 200 with no values (its unknown-code behaviour)", Replay(edit={"imf_dm_ngdpd_all": lambda j: {"api": j["api"]}}), expect="no values")
@@ -180,7 +180,7 @@ def text_value(v): v["NGA"]["2025"] = "n/a"
 failure_case("a value that is not a number", Replay(edit={"imf_dm_ngdpd_all": edit_values("NGDPD", text_value)}), expect="not finite numbers")
 SLEPT.clear()
 root = published(); res = run(root, Replay(fail={"v1/NGDPD": ["timeout"]}), only={"gdp_usd"})
-check("recovery: one timeout, then success", res["gdp_usd"]["outcome"] == "no change" and SLEPT == [5], f"{res['gdp_usd']['outcome']} {SLEPT}")
+check("recovery: one timeout, then success", res["gdp_usd"]["outcome"] == "no change" and SLEPT == [30], f"{res['gdp_usd']['outcome']} {SLEPT}")
 SLEPT.clear(); res = run(root, Replay(fail={"v1/NGDPD": [429]}), only={"gdp_usd"})
 check("rate limit: HTTP 429 waits for Retry-After, then succeeds", res["gdp_usd"]["outcome"] == "no change" and SLEPT == [7], str(SLEPT))
 res = run(root, Replay(fail={"v1/NGDPD": [404]}), only={"gdp_usd"})
