@@ -23,6 +23,10 @@ tests/smoke.py            pass/fail regression check
 tests/regression/t*.py    earlier test scripts that still run (they print results; most don't assert)
 tests/legacy/t*.py        scripts written for the first design; kept for reference, they no longer run
 package.json, package-lock.json   d3 7.9.0, topojson-client 3.1.0 and the map packages, pinned
+pipeline/                 automated data pipeline (World Bank, IMF); see pipeline/README.md
+data/raw, normal, review, atlas, manifest.json, UPDATE_LOG.md   pipeline output
+tests/test_pipeline.py    pipeline checks against recorded live responses (tests/fixtures/pipeline)
+.github/workflows/data-pipeline.yml   runs the pipeline on GitHub; no schedule yet
 ```
 
 ## Build
