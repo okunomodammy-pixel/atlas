@@ -2,6 +2,21 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-10-24 14:10 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
+- 2026-10-24 14:10 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change
+- 2026-10-24 14:10 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change
+- 2026-10-24 14:10 UTC · **cpi_avg** (imf PCPIPCH, 2026-10) · no change
+- 2026-10-24 14:10 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD, 2026-10-08) · no change
+- 2026-10-24 14:10 UTC · **income_group** (worldbank_country incomeLevel) · no change
+- 2026-10-24 14:10 UTC · **ng_cpi** (nbs cpi:All-Items, CPI Sept-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_cpi_core** (nbs cpi:Core, CPI Sept-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_cpi_food** (nbs cpi:Food, CPI Sept-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_petrol** (nbs fuel:PMS, PMS May-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_diesel** (nbs fuel:AGO, AGO May-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_kerosene** (nbs fuel:NHK, NHK May-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_lpg** (nbs fuel:LPG, LPG April-2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_gdp_q** (nbs gdp:real_yoy, GDP Q1 2026) · held for review: first publication of this indicator: confirm the definition and the values
+- 2026-10-24 14:10 UTC · **ng_fx_usd** (cbn US DOLLAR:sellingrate, 2026-10-23) · held for review: first publication of this indicator: confirm the definition and the values
 - 2026-10-24 12:18 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
 - 2026-10-24 12:18 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change
 - 2026-10-24 12:18 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change
