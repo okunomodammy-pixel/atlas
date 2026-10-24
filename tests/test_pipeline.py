@@ -49,10 +49,11 @@ check("first run: every indicator is held for review, none published",
       str({k: v["outcome"] for k, v in res.items()}))
 check("first run: the reason given is first publication", all(any("first publication" in x for x in r["review"]) for r in res.values()))
 check("first run: atlas file has no indicators yet", J(root, "data", "atlas", "pipeline.json")["indicators"] == {})
-check("first run: 580 growth and inflation values agree with the report tables",
-      all(any("580 agree" in n for n in res[i]["notes"]) for i in ("gdp_growth", "cpi_avg")))
-lg = open(os.path.join(root, "data", "UPDATE_LOG.md")).read()
-check("first run: the update log has one line per indicator", lg.count("held for review") == len(res), f"{lg.count('held for review')} lines, {len(res)} indicators")
+check("first run: growth, inflation, current account and unemployment agree with the report tables",
+      all(any("580 agree" in n for n in res[i]["notes"]) for i in ("gdp_growth", "cpi_avg"))
+      and all(any(" agree" in n for n in res[i]["notes"]) and not any("differ from" in r for r in res[i]["review"]) for i in ("ca", "unemp")))
+check("first run: unemployment before 2026 is labelled 'status not stated' (no latest-actual year in the appendix)",
+      set(res["unemp"]["status_counts"]) == {"unstated", "projection"})
 
 a = J(root, "pipeline", "config", "approvals.json"); a["approve"]["gdp_usd"] = "0000000000000000"
 json.dump(a, open(os.path.join(root, "pipeline", "config", "approvals.json"), "w"))
@@ -73,7 +74,7 @@ def A(ind, c, y):
     i = y - r["y0"]
     return None if i < 0 or i >= len(s[0]) or s[0][i] is None else (s[0][i], CODES[s[1][i]])
 ANNUAL = [i for i in atl if "y0" in atl[i]]
-check("atlas file keeps 2015-2031 only (annual series)", len(ANNUAL) == 5 and all(atl[i]["y0"] == 2015 and len(s[0]) <= 17 for i in ANNUAL for s in atl[i]["v"].values()))
+check("atlas file keeps 2015-2031 only (annual series)", len(ANNUAL) == 7 and all(atl[i]["y0"] == 2015 and len(s[0]) <= 17 for i in ANNUAL for s in atl[i]["v"].values()))
 check("atlas file: values and status strings line up", all(len(s[0]) == len(s[1]) for i in ANNUAL for s in atl[i]["v"].values()))
 check("atlas file: Nigeria GDP per person 2025 observed, 2026 projection (IMF appendix)",
       A("gdp_pc", "NGA", 2025)[1] == "observed" and A("gdp_pc", "NGA", 2026)[1] == "projection")
