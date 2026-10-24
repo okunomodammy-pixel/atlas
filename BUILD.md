@@ -47,9 +47,10 @@ to its `geojson` folder.
 
 Automatic, from `.github/workflows/atlas.yml` (see pipeline/README.md): a push to `main` that changes the
 app, a weekly data check, a manual run, or an approval comment. Each run builds, runs the site tests and
-only then publishes through GitHub Pages ("GitHub Actions" source). `python3 -m pipeline.release` does the
+only then publishes by pushing the six site files to the `gh-pages` branch, which GitHub Pages
+serves (Settings → Pages → Deploy from a branch → `gh-pages`, folder `/ (root)`). Every published
+version stays in that branch's history, so any earlier version can be restored. `python3 -m pipeline.release` does the
 same locally: build, test, refresh `index.html` and the offline cache name in `sw.js`, assemble `_site/`.
-The `gh-pages` branch is no longer used once Pages is switched to GitHub Actions.
 
 ## Where each data file comes from
 

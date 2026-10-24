@@ -6,7 +6,10 @@
 #   owner comments "approve" on the data-review issue   publish the held versions listed in that issue
 #
 # The site is published only after tests/smoke.py and tests/test_atlas_pipeline.py pass on the new build.
-# If anything fails, the live site stays as it was. Runs on other branches build and test but never publish.
+# If anything fails, the live site stays as it was.
+# Publishing = pushing the six tested site files to the gh-pages branch, which GitHub Pages serves
+# (Settings -> Pages -> Deploy from a branch -> gh-pages). Runs on other branches publish to the
+# claude/site-preview branch instead, never to the live site.
 name: atlas
 on:
   schedule:
@@ -25,8 +28,6 @@ on:
 permissions:
   contents: write
   issues: write
-  pages: write
-  id-token: write
 concurrency:
   group: atlas
   cancel-in-progress: false
@@ -102,16 +103,19 @@ jobs:
         if: always() && github.ref == 'refs/heads/main' && (github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true')
         env: { GITHUB_TOKEN: "${{ github.token }}" }
         run: python3 -m pipeline.notify
-      - uses: actions/upload-pages-artifact@v3
-        if: steps.release.outputs.publish == 'true' && github.ref == 'refs/heads/main'
-        with: { path: _site }
-  deploy:
-    needs: update
-    if: needs.update.outputs.publish == 'true' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-24.04
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish the tested site
+        if: steps.release.outcome == 'success' && steps.release.outputs.publish == 'true'
+        run: |
+          target=gh-pages; [ "$GITHUB_REF_NAME" = main ] || target=claude/site-preview
+          PUB="$RUNNER_TEMP/pub"; rm -rf "$PUB"
+          if git ls-remote --exit-code --heads origin "$target" >/dev/null; then
+            git fetch -q origin "$target"; git worktree add -q --detach "$PUB" FETCH_HEAD
+          else
+            git worktree add -q --detach "$PUB"; git -C "$PUB" checkout -q --orphan site
+          fi
+          cd "$PUB"; git rm -rqf --ignore-unmatch . ; cp "$GITHUB_WORKSPACE"/_site/* . ; touch .nojekyll
+          git add -A
+          if git diff --cached --quiet; then echo "::notice::the live site already has this version"; exit 0; fi
+          git commit -q -m "publish: site $(jq -r .cache "$GITHUB_WORKSPACE/out/release.json") from ${GITHUB_SHA:0:7}"
+          git push -q origin "HEAD:refs/heads/$target"
+          echo "::notice::published $(jq -r .cache "$GITHUB_WORKSPACE/out/release.json") to $target"
