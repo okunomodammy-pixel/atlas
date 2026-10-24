@@ -1,0 +1,191 @@
+{
+ "_about": "Pilot indicators. Each id is the atlas's own; source + code identify the series at the source. Thresholds decide what is routine and what is held for review. movement_from: year-on-year movements are checked from this year on (the years the atlas shows); earlier history is still checked for revisions.",
+ "indicators": [
+  {
+   "id": "gdp_usd",
+   "source": "imf",
+   "code": "NGDPD",
+   "name": "GDP, current prices",
+   "unit": "Billions of U.S. dollars",
+   "kind": "level",
+   "status_area": "na",
+   "bounds": [
+    0.001,
+    400000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.25
+   },
+   "movement": {
+    "rel": 0.6
+   },
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "bounds_note": "US$ billions; the world total is about 130,000",
+   "movement_from": 2015
+  },
+  {
+   "id": "gdp_pc",
+   "source": "imf",
+   "code": "NGDPDPC",
+   "name": "GDP per capita, current prices",
+   "unit": "U.S. dollars per capita",
+   "kind": "level",
+   "status_area": "na",
+   "bounds": [
+    10,
+    400000
+   ],
+   "zero_ok": false,
+   "revision": {
+    "rel": 0.25
+   },
+   "movement": {
+    "rel": 0.6
+   },
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "movement_from": 2015
+  },
+  {
+   "id": "gdp_growth",
+   "source": "imf",
+   "code": "NGDP_RPCH",
+   "name": "Real GDP growth",
+   "unit": "Annual percent change",
+   "kind": "rate",
+   "status_area": "na",
+   "bounds": [
+    -80,
+    250
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 3.0
+   },
+   "movement": {
+    "abs": 25.0
+   },
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "crosscheck": {
+    "file": "data/extracted/imf.json",
+    "world_file": "data/extracted/imf_world.json",
+    "years": {
+     "2025": "g25",
+     "2026": "g26",
+     "2027": "g27"
+    },
+    "tolerance": 0.051,
+    "about": "IMF WEO October 2026 statistical annex tables, read from the report"
+   },
+   "movement_from": 2015
+  },
+  {
+   "id": "cpi_avg",
+   "source": "imf",
+   "code": "PCPIPCH",
+   "name": "Inflation rate, average consumer prices",
+   "unit": "Annual percent change",
+   "kind": "rate",
+   "status_area": "cpi",
+   "bounds": [
+    -40,
+    1000000000.0
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 5.0,
+    "rel": 0.5
+   },
+   "movement": {
+    "abs": 60.0,
+    "rel": 2.0
+   },
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "crosscheck": {
+    "file": "data/extracted/imf.json",
+    "world_file": "data/extracted/imf_world.json",
+    "years": {
+     "2025": "cpi25",
+     "2026": "cpi26",
+     "2027": "cpi27"
+    },
+    "tolerance": 0.051,
+    "about": "IMF WEO October 2026 statistical annex tables, read from the report"
+   },
+   "bounds_note": "Zimbabwe 2008 was about 231 million percent",
+   "movement_from": 2015
+  },
+  {
+   "id": "gdp_pc_obs",
+   "source": "worldbank",
+   "code": "NY.GDP.PCAP.CD",
+   "name": "GDP per capita (current US$)",
+   "unit": "current US$",
+   "kind": "level",
+   "bounds": [
+    10,
+    400000
+   ],
+   "zero_ok": false,
+   "query": "mrv=8",
+   "revision": {
+    "rel": 0.25
+   },
+   "movement": {
+    "rel": 0.6
+   },
+   "years": [
+    2000,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "movement_from": 2015
+  },
+  {
+   "id": "income_group",
+   "source": "worldbank_country",
+   "code": "incomeLevel",
+   "name": "World Bank income group",
+   "unit": "classification",
+   "kind": "classification",
+   "allowed": [
+    "LIC",
+    "LMC",
+    "UMC",
+    "HIC",
+    "INX"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+# Data pipeline: fetch, check and stage World Bank and IMF indicators.
+# Integration-test setup: runs only on a push to claude/phase1-pipeline or by hand, and commits
+# results to the branch it ran on. No schedule, and it never touches main or gh-pages.
+name: data-pipeline
+on:
+  push:
+    branches: [claude/phase1-pipeline]
+    paths: [pipeline/**, .github/workflows/data-pipeline.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: data-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Pipeline tests (recorded responses, no network)
+        run: python3 tests/test_pipeline.py
+      - name: Fetch, check and stage
+        run: python3 -m pipeline.run
+      - name: Commit data to this branch
+        run: |
+          git config user.name "atlas-pipeline[bot]"; git config user.email "actions@users.noreply.github.com"
+          git add data pipeline/config/definitions.json
+          if git diff --cached --quiet; then echo "::notice::no data changes"; exit 0; fi
+          git commit -q -m "data: pipeline run $(date -u +%FT%TZ)"
+          out=$(git push origin HEAD:refs/heads/${GITHUB_REF_NAME} 2>&1) || { echo "::error::push failed: $(echo "$out" | tr '\n' ' ' | cut -c1-900)"; exit 1; }
+          echo "::notice::committed $(git rev-parse --short HEAD) to ${GITHUB_REF_NAME}"

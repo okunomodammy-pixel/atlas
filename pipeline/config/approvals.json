@@ -1,0 +1,1 @@
+{"_about": "To publish a held update, add  \"<indicator id>\": \"<hash from data/review/<id>.json>\"  and commit. The next run publishes it if the staged data still has that hash.", "approve": {}}
