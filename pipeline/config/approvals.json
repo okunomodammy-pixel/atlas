@@ -1,1 +1,12 @@
-{"_about": "To publish a held update, add  \"<indicator id>\": \"<hash from data/review/<id>.json>\"  and commit. The next run publishes it if the staged data still has that hash.", "approve": {}}
+{
+ "_about": "To publish a held update, add  \"<indicator id>\": \"<hash from data/review/<id>.json>\"  and commit. The next run publishes it if the staged data still has that hash.",
+ "approve": {
+  "cpi_avg": "45e2166545b206f1",
+  "gdp_growth": "43f31ddad289db7e",
+  "gdp_pc": "d42a31086be1fafd",
+  "gdp_pc_obs": "e1b9390c2a673695",
+  "gdp_usd": "00b4cb0660e5ff19",
+  "income_group": "8a39647d87cdb5d3"
+ },
+ "approved_by": "Damilola, in chat, 24 Oct 2026 11:12 WAT (\"Continue. Even with six indicators\")"
+}
