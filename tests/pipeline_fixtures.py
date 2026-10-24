@@ -11,6 +11,8 @@ ROUTES = [  # (url fragment, fixture) - first match wins
     ("datamapper/api/v1/NGDPD", "imf_dm_ngdpd_all"),
     ("datamapper/api/v1/NGDP_RPCH", "imf_dm_growth_nga"),
     ("datamapper/api/v1/PCPIPCH", "imf_dm_pcpipch_all"),
+    ("datamapper/api/v1/BCA_NGDPD", "imf_dm_bca_all"),
+    ("datamapper/api/v1/LUR", "imf_dm_lur_all"),
     ("v2/indicator/NY.GDP.PCAP.CD", "wb_indicator_meta"),
     ("v2/country/all/indicator/NY.GDP.PCAP.CD", "wb_all_gdppc_mrv"),
     ("v2/country?format=json", "wb_countries"),

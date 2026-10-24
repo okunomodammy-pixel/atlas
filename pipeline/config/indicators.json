@@ -144,6 +144,87 @@
    "movement_from": 2015
   },
   {
+   "id": "ca",
+   "source": "imf",
+   "code": "BCA_NGDPD",
+   "name": "Current account balance, percent of GDP",
+   "unit": "Percent of GDP",
+   "kind": "rate",
+   "status_area": "bop",
+   "bounds": [
+    -400,
+    400
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 3.0
+   },
+   "movement": {
+    "abs": 35.0
+   },
+   "movement_from": 2015,
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "crosscheck": {
+    "file": "data/extracted/imf.json",
+    "world_file": "data/extracted/imf_world.json",
+    "years": {
+     "2025": "ca25",
+     "2026": "ca26"
+    },
+    "tolerance": 0.051,
+    "about": "IMF WEO October 2026 statistical annex tables, read from the report"
+   },
+   "bounds_note": "Kuwait 1991 was -243% (Gulf War); Timor-Leste reached +315% in 2008 (oil fund)"
+  },
+  {
+   "id": "unemp",
+   "source": "imf",
+   "code": "LUR",
+   "name": "Unemployment rate",
+   "unit": "Percent",
+   "kind": "rate",
+   "status_area": "labour",
+   "status_note": "the WEO appendix gives no latest-actual year for labour data, so values before the projection years are labelled 'status not stated'",
+   "bounds": [
+    0,
+    80
+   ],
+   "zero_ok": true,
+   "revision": {
+    "abs": 2.0
+   },
+   "movement": {
+    "abs": 10.0
+   },
+   "movement_from": 2015,
+   "years": [
+    1980,
+    2031
+   ],
+   "atlas_years": [
+    2015,
+    2031
+   ],
+   "crosscheck": {
+    "file": "data/extracted/imf.json",
+    "world_file": "data/extracted/imf_world.json",
+    "years": {
+     "2025": "un25",
+     "2026": "un26"
+    },
+    "tolerance": 0.051,
+    "about": "IMF WEO October 2026 statistical annex tables, read from the report"
+   },
+   "zero_note": "some socialist economies reported zero unemployment in the 1980s"
+  },
+  {
    "id": "gdp_pc_obs",
    "source": "worldbank",
    "code": "NY.GDP.PCAP.CD",

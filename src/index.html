@@ -407,6 +407,9 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
 
 .spark { width: 72px; height: 18px; vertical-align: -3px; margin-left: 6px; overflow: visible; }
 .spark polyline { fill: none; stroke: var(--accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; } .spark circle { fill: var(--sel); }
+
+@media (max-width: 520px) { .legend { font-size: 11px; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 2px; max-width: 72%; }
+  .legend .lgt, .legend .lgn, .legend .lgd, .legend .lgk, .legend .lgb { grid-column: 1 / -1; } }
 </style>
 
 <div class="app" id="app">
@@ -3693,13 +3696,13 @@ function compareSheet(id, c) { const r = IND[id], cm = CMP[id], f = byKey.get(k3
   else { const set = setOf(id), nbKeys = f ? f.b.map(x => k3(x)).filter(Boolean) : [], nbs = new Set(set.filter(x => nbKeys.includes(x.k)).map(x => x.c));
     let peers = set.filter(x => f && x.sub === f.sub), regLabel = f ? f.sub : ""; if (peers.length < 4 && f) { peers = set.filter(x => x.cont === continentOf(f)); regLabel = continentOf(f); }
     const regMed = median(peers.map(x => x.v)), wSrc = ival(id, "WORLD"), wMed = median(set.map(x => x.v));
-    const sorted = set.slice().sort((a, b) => b.v - a.v), pos = sorted.findIndex(x => x.c === c) + 1;
+    const sorted = set.slice().sort((a, b) => b.v - a.v), pos = 1 + set.filter(x => x.v > v).length, tied = set.filter(x => x.v === v).length > 1;
     const near = v == null ? [] : set.filter(x => x.c !== c && !nbs.has(x.c)).sort((a, b) => Math.abs(a.v - v) - Math.abs(b.v - v)).slice(0, 3);
     const row = (lab, val, how, go) => `<tr${go ? ` class="click" data-cmpgo="${go}"` : ""}><td>${lab}${how ? `<br><span class="src">${how}</span>` : ""}</td><td class="n">${val == null ? "no data" : esc(r.f(val))}</td><td class="n">${val == null || v == null ? "" : esc(diffTxt(id, v, val))}</td></tr>`;
     const nbRows = (f ? f.b : []).map(x => k3(x)).filter(Boolean).map(k => ({k, c: byKey.get(k).c3, n: nameOf(k), v: ival(id, byKey.get(k).c3)}));
     main = `${set.length ? stripSVG(set, c, nbs, wSrc) : ""}
       <p class="src" style="margin-top:2px">${v == null ? `No value for ${esc(f ? f.n : c)}. ` : ""}Each dot is one of the ${set.length} countries with data${nbs.size ? "; larger dots are neighbours" : ""}.</p>
-      ${cm.rank && v != null ? `<p><b>${ord(pos)} highest</b> of ${set.length} countries with data, ${esc(r.period)}. ${esc(cm.dir)}${cm.cover ? " " + esc(cm.cover) : ""} <span class="src">A position can change when countries are added or the source revises its figures.</span></p>` : cm.why ? `<p class="note">${esc(cm.why)}</p>` : ""}
+      ${cm.rank && v != null ? `<p><b>${tied ? "Joint " : ""}${ord(pos)} highest</b> of ${set.length} countries with data, ${esc(r.period)}. ${esc(cm.dir)}${cm.cover ? " " + esc(cm.cover) : ""} <span class="src">A position can change when countries are added or the source revises its figures.</span></p>` : cm.why ? `<p class="note">${esc(cm.why)}</p>` : ""}
       <div class="tablewrap"><table class="t"><thead><tr><th>Compared with</th><th class="n">Value</th><th class="n">${esc(f ? f.n : "")} is</th></tr></thead><tbody>
       ${nbRows.map(x => row(esc(x.n), x.v, "neighbour", x.k)).join("")}
       ${regMed != null ? row(esc(regLabel), regMed, `median of ${peers.length} countries (calculated by the atlas)`) : ""}
@@ -3720,13 +3723,13 @@ const MPI_DISPLAY = s => s === "FCT" ? "FCT (Abuja)" : s;
 function stateSheet(s) { S.cmpId = "mpi_h"; S.cmpC = null; S.cmpState = s; const mp = NOW().mpi, r0 = mp[s], zone = zoneOf(s === "Nasarawa" ? "Nassarawa" : s === "FCT" ? "Federal Capital Territory" : s);
   const all = Object.entries(mp).map(([n, r]) => ({n, h: r.h, poor: r.poor, z: zoneOf(n === "Nasarawa" ? "Nassarawa" : n === "FCT" ? "Federal Capital Territory" : n)}));
   const zs = all.filter(x => x.z === zone), zPoor = zs.reduce((a, x) => a + x.poor, 0), zPop = zs.reduce((a, x) => a + x.poor / (x.h / 100), 0), zH = zPoor / zPop * 100;
-  const sorted = all.slice().sort((a, b) => b.h - a.h), pos = sorted.findIndex(x => x.n === s) + 1, nat = ival("mpi_nat", "NGA");
+  const sorted = all.slice().sort((a, b) => b.h - a.h), pos = 1 + all.filter(x => x.h > r0.h).length, tied = all.filter(x => x.h === r0.h).length > 1, nat = ival("mpi_nat", "NGA");
   const pp = (a, b) => { const d = a - b; return Math.abs(d) < .05 ? "about the same" : `${Math.abs(d).toFixed(1)} points ${d > 0 ? "higher" : "lower"}`; };
   const set = all.map(x => ({c: x.n, v: x.h}));
   $("#overlay").innerHTML = `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">${esc(MPI_DISPLAY(s))} · ${esc(zone)} zone</div><h2 id="cmpT">${esc(IND.mpi_h.name)}</h2>${kindTag("mpi_h")}
     <p class="big">${esc(IND.mpi_h.f(r0.h))}</p><p class="src" style="margin-top:-6px">${esc(IND.mpi_poor.f(r0.poor))} people</p>
     ${stripSVG(set, s, new Set(zs.map(x => x.n)), nat, "Nigeria")}
-    <p><b>${ord(pos)} highest</b> of 37 (36 states and the FCT), 2021/22. Higher means a larger share of people deprived in several basics at once.${s === "Borno" ? " Borno's figure is less certain: the survey could not cover the whole state." : " Borno's figure is less certain than the others."}</p>
+    <p><b>${tied ? "Joint " : ""}${ord(pos)} highest</b> of 37 (36 states and the FCT), 2021/22. Higher means a larger share of people deprived in several basics at once.${s === "Borno" ? " Borno's figure is less certain: the survey could not cover the whole state." : " Borno's figure is less certain than the others."}</p>
     <div class="tablewrap"><table class="t"><thead><tr><th>Compared with</th><th class="n">Share poor</th><th class="n">${esc(MPI_DISPLAY(s))} is</th></tr></thead><tbody>
       ${(zp => `<tr><td>${esc(zone)} zone<br><span class="src">${zp ? "as published by the NBS" : "poor people ÷ people in the zone's states (calculated by the atlas from the survey's state figures)"}</span></td><td class="n">${(zp ? zp.h : zH).toFixed(1)}%</td><td class="n">${pp(r0.h, zp ? zp.h : zH)}</td></tr>`)(MPIS() && MPIS().zones[zone])}
       <tr><td>Nigeria<br><span class="src">as published by the NBS</span></td><td class="n">${nat}%</td><td class="n">${pp(r0.h, nat)}</td></tr>
@@ -3796,7 +3799,7 @@ const PL_NEW = {
     extra: c => { const i = plV("gdp_pc", c, 2025); return i != null ? "IMF figure for the same year: " + fmtUSD(i) : ""; }}
 };
 Object.assign(IND, PL_NEW);
-const PL_MAP = {gdp_growth_25: ["gdp_growth", 2025], gdp_growth_26: ["gdp_growth", 2026], cpi_avg_25: ["cpi_avg", 2025], cpi_avg_26: ["cpi_avg", 2026]};
+const PL_MAP = {gdp_growth_25: ["gdp_growth", 2025], gdp_growth_26: ["gdp_growth", 2026], cpi_avg_25: ["cpi_avg", 2025], cpi_avg_26: ["cpi_avg", 2026], ca_26: ["ca", 2026], unemp_26: ["unemp", 2026]};
 const INCOME_LABEL = {LIC: "Low income", LMC: "Lower middle income", UMC: "Upper middle income", HIC: "High income"};
 let PL_ON = false;
 function plApply() {
@@ -4129,6 +4132,18 @@ econHTML = function (f) { let h = econHTMLBase(f); if (f.c3 !== "NGA") return h;
   if (sp) h = h.replace(/(<dt>Inflation, latest month \(year on year\)[\s\S]*?<dd>[\s\S]*?)(<br><span class="src">)/, `$1${sp}$2`);
   after("Inflation, latest month", rows(["ng_cpi_core", "ng_cpi_food"])); after("Economic growth, 2026", rows(["ng_gdp_q"]));
   return h + ngEverydayHTML(); };
+
+
+/* ---- small fixes: a way back from "About this figure" to the comparison it was opened from ---- */
+const compareSheetLB = compareSheet; compareSheet = function (id, c) { compareSheetLB(id, c); S.lastSheet = () => compareSheet(id, c); };
+const stateSheetLB = stateSheet; stateSheet = function (st) { stateSheetLB(st); S.lastSheet = () => stateSheet(st); };
+const compareStatesLB = compareStates; compareStates = function (a, b) { compareStatesLB(a, b); S.lastSheet = () => compareStates(a, b); };
+const indSheetLB = indSheet;
+indSheet = function (id) { const from = !$("#overlay").hidden && $("#overlay .dialog.cmp") && S.lastSheet ? S.lastSheet : null;
+  indSheetLB(id); if (!from) return;
+  const row = $("#overlay .dialog .btnrow"); if (!row) return;
+  row.insertAdjacentHTML("afterbegin", `<button class="btn" data-sheetback><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to the comparison</button>`);
+  row.querySelector("[data-sheetback]").addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); from(); }); };
 
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
