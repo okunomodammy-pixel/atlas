@@ -54,17 +54,17 @@ with sync_playwright() as pw:
     t = p.inner_text("#panel")
     check("Nigeria profile shows each new figure the data has for it", want and all(x in t for x in want), str(want))
     tags = p.evaluate("[...panel.querySelectorAll('.kt')].map(e=>e.textContent)")
-    exp_tags = p.evaluate("['gdp_usd_25','gdp_growth_26','gdp_pc_wb_25'].filter(id=>ival(id,'NGA')!=null).map(id=>KIND[IND[id].st('NGA')]+' · '+IND[id].period)")
+    exp_tags = p.evaluate("['gdp_usd_25','gdp_growth_26','gdp_pc_wb_25'].filter(id=>ival(id,'NGA')!=null).map(id=>KIND[IND[id].st('NGA')]+', '+IND[id].period)")
     check("Nigeria profile: each figure's tag shows its own status and period", all(x in tags for x in exp_tags), f"{exp_tags} vs {tags[:12]}")
     if est:
         p.evaluate(f"compareSheet('gdp_pc_25','{est[0]}')"); p.wait_for_timeout(250); s = sheet(p)
         check("an estimated country's comparison is tagged Estimate and says how many in the set are estimates",
-              "Estimate · " in s and "IMF staff estimates" in s, s[:200])
+              "Estimate, " in s and "IMF staff estimates" in s, s[:200])
         check("trend line: dotted for estimates", p.evaluate("document.querySelectorAll('#overlay svg.trend line.tm.es').length") > 0)
     p.evaluate("closeOverlay(); compareSheet('gdp_pc_wb_25','NGA')"); p.wait_for_timeout(250); s = sheet(p)
     n_wb = p.evaluate("setOf('gdp_pc_wb_25').length")
     check("World Bank figure: ranked on its own series, no mixing with IMF values",
-          f"of {n_wb} countries" in s and "Reported · " in s and n_wb == sum(1 for c in I["gdp_pc_obs"]["v"] if py("gdp_pc_obs", c, 2025) and p.evaluate(f"ival('gdp_pc_wb_25','{c}')!=null && setOf('gdp_pc_wb_25').some(x=>x.c==='{c}')")), s[:200])
+          f"of {n_wb} countries" in s and "Reported, " in s and n_wb == sum(1 for c in I["gdp_pc_obs"]["v"] if py("gdp_pc_obs", c, 2025) and p.evaluate(f"ival('gdp_pc_wb_25','{c}')!=null && setOf('gdp_pc_wb_25').some(x=>x.c==='{c}')")), s[:200])
     p.evaluate("closeOverlay(); indSheet('gdp_usd_25')"); p.wait_for_timeout(200); s = sheet(p)
     conf = p.evaluate(f"dayLabel('{I['gdp_usd']['confirmed_current']}')")
     check("About this figure: edition and last-confirmed date from the data", I["gdp_usd"]["edition_label"] in s and f"Last confirmed current: {conf}" in s)

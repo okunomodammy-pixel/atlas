@@ -30,7 +30,7 @@
   --r-n: #9F7A30; --r-w: #985330; --r-m: #557F4B; --r-e: #456F92; --r-s: #75598A; color-scheme: dark }
 html, body { height: 100%; }
 body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
-button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .main { display: grid; grid-template-columns: minmax(0, 1fr) 400px; min-height: 0; }
 .mapwrap { position: relative; min-width: 0; min-height: 0; background: var(--sea); overflow: hidden; }
 svg#map { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
@@ -40,6 +40,8 @@ svg#map.picking { cursor: crosshair; }
 .country:hover { fill: color-mix(in srgb, var(--land) 70%, var(--sel)); }
 .country.nb { fill: var(--nb); }
 .country.sel { fill: var(--sel); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .country.sel { fill: color-mix(in srgb, var(--sel) 70%, var(--land)); } }
+:root[data-theme="dark"] .country.sel { fill: color-mix(in srgb, var(--sel) 70%, var(--land)); }
 .country.dim { opacity: .45; }
 .country.hit { fill: var(--hit); } .country.miss { fill: var(--miss); } .country.pick { fill: var(--accent); }
 .grat { fill: none; stroke: var(--grid); stroke-width: .5; vector-effect: non-scaling-stroke; }
@@ -75,7 +77,7 @@ svg#map.picking { cursor: crosshair; }
 .peek .ps { display: block; color: var(--muted); font-size: 12.5px; margin: 0; }
 .peek .pfacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0 8px; }
 .peek .pfacts span { background: var(--tag); border-radius: 9px; padding: 6px 8px; font-weight: 600; font-size: 13.5px; min-width: 0; overflow-wrap: anywhere; }
-.peek .pfacts small { display: block; font: 500 10px var(--sans); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.peek .pfacts small { display: block; font: 400 11.5px var(--sans); color: var(--muted); }
 .peek .pg { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; }
 .peek .pg i { font: 500 11.5px var(--sans); font-style: normal; border: 1px solid var(--line); border-radius: 99px; padding: 2px 8px; color: var(--muted); }
 .peek .pb { display: flex; gap: 6px; } .peek .pb .btn { min-height: 36px; padding: 6px 12px; }
@@ -139,17 +141,18 @@ svg#map.picking { cursor: crosshair; }
 .kt-survey { background: color-mix(in srgb, var(--sel) 18%, var(--panel)); } .kt-index { background: color-mix(in srgb, var(--accent) 14%, var(--panel)); }
 .fr { display: inline-block; font: 600 11px var(--sans); border-radius: 99px; padding: 1px 8px; margin-top: 4px; background: var(--tag); color: var(--muted); }
 .fr-ok { background: color-mix(in srgb, var(--hit) 18%, var(--panel)); color: var(--hit); } .fr-due, .fr-old { background: color-mix(in srgb, var(--sel) 25%, var(--panel)); color: var(--ink); }
-@media (max-width: 860px) { .legend .lgd { display: none; } }
+@media (max-width: 860px) { .legend .lgd { display: none; } .legend.open .lgd, .legend.open .lgn { display: block !important; } }
+@media (min-width: 861px) { .legend .lgmore { display: none; } }
 .legend .lgn { color: var(--muted); font-size: 11.5px; line-height: 1.35; margin-top: 4px; }
 .legend .lgx { margin-top: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 4px 10px; font: 500 12px var(--sans); cursor: pointer; justify-self: start; }
 .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
 .banner { position: absolute; left: 50%; transform: translateX(-50%); top: 62px; background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; text-align: center; max-width: calc(100% - 40px); box-shadow: 0 4px 14px rgb(0 0 0 / .2); }
 .panel h2 { font-family: var(--serif); font-weight: 600; font-size: 24px; line-height: 1.2; margin: 0 0 4px; text-wrap: balance; }
 .panel h3 { font-family: var(--serif); font-weight: 600; font-size: 17px; margin: 22px 0 6px; text-wrap: balance; }
-.panel h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 18px 0 6px; font-weight: 600; }
+.panel h4, .dialog h4 { font: 600 15px/1.35 var(--sans); color: var(--ink); margin: 20px 0 6px; }
 .panel p { margin: 0 0 10px; max-width: 65ch; }
 .panel ul { margin: 0 0 10px; padding-left: 18px; } .panel li { margin-bottom: 4px; }
-.eyebrow { font: 500 11.5px var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: 4px; }
+.eyebrow { font: 600 13px/1.4 var(--sans); color: var(--accent); margin-bottom: 2px; }
 .sub { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 5px 14px; font-size: 14px; margin: 10px 0; }
 .facts dt { color: var(--muted); } .facts dd { margin: 0; font-variant-numeric: tabular-nums; min-width: 0; }
@@ -161,7 +164,7 @@ svg#map.picking { cursor: crosshair; }
 .status { display: inline-block; font: 500 12px var(--sans); padding: 2px 8px; border-radius: 4px; background: var(--tag); margin: 4px 6px 4px 0; }
 .status.warn { background: color-mix(in srgb, var(--sel) 25%, var(--panel)); }
 .note { font-size: 13.5px; background: var(--tag); border-radius: 8px; padding: 9px 11px; margin: 10px 0; }
-.kind { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 1px 5px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; border: 1px solid var(--line); color: var(--muted); }
+.kind { font: 600 11.5px var(--sans); padding: 1px 5px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; border: 1px solid var(--line); color: var(--muted); }
 .mm { border-left: 3px solid var(--sel); padding: 2px 0 2px 12px; margin: 14px 0; }
 .btnrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
 .btn { font: 500 13.5px var(--sans); background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 11px; cursor: pointer; }
@@ -219,14 +222,14 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .actions { grid-area: act; gap: 4px; padding-right: max(12px, env(safe-area-inset-right, 0px)); padding-left: 8px; }
 .iconbtn { width: 38px; height: 38px; display: grid; place-items: center; border: 0; background: none; color: var(--muted); border-radius: 10px; cursor: pointer; }
 .iconbtn:hover { background: var(--tag); color: var(--ink); }
-.main { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr) 420px; min-height: 0; }
+.main { grid-area: main; display: grid; grid-template-columns: minmax(0, 1fr) clamp(400px, 32vw, 500px); min-height: 0; }
 .side { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--panel); border-left: 1px solid var(--line); position: relative; }
 .panel { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding: 20px max(20px, env(safe-area-inset-right, 0px)) 48px 20px; outline: none; }
 .grip { display: none; }
 .panel { position: relative; }
 .toc { position: relative; border-bottom: 1px solid var(--line); background: var(--panel); z-index: 2; }
 .tocbtn { width: 100%; display: flex; align-items: center; gap: 8px; border: 0; background: none; color: var(--ink); padding: 8px 14px; cursor: pointer; text-align: left; min-height: 38px; }
-.tocbtn .tl { font: 500 10.5px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
+.tocbtn .tl { font: 400 12px var(--sans); color: var(--muted); white-space: nowrap; }
 .tocbtn b { flex: 1; min-width: 0; font: 600 13.5px var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tocbtn svg { width: 18px; height: 18px; fill: none; stroke: var(--muted); stroke-width: 2; flex: none; transition: transform .2s; }
 .tocbtn[aria-expanded="true"] svg { transform: rotate(180deg); }
@@ -238,7 +241,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .crumb { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--accent) 6%, var(--panel)); }
 .crumb .cl { flex: 1; min-width: 0; font-size: 13px; line-height: 1.25; }
 .crumb .cl b { display: block; font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.crumb .cl span { color: var(--muted); font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.crumb .cl span { color: var(--muted); font: 400 12px var(--sans); }
 .crumb .dots { display: flex; gap: 3px; margin-top: 4px; }
 .crumb .dots i { width: 14px; height: 4px; border-radius: 2px; background: var(--line); }
 .crumb .dots i.done { background: color-mix(in srgb, var(--accent) 45%, var(--line)); } .crumb .dots i.cur { background: var(--accent); }
@@ -257,7 +260,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .mapopt { height: 44px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border: 0; border-radius: 12px; background: var(--panel); color: var(--ink); font: 500 14px var(--sans); box-shadow: var(--shadow); cursor: pointer; flex: none; }
 .mapopt[aria-expanded="true"] { background: var(--accent); color: var(--accent-ink); }
 .layers { top: 64px; right: 12px; width: 250px; border: 0; border-radius: 14px; padding: 12px 14px 14px; box-shadow: var(--shadow-lg); gap: 4px; max-height: calc(100% - 80px); overflow-y: auto; }
-.layers .lh { font: 600 11px var(--sans); text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 6px 0 2px; }
+.layers .lh { font: 600 13px var(--sans); color: var(--ink); margin: 6px 0 2px; }
 .layers select { font: 14px var(--sans); padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); margin-bottom: 4px; }
 .layers label { min-height: 34px; }
 .layers input[type=checkbox] { width: 18px; height: 18px; flex: none; accent-color: var(--accent); }
@@ -279,7 +282,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .opts button { min-height: 46px; border-radius: 10px; }
 .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0 6px; }
 .tile { background: var(--tag); border-radius: 12px; padding: 10px 12px; min-width: 0; }
-.tile small { display: block; font: 500 11px var(--sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.tile small { display: block; font: 400 12.5px var(--sans); color: var(--muted); }
 .tile b { display: block; font: 600 17px var(--sans); font-variant-numeric: tabular-nums; margin-top: 2px; overflow-wrap: anywhere; line-height: 1.25; }
 .tile em { font-style: normal; font-size: 12px; color: var(--muted); }
 .card { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 12px 0; background: var(--panel); }
@@ -381,7 +384,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .lede { font-size: 15.5px; }
 button.lnk { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; text-align: left; }
 .deps { margin: 8px 0 0; }
-.dimh { font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+.dimh { font: 600 13px var(--sans); color: var(--ink); margin: 10px 0 2px; }
 .dep { display: grid; grid-template-columns: minmax(7.5em, 34%) 1fr 3.2em; gap: 8px; align-items: center; font-size: 13px; min-height: 26px; }
 .dep .n { text-align: right; font-variant-numeric: tabular-nums; }
 .dep .tr { position: relative; height: 10px; background: var(--tag); border-radius: 3px; }
@@ -394,9 +397,10 @@ button.lnk { background: none; border: 0; padding: 0; font: inherit; color: var(
 .pick select, #ngmetric { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); max-width: 100%; }
 .vsglance { font-size: 15px; line-height: 1.5; margin: 4px 0 10px; }
 .vs h2 .vsand { font-size: .6em; font-weight: 400; color: var(--muted); }
+.dialog.vs { width: min(640px, 100%); }
 .vs .pick { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 8px; }
 .vs .pick label { flex-direction: column; align-items: stretch; gap: 3px; min-width: 0; } .vs .pick select { width: 100%; }
-.vst h4.vsg { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin: 16px 0 2px; }
+.vst h4.vsg { margin: 18px 0 2px; }
 .vsr { padding: 8px 0 6px; border-bottom: 1px solid var(--line); }
 .vsn { font-size: 14px; line-height: 1.35; } .vsn .src { font-size: 12px; }
 .vsv { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 3px; font-variant-numeric: tabular-nums; font-size: 14px; line-height: 1.3; }
@@ -413,7 +417,7 @@ button.lnk { background: none; border: 0; padding: 0; font: inherit; color: var(
 #ngmetric { font-weight: 600; width: 100%; }
 .ngbubble { fill: var(--sel); fill-opacity: .6; stroke: var(--panel); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
 
-.tiles3 { grid-template-columns: repeat(3, 1fr); } @media (max-width: 520px) { .tiles3 { grid-template-columns: 1fr 1fr; } }
+.tiles3 { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 button.tile.tb { text-align: left; border: 1px solid transparent; cursor: pointer; font: inherit; color: inherit; }
 button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent); }
 .zsw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
@@ -779,7 +783,7 @@ function resetView() { if (S.proj === "globe") { S.k = 1; projection.scale(baseS
 function setPins(list) { G.pins.selectAll("circle").data(list).join("circle").attr("class", "pin"); if (G.pinlab) { const lab = list.filter(d => d.t); G.pinlab.selectAll("text").data(lab).join("text").attr("dx", ".7em").text(d => d.t); G.countrylabels.style("opacity", lab.length > 3 ? .35 : null); } render(); }
 function setRoutes(list) { G.routes.selectAll("path").data(list).join("path").attr("class", d => "route" + (d.thin ? " thin" : "")); render(); }
 function banner(text) { const b = $("#banner"); if (text) { b.textContent = text; b.hidden = false; } else b.hidden = true; }
-function legend(items) { const l = $("#legend"); if (!items) { l.hidden = true; return; } l.innerHTML = items.map(([c, t]) => `<div><i style="background:var(${c})"></i>${esc(t)}</div>`).join(""); l.hidden = false; }
+function legend(items) { const l = $("#legend"); l.classList.remove("open"); if (!items) { l.hidden = true; return; } l.innerHTML = items.map(([c, t]) => `<div><i style="background:var(${c})"></i>${esc(t)}</div>`).join(""); l.hidden = false; }
 
 /* ---------- names, search ---------- */
 function nameOf(k) { const f = byKey.get(k); if (f) return f.n; const ft = featByKey.get(k); return ft && ft.properties ? ft.properties.name : k; }
@@ -843,7 +847,7 @@ function countryPanel(k) {
   const memo = nbs.length ? `Find ${f.sub || cont} first. Then look for the country with ${nbs.slice(0, 3).map(n => `${n.n} to its ${COMPASS_W[n.d]}`).join(", ")}.` : `Find ${f.sub || cont}, then look for an island or island group near ${c[1] >= 0 ? latStr(c[1]) : latStr(c[1])}, ${lonStr(c[0])}.`;
   const seen = saved.seen.length;
   const vsNg = f.c3 === "NGA" ? "the reference size" : ratio >= 1 ? (ratio >= 10 ? Math.round(ratio) : ratio.toFixed(1)) + "× Nigeria" : (1 / ratio >= 100 ? fmt(1 / ratio) : (1 / ratio).toFixed(1)) + "× smaller than Nigeria";
-  return `${backLink()}<div class="eyebrow">${esc(cont || "")}${f.sub ? " · " + esc(f.sub) : ""}</div>
+  return `${backLink()}<div class="eyebrow">${esc(f.sub || cont || "")}</div>
   <h2>${esc(f.flag)} ${esc(f.n)}</h2><div class="sub">${esc(f.o)}</div>${status}${statusNote}
   <div class="tiles">
     <div class="tile"><small>Capital</small><b>${esc((f.cap || []).join(", ") || "—")}</b></div>
@@ -1159,7 +1163,7 @@ ACT.ngrivers = () => { G.states.selectAll("path.state").style("opacity", .35);
 /* ---------- practice ---------- */
 function quizHome() {
   resetView();
-  setPanel(`<div class="eyebrow">Practise</div><h2>Test your mental map</h2>
+  setPanel(`<h2>Test your mental map</h2>
   ${reviewCard()}
   <p>Quizzes strengthen memory once you have explored. Pick one:</p>
   <div class="opts">
@@ -1181,7 +1185,7 @@ ACT.qloc = el => {
   $("#L-labels").checked = false; applyLayers();
   const ask = () => { G.countries.selectAll("path").classed("hit miss pick", false); locked = false;
     banner(`Tap: ${nameOf(qs[i])}`);
-    setPanel(`<div class="eyebrow">Find it · ${scope}</div><div class="progress"><i style="width:${i * 10}%"></i></div><p class="q">Where is <b>${esc(nameOf(qs[i]))}</b>?</p><p>Tap it on the map. Country names are hidden.</p><p class="score">${score} / ${i}</p><p><button class="btn" data-act="qstop">Stop</button></p>`); };
+    setPanel(`<div class="eyebrow">Find it in ${scope === "Africa" ? "Africa" : "the world"}</div><div class="progress"><i style="width:${i * 10}%"></i></div><p class="q">Where is <b>${esc(nameOf(qs[i]))}</b>?</p><p>Tap it on the map. Country names are hidden.</p><p class="score">${score} / ${i}</p><p><button class="btn" data-act="qstop">Stop</button></p>`); };
   S.quiz = { onClick(k) { if (locked) return; locked = true; const ok = k === qs[i]; if (ok) score++;
       G.countries.selectAll("path").classed("hit", d => d.key === qs[i]).classed("miss", d => !ok && d.key === k);
       banner(ok ? `Correct: ${nameOf(qs[i])}` : `That was ${nameOf(k)}. ${nameOf(qs[i])} is shown in green.`);
@@ -1463,7 +1467,7 @@ ACT.bloc2 = el => { const [list, txt] = BLOCS[el.dataset.b]; highlight(list, {ma
 /* ---------- Tools: distance and true size ---------- */
 function toolsMode() {
   resetView();
-  setPanel(`<div class="eyebrow">Tools</div><h2>Measure and compare</h2>
+  setPanel(`<h2>Measure and compare</h2>
   <h3>Distance between two places</h3>
   <p>Tap two points on the map. The atlas draws the shortest route over the globe and measures it.</p>
   <div class="btnrow"><button class="btn primary" data-act="distStart">Start measuring</button></div>
@@ -1539,7 +1543,7 @@ function mcGame(id, scope) {
   const g = GAMES[id], N = 10; let i = 0, score = 0, streak = 0, best = 0;
   if (scope === "Africa") flyToKeys(Object.keys(D.facts).filter(k => D.facts[k].reg === "Africa" && D.facts[k].un), {pad: .95, maxk: 4}); else resetView();
   const ask = () => { const r = g.gen(scope); S.sel = null; paint(); setPins([]);
-    setPanel(`<div class="eyebrow">${esc(g.name)} · ${scope}</div><div class="progress"><i style="width:${i / N * 100}%"></i></div>
+    setPanel(`<div class="eyebrow">${esc(g.name)}, ${scope === "Africa" ? "Africa" : "the world"}</div><div class="progress"><i style="width:${i / N * 100}%"></i></div>
       <div class="q">${r.q}</div><div class="opts">${r.opts.map((o, j) => `<button data-j="${j}">${esc(o)}</button>`).join("")}</div><div id="why"></div>
       <p class="src">Score ${score} / ${i}${streak > 1 ? ` · streak ${streak}` : ""}</p>`);
     panel.querySelectorAll(".opts button").forEach(b => b.onclick = () => { if (panel.querySelector(".opts .right")) return;
@@ -1550,7 +1554,7 @@ function mcGame(id, scope) {
       $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${!ok && r.wrong && r.wrong[+b.dataset.j] ? esc(r.wrong[+b.dataset.j]) + ". " : ""}${esc(r.why)}</p><button class="btn primary" id="next">${i + 1 < N ? "Next" : "See score"}</button>`;
       $("#next").onclick = () => { i++; if (i < N) ask(); else done(); }; }); };
   const done = () => { const key = id + ":" + scope; saved.best[key] = Math.max(saved.best[key] || 0, score); store.set(saved); S.sel = null; paint(); setPins([]);
-    setPanel(`<div class="eyebrow">${esc(g.name)} · result</div><p class="score">${score} / ${N}</p><p>Longest streak: ${best}. Best ever: ${saved.best[key]} / ${N}.</p>
+    setPanel(`<div class="eyebrow">${esc(g.name)}: your score</div><p class="score">${score} / ${N}</p><p>Longest streak: ${best}. Best ever: ${saved.best[key]} / ${N}.</p>
       <div class="btnrow"><button class="btn primary" data-act="game" data-g="${id}" data-scope="${scope}">Play again</button><button class="btn" data-mode-go="quiz">All games</button></div>`); };
   ask(); }
 ACT.game = el => mcGame(el.dataset.g, el.dataset.scope);
@@ -2737,7 +2741,7 @@ function storyStop(i, quiet) {
   if (s.fly === "world") resetView();
   else if (s.fly === "keys") flyToKeys(s.keys.map(k3).filter(Boolean), {pad: .9, maxk: 4});
   else if (pts.length) flyTo({type: "MultiPoint", coordinates: pts}, {pad: .75, maxk: 6});
-  $("#storyinfo").innerHTML = `<div class="eyebrow">Stop ${i + 1} of ${STORY.length} · ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
+  $("#storyinfo").innerHTML = `<div class="eyebrow">Stop ${i + 1} of ${STORY.length}: ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
     <div class="btnrow"><button class="btn" data-act="story" data-i="${i - 1}" ${i ? "" : "disabled"}><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button>${i + 1 < STORY.length ? `<button class="btn primary" data-act="story" data-i="${i + 1}">Next: ${esc(STORY[i + 1].t)}</button>` : `<button class="btn primary" data-act="africaDebate">Debate: why did Africa's story unfold this way?</button>`}</div>`;
   if ($("#suezcut")) { const cape = STORY[STORY.length - 1].routes[0].geo.coordinates, suez = STORY[STORY.length - 1].routes[1].geo.coordinates;
     $("#suezcut").textContent = `on the routes drawn here, from about ${fmt(Math.round(routeKm(cape) / 100) * 100)} km around Africa to about ${fmt(Math.round(routeKm(suez) / 100) * 100)} km through Suez.`; }
@@ -3004,7 +3008,7 @@ function ngStop(i, quiet) {
   const s = NGSTORY[i]; clearMap(); G.states.selectAll("*").remove(); G.stateslabels.selectAll("*").remove(); $("#L-labels").checked = true; applyLayers();
   if (s.map) ngMap(s.map); else flyTo(featByKey.get("566"), {pad: .92, maxk: 14});
   setPins(s.pins || []);
-  $("#ngstoryinfo").innerHTML = `<div class="eyebrow">Part ${i + 1} of ${NGSTORY.length} · ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
+  $("#ngstoryinfo").innerHTML = `<div class="eyebrow">Part ${i + 1} of ${NGSTORY.length}: ${esc(s.when)}</div><h3 style="margin-top:2px">${esc(s.t)}</h3>${s.body}
     ${s.map ? `<p class="src" id="ngmapcap"></p>` : ""}
     <div class="btnrow"><button class="btn" data-act="ngstop" data-i="${i - 1}" ${i ? "" : "disabled"}><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button>${i + 1 < NGSTORY.length ? `<button class="btn primary" data-act="ngstop" data-i="${i + 1}">Next: ${esc(NGSTORY[i + 1].t)}</button>` : `<button class="btn primary" data-act="ngdebate">The national question: four views</button>`}</div>`;
   if (s.map) ngMap(s.map);
@@ -3405,10 +3409,11 @@ function setTheme(v) { if (S.theme === "ngpov") { G.states.selectAll("*").remove
   if (!v) { S.color = null; G.countries.selectAll("path").classed("dim", false); paint(); legend(null); return; }
   const th = THEME_INFO[v](); S.sel = null; colorGroups(th.groups, {fly: false, dim: th.dim === false ? false : true});
   const r = th.id && IND[th.id];
-  const l = $("#legend"); l.innerHTML = `<div class="lgt">${esc(th.t)}</div>${r ? `<div class="lgk">${kindTag(th.id)}</div><div class="lgd">${esc(r.def)}</div>` : ""}
+  const l = $("#legend"); l.classList.remove("open"); l.innerHTML = `<div class="lgt">${esc(th.t)}</div>${r ? `<div class="lgk">${kindTag(th.id)}</div><div class="lgd">${esc(r.def)}</div>` : ""}
     ${th.items.map(([c, t]) => `<div><i style="background:var(${c})"></i>${esc(t)}</div>`).join("")}${th.none ? `<div><i class="nd"></i>No data (${th.none})</div>` : ""}
     ${th.note ? `<div class="lgn">${esc(th.note)}</div>` : ""}<div class="lgb">${r ? `<button class="lgx" data-ind="${th.id}">About this data</button>` : ""}<button class="lgx" data-theme-off>Turn off</button></div>`; l.hidden = false;
-  if (window.innerWidth <= 860 && th.note) toast(th.note, 7000); }
+  if (th.note || r) { const lb = l.querySelector(".lgb"); lb.insertAdjacentHTML("afterbegin", `<button class="lgx lgmore" aria-expanded="false">What it shows</button>`);
+    lb.querySelector(".lgmore").addEventListener("click", e => { e.stopPropagation(); const o = l.classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); e.currentTarget.textContent = o ? "Less" : "What it shows"; }); } }
 $("#themesel").addEventListener("change", e => { setTheme(e.target.value); toggleLayers(false); });
 $("#legend").addEventListener("click", e => { if (e.target.closest("[data-theme-off]")) setTheme(null); });
 ACT.themes = () => { toggleLayers(true); $("#themesel").focus(); };
@@ -3534,7 +3539,7 @@ function freshness(key) { const s = SOURCES[key]; if (!s) return {k: "", t: ""};
   if (!s.next) return {k: "fixed", t: "No fixed update schedule"};
   const [y, m] = s.next.split("-").map(Number), due = new Date(y, (m || 1) - 1, 1);
   return new Date() >= due ? {k: "due", t: "A newer edition may be out"} : {k: "ok", t: `Current; next edition expected ${ymLabel(s.next)}`}; }
-const kindTag = (id, c) => { const r = IND[id], k = (c && r.st && r.st(c)) || r.kind; return `<span class="kt kt-${k}">${KIND[k] || k}${r.period ? " · " + esc(r.period) : ""}</span>`; };
+const kindTag = (id, c) => { const r = IND[id], k = (c && r.st && r.st(c)) || r.kind; return `<span class="kt kt-${k}">${KIND[k] || k}${r.period ? ", " + esc(r.period) : ""}</span>`; };
 /* one row on a country page */
 function drow(id, c, opts = {}) { const r = IND[id], v = ival(id, c); if (v == null && !opts.showMissing) return "";
   const ex = r.extra ? r.extra(c) : "";
@@ -3744,7 +3749,7 @@ function stateSheet(s) { S.cmpId = "mpi_h"; S.cmpC = null; S.cmpState = s; const
   const sorted = all.slice().sort((a, b) => b.h - a.h), pos = 1 + all.filter(x => x.h > r0.h).length, tied = all.filter(x => x.h === r0.h).length > 1, nat = ival("mpi_nat", "NGA");
   const pp = (a, b) => { const d = a - b; return Math.abs(d) < .05 ? "about the same" : `${Math.abs(d).toFixed(1)} points ${d > 0 ? "higher" : "lower"}`; };
   const set = all.map(x => ({c: x.n, v: x.h}));
-  $("#overlay").innerHTML = `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">${esc(MPI_DISPLAY(s))} · ${esc(zone)} zone</div><h2 id="cmpT">${esc(IND.mpi_h.name)}</h2>${kindTag("mpi_h")}
+  $("#overlay").innerHTML = `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">${esc(MPI_DISPLAY(s))}, ${esc(zone)} zone</div><h2 id="cmpT">${esc(IND.mpi_h.name)}</h2>${kindTag("mpi_h")}
     <p class="big">${esc(IND.mpi_h.f(r0.h))}</p><p class="src" style="margin-top:-6px">${esc(IND.mpi_poor.f(r0.poor))} people</p>
     ${stripSVG(set, s, new Set(zs.map(x => x.n)), nat, "Nigeria")}
     <p><b>${tied ? "Joint " : ""}${ord(pos)} highest</b> of 37 (36 states and the FCT), 2021/22. Higher means a larger share of people deprived in several basics at once.${s === "Borno" ? " Borno's figure is less certain: the survey could not cover the whole state." : " Borno's figure is less certain than the others."}</p>
@@ -3960,7 +3965,7 @@ function stateProfileHTML(k) {
   const sharePoor = d ? r.poor / N.poor_m * 100 : null, popShare = d ? d.pop_share : null;
   const outCount = d && d.school ? d.school.children_m * d.school.out_of_school_pct / 100 : null;
   const line = s => `<li><b>${esc(s.i.name)}.</b> ${pctS(s.v)} of people are poor and ${esc(DEP_PHRASE[s.i.key])}, against ${pctS(s.n)} nationally.</li>`;
-  return `${backLink()}<div class="eyebrow">Nigeria · ${esc(z)} zone</div><h2>${esc(stTitle(k))}</h2>
+  return `${backLink()}<div class="eyebrow">${esc(z)} zone, Nigeria</div><h2>${esc(stTitle(k))}</h2>
   <p class="lede">${k === "FCT" ? `Not a state: the Federal Capital Territory is run by the federal government through a minister, and is divided into six area councils rather than local government areas. Abuja has been Nigeria's capital since 1991.` : `Capital: <b>${esc(ST_CAP[k] || "")}</b>.`} Covering about ${fmt(round2(area))} km², it is ${sizeTxt}${k === "FCT" ? " states and territories" : ""}.${cs.length ? ` Other places on this map: ${cs.slice(0, 4).map(c => esc(c.n)).join(", ")}.` : ""}</p>
   ${d ? `<div class="tiles">
     <div class="tile"><small>Multidimensionally poor</small><b>${pctS(r.h)}</b><em>${pctS(d.h_ci[0])}–${pctS(d.h_ci[1])} with sampling error · Nigeria ${pctS(N.h)}</em></div>
@@ -4006,7 +4011,7 @@ function compareStatesHTML(a, b) { const mp = NOW().mpi, m = MPIS(), A = m.state
     return `<tr><td>${ind ? `<button class="lnk" data-ind="${ind}">${esc(lab)}</button>` : esc(lab)}</td><td class="n">${unit === "%" ? pctS(va) : va}</td><td class="n">${unit === "%" ? pctS(vb) : vb}</td><td class="n">${unit === "%" ? (Math.abs(diff) < .05 ? "same" : (diff > 0 ? "+" : "−") + Math.abs(diff).toFixed(1) + " pts") : (diff > 0 ? "+" : "−") + Math.abs(diff).toFixed(2) + "m"}${overlap ? `<br><span class="src">within the margin of error</span>` : ""}</td></tr>`; };
   const flip = (mp[a].h - hB) * (mp[a].poor - poorB) < 0;
   const big = m.indicators.map(i => ({i, d: A.censored[i.key][0] - B.censored[i.key][0], ov: !(A.censored[i.key][1] > B.censored[i.key][2] || B.censored[i.key][1] > A.censored[i.key][2])})).filter(x => !x.ov).sort((x, y) => Math.abs(y.d) - Math.abs(x.d));
-  return `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Nigeria · compare</div><h2 id="cmpT">${esc(nA)} and ${esc(nB)}</h2>
+  return `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Two states compared</div><h2 id="cmpT">${esc(nA)} and ${esc(nB)}</h2>
     <div class="pick"><label>State <select data-cmpa>${opt(a).replace('<option value="NGA">Nigeria (national)</option>', "")}</select></label><label>with <select data-cmpb>${opt(b)}</select></label></div>
     <div class="tablewrap"><table class="t"><thead><tr><th></th><th class="n">${esc(nA)}</th><th class="n">${esc(nB)}</th><th class="n">Difference</th></tr></thead><tbody>
     ${row("Share multidimensionally poor", mp[a].h, hB, A.h_ci, isNat ? m.national.h_ci : B.h_ci, "%", "mpi_h")}
@@ -4070,7 +4075,7 @@ const NG_TILES = [["pop", "People", v => shortNum(v)], ["median_age", "Median ag
   ["mpi_nat", "Multidimensionally poor", v => v + "%"], ["oil_share", "Share of world oil output"]];
 function NG_TILES_HTML() {
   return `<div class="tiles tiles3">${NG_TILES.filter(([id]) => IND[id] && ival(id, "NGA") != null).map(([id, lab, f]) => { const r = IND[id], k = (r.st && r.st("NGA")) || r.kind;
-    return `<button class="tile tb" data-act="ngtile" data-id="${id}" aria-label="${esc(lab)}: compare"><small>${esc(lab)}</small><b>${esc(f ? f(ival(id, "NGA")) : itxt(id, "NGA"))}</b><em>${esc(KIND[k] || k)} · ${esc(r.period || "")}</em></button>`; }).join("")}</div>
+    return `<button class="tile tb" data-act="ngtile" data-id="${id}" aria-label="${esc(lab)}: compare"><small>${esc(lab)}</small><b>${esc(f ? f(ival(id, "NGA")) : itxt(id, "NGA"))}</b><em>${esc(KIND[k] || k)}, ${esc(r.period || "")}</em></button>`; }).join("")}</div>
   <p class="src" style="margin-top:4px">Tap a figure to compare Nigeria with its neighbours, the region and the world.</p>`; }
 function NG_TOGETHER_HTML() { const ma = ival("median_age", "NGA"), g = ival("gdp_growth_26", "NGA"), pc = ival("gdp_pc_25", "NGA"), pcw = ival("gdp_pc_25", "WORLD");
   if (ma == null) return "";
@@ -4290,7 +4295,7 @@ function compareCountriesHTML(a, b) { const A = byKey.get(vsKey(a)), B = byKey.g
   const opt = sel => vsAll().map(f => `<option value="${esc(f.c3)}"${f.c3 === sel ? " selected" : ""}>${esc(f.n)}</option>`).join("");
   const groups = VS_GROUPS.map(([g, ids]) => { const rows = ids.map(id => vsRow(id, A, B)).join(""); return rows ? `<h4 class="vsg">${esc(g)}</h4>${rows}` : ""; }).join("");
   const shared = (A.b || []).includes(B.c3);
-  return `<div class="dialog cmp vs" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Compare two countries${shared ? " · neighbours" : ""}</div>
+  return `<div class="dialog cmp vs" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">${shared ? "Neighbours compared" : "Two countries compared"}</div>
     <h2 id="cmpT">${esc(A.flag)} ${esc(A.n)} <span class="vsand">and</span> ${esc(B.flag)} ${esc(B.n)}</h2>
     <div class="pick"><label>Country <select data-vsa>${opt(A.c3)}</select></label><button class="btn" data-vsswap aria-label="Swap the two countries">Swap</button><label>with <select data-vsb>${opt(B.c3)}</select></label></div>
     ${vsGlance(A, B)}
@@ -4313,6 +4318,28 @@ routeHash = function (initial) { let h = ""; try { h = decodeURIComponent((locat
   const m = /^vs\/([A-Z]{3})(?:\/([A-Z]{3}))?$/.exec(h);
   if (m && vsKey(m[1])) { routing = true; try { setMode("explore", true); MODES.explore(); } finally { routing = false; } setTimeout(() => compareCountries(m[1], m[2]), 50); return; }
   return routeHashVS(initial); };
+/* ---------- batch 25: design review ----------
+   Map labels no longer pile on top of each other: after each zoom or pan settles, labels are placed in order of
+   importance (Nigerian states, countries, cities, oceans and seas, landforms) and any label that would overlap
+   one already placed is hidden until there is room for it. */
+const DECLUTTER = [["stateslabels", null], ["cities", null, d => d.force], ["countrylabels", (a, b) => a.minz - b.minz],
+  ["cities", (a, b) => (b.cap ? 1 : 0) - (a.cap ? 1 : 0), d => !d.force], ["seas", (a, b) => a.minz - b.minz || (a.c === "ocean" ? -1 : 0)], ["phys", (a, b) => a.minz - b.minz]];
+function declutter() { const placed = [], box = el => { const t = el.tagName === "g" ? el.querySelector("text") || el : el, r = t.getBoundingClientRect(); return r.width ? [r.left - 2, r.top - 1, r.right + 2, r.bottom + 1] : null; };
+  const hit = r => placed.some(q => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
+  DECLUTTER.forEach(([g, order, only]) => { const grp = G[g]; if (!grp || grp.attr("display") === "none") return;
+    let items = grp.selectAll(g === "cities" ? "g" : "text").nodes().filter(n => n.getAttribute("display") !== "none" && (!only || only(n.__data__ || {})));
+    if (order) items = items.map(n => [n, n.__data__ || {}]).sort((x, y) => order(x[1], y[1])).map(x => x[0]);
+    items.forEach(n => { const r = box(n); if (!r) return; if (hit(r)) n.setAttribute("display", "none"); else placed.push(r); }); }); }
+/* state labels are not managed by the zoom rules, so they are shown again before each pass */
+const labelVisibilityDC = labelVisibility;
+/* with a data layer on, only the oceans stay named, so the colours carry the map */
+labelVisibility = function () { labelVisibilityDC(); if (G.stateslabels) G.stateslabels.selectAll("text").attr("display", null);
+  if (S.theme && S.theme !== "ngpov") G.seas.selectAll("text").filter(d => d.c !== "ocean").attr("display", "none");
+  try { declutter(); } catch (e) {} };
+let dcT = 0; const renderDC = render;
+render = function () { renderDC(); clearTimeout(dcT); dcT = setTimeout(() => labelVisibility(), 140); };
+const setThemeDC = setTheme;
+setTheme = function (v) { setThemeDC(v); labelVisibility(); };
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
   ["learn", "Reading the map", "Globes, projections, the grid, distance and direction"],

@@ -53,7 +53,7 @@ function compareCountriesHTML(a, b) { const A = byKey.get(vsKey(a)), B = byKey.g
   const opt = sel => vsAll().map(f => `<option value="${esc(f.c3)}"${f.c3 === sel ? " selected" : ""}>${esc(f.n)}</option>`).join("");
   const groups = VS_GROUPS.map(([g, ids]) => { const rows = ids.map(id => vsRow(id, A, B)).join(""); return rows ? `<h4 class="vsg">${esc(g)}</h4>${rows}` : ""; }).join("");
   const shared = (A.b || []).includes(B.c3);
-  return `<div class="dialog cmp vs" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Compare two countries${shared ? " · neighbours" : ""}</div>
+  return `<div class="dialog cmp vs" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">${shared ? "Neighbours compared" : "Two countries compared"}</div>
     <h2 id="cmpT">${esc(A.flag)} ${esc(A.n)} <span class="vsand">and</span> ${esc(B.flag)} ${esc(B.n)}</h2>
     <div class="pick"><label>Country <select data-vsa>${opt(A.c3)}</select></label><button class="btn" data-vsswap aria-label="Swap the two countries">Swap</button><label>with <select data-vsb>${opt(B.c3)}</select></label></div>
     ${vsGlance(A, B)}
