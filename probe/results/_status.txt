@@ -1,8 +1,8 @@
-weo_appendix_pdf 200 985701 3.304801 https://data.imf.org/-/media/iData/External-Storage/Documents/C4182C5C54794FC48892DE8F6C74FF82/en/October-2026-WEO-Database-Appendix.pdf
-weo_statsappendix_pdf 200 536813 0.090865 https://www.imf.org/-/media/files/publications/weo/2026/october/english/statsappendix.pdf
-imf_sdmx3_weo_nga 503 19 0.447058 https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/WEO/+/NGA.NGDP_RPCH.A?attributes=all&measures=all
-imf_sdmx21_dataflows 503 19 0.348694 https://api.imf.org/external/sdmx/2.1/dataflow
-imf_api_resource_page 200 209044 4.086801 https://data.imf.org/en/Resource-Pages/IMF-API
-wb_nga_gdppc 200 2486 0.409213 https://api.worldbank.org/v2/country/NGA/indicator/NY.GDP.PCAP.CD?format=json&date=2015:2026&per_page=50
-wb_bad_indicator 200 102 0.221723 https://api.worldbank.org/v2/country/all/indicator/NOT.A.REAL.CODE?format=json&mrv=1
-wb_all_gdppc_range 000 0 60.002104curl-failed https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2000:2026&per_page=20000
+wb_mrv8_20000 502 54078 0.095098 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000
+wb_mrv8_1000_p1 502 54078 0.057273 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=1000&page=1
+wb_mrv3_20000 200 177694 0.051596 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=3&per_page=20000
+wb_date_2018_2026 502 54078 0.061375 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=3000
+wb_date_2018_2026_p500 502 54078 0.055850 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=500&page=1
+wb_mrnev8 502 54078 0.064501 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrnev=8&per_page=3000
+wb_mrv8_again 502 54078 0.038886 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000
+wb_date_again 502 54078 0.042651 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=3000
