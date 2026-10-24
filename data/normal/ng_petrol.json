@@ -1,0 +1,41 @@
+{
+ "indicator": "ng_petrol",
+ "source": "nbs",
+ "source_code": "fuel:PMS",
+ "name": "Petrol (PMS), average price",
+ "unit": "naira per litre",
+ "kind": "level",
+ "definition": {
+  "label": "Premium Motor Spirit (petrol)",
+  "unit": "naira per litre",
+  "description": "Average retail price across Nigeria, as published monthly by NBS (Fuel Price Watch). Premium Motor Spirit (petrol).",
+  "dataset": "NBS homepage dashboard"
+ },
+ "fingerprint": "af39c3804693cc15",
+ "edition": "PMS May-2026",
+ "edition_label": "NBS, PMS May-2026",
+ "edition_date": null,
+ "retrieved": "2026-10-24T14:10:50Z",
+ "status_basis": "official statistics as published by NBS on its homepage dashboard",
+ "series": {
+  "NGA": {
+   "2026-05": [
+    1596.25,
+    "observed"
+   ]
+  }
+ },
+ "unmatched": [],
+ "invalid": [],
+ "attempts": [
+  "HTTP 200 in 3.4s"
+ ],
+ "hash": "cabef482a6cb26c5",
+ "raw": [
+  {
+   "label": "homepage",
+   "file": "data/raw/nbs/aac7cf59876f7f09.json.gz",
+   "bytes": 160943
+  }
+ ]
+}

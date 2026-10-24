@@ -1,0 +1,41 @@
+{
+ "indicator": "ng_lpg",
+ "source": "nbs",
+ "source_code": "fuel:LPG",
+ "name": "Cooking gas (LPG), 5 kg refill",
+ "unit": "naira per 5 kg",
+ "kind": "level",
+ "definition": {
+  "label": "Liquefied Petroleum Gas, 5 kg refill",
+  "unit": "naira per 5 kg",
+  "description": "Average retail price across Nigeria, as published monthly by NBS (Fuel Price Watch). Liquefied Petroleum Gas, 5 kg refill.",
+  "dataset": "NBS homepage dashboard"
+ },
+ "fingerprint": "f1755c692cfcbea2",
+ "edition": "LPG April-2026",
+ "edition_label": "NBS, LPG April-2026",
+ "edition_date": null,
+ "retrieved": "2026-10-24T14:10:50Z",
+ "status_basis": "official statistics as published by NBS on its homepage dashboard",
+ "series": {
+  "NGA": {
+   "2026-04": [
+    8706.93,
+    "observed"
+   ]
+  }
+ },
+ "unmatched": [],
+ "invalid": [],
+ "attempts": [
+  "HTTP 200 in 3.4s"
+ ],
+ "hash": "5548ad874222af6a",
+ "raw": [
+  {
+   "label": "homepage",
+   "file": "data/raw/nbs/aac7cf59876f7f09.json.gz",
+   "bytes": 160943
+  }
+ ]
+}

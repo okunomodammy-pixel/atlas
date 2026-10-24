@@ -1,0 +1,41 @@
+{
+ "indicator": "ng_cpi_food",
+ "source": "nbs",
+ "source_code": "cpi:Food",
+ "name": "Food inflation (year on year)",
+ "unit": "% year on year",
+ "kind": "rate",
+ "definition": {
+  "label": "Food inflation (year on year)",
+  "unit": "% year on year",
+  "description": "Food and non-alcoholic beverages in the consumer price index, change over 12 months. Index base period 2024 = 100",
+  "dataset": "NBS homepage dashboard"
+ },
+ "fingerprint": "f48b5442d3d13e68",
+ "edition": "CPI Sept-2026",
+ "edition_label": "NBS, CPI Sept-2026",
+ "edition_date": null,
+ "retrieved": "2026-10-24T14:10:50Z",
+ "status_basis": "official statistics as published by NBS on its homepage dashboard",
+ "series": {
+  "NGA": {
+   "2026-09": [
+    19.59,
+    "observed"
+   ]
+  }
+ },
+ "unmatched": [],
+ "invalid": [],
+ "attempts": [
+  "HTTP 200 in 3.4s"
+ ],
+ "hash": "160c7885f8b87782",
+ "raw": [
+  {
+   "label": "homepage",
+   "file": "data/raw/nbs/aac7cf59876f7f09.json.gz",
+   "bytes": 160943
+  }
+ ]
+}
