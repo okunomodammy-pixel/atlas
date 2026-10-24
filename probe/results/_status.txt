@@ -1,5 +1,2 @@
-nada_cpi 200 3683 1.801366 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=CPI&ps=10&sort_by=created&sort_order=desc
-nada_inflation 200 6020 1.087427 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=inflation&ps=10&sort_by=created&sort_order=desc
-nada_recent 200 8310 1.326663 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=15&sort_by=created&sort_order=desc
-nada_gdp 200 6159 1.857716 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=GDP&ps=10&sort_by=created&sort_order=desc
-nbs_home2 200 160943 1.706173 https://nigerianstat.gov.ng/
+imf_dm_bca_all 200 124739 0.310079 https://www.imf.org/external/datamapper/api/v1/BCA_NGDPD
+imf_dm_lur_all 200 57997 0.308044 https://www.imf.org/external/datamapper/api/v1/LUR
