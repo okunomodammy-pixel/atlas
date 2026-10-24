@@ -1,0 +1,35 @@
+# One-off probe: fetch sample responses from the World Bank and IMF APIs and commit them
+# to this branch for inspection. Runs only on a push to claude/api-probe. Publishes nothing.
+name: api-probe
+on:
+  push:
+    branches: [claude/api-probe]
+    paths: [.github/workflows/api-probe.yml, probe/urls.txt]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch
+        run: |
+          mkdir -p probe/out
+          i=0
+          while IFS='|' read -r name url; do
+            [ -z "$name" ] && continue; case "$name" in \#*) continue;; esac
+            i=$((i+1))
+            code=$(curl -sS -L --max-time 60 -A "mental-map-atlas-pipeline/0.1 (+https://github.com/okunomodammy-pixel/atlas)" \
+                   -D "probe/out/$name.headers" -o "probe/out/$name.body" -w '%{http_code} %{size_download} %{time_total}' "$url" || echo "curl-failed")
+            echo "$name $code $url" | tee -a probe/out/_status.txt
+            sleep 1
+          done < probe/urls.txt
+          # keep the repo small: truncate very large bodies but record their size
+          for f in probe/out/*.body; do s=$(stat -c %s "$f"); if [ "$s" -gt 3000000 ]; then head -c 3000000 "$f" > "$f.tmp"; mv "$f.tmp" "$f"; echo "$(basename $f) truncated from $s bytes" >> probe/out/_status.txt; fi; done
+      - name: Commit results to this branch
+        run: |
+          git config user.name "atlas-probe[bot]"; git config user.email "actions@users.noreply.github.com"
+          git add probe/out
+          git commit -m "API probe results $(date -u +%FT%TZ)" || echo "nothing to commit"
+          git push

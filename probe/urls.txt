@@ -1,0 +1,17 @@
+# name|url
+wb_indicator_meta|https://api.worldbank.org/v2/indicator/NY.GDP.PCAP.CD?format=json
+wb_nga_gdppc|https://api.worldbank.org/v2/country/NGA/indicator/NY.GDP.PCAP.CD?format=json&date=2015:2026&per_page=50
+wb_all_gdppc_mrv|https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=3&per_page=20000
+wb_countries|https://api.worldbank.org/v2/country?format=json&per_page=400
+wb_source_wdi|https://api.worldbank.org/v2/sources/2?format=json
+wb_bad_indicator|https://api.worldbank.org/v2/country/NGA/indicator/NOT.A.REAL.CODE?format=json
+imf_dm_indicators|https://www.imf.org/external/datamapper/api/v1/indicators
+imf_dm_countries|https://www.imf.org/external/datamapper/api/v1/countries
+imf_dm_ngdpd_all|https://www.imf.org/external/datamapper/api/v1/NGDPD
+imf_dm_growth_nga|https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/NGA/USA?periods=2023,2024,2025,2026,2027
+imf_dm_root|https://www.imf.org/external/datamapper/api/v1/
+imf_dm_bad|https://www.imf.org/external/datamapper/api/v1/NOTAREAL
+imf_sdmx21_dataflows|https://api.imf.org/external/sdmx/2.1/dataflow
+imf_sdmx3_weo_struct|https://api.imf.org/external/sdmx/3.0/structure/dataflow/IMF.RES/WEO/+?references=datastructure
+imf_sdmx3_weo_nga|https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/WEO/+/NGA.NGDP_RPCH.A?attributes=all&measures=all
+imf_sdmx21_weo_nga|https://api.imf.org/external/sdmx/2.1/data/IMF.RES,WEO/NGA.NGDP_RPCH.A
