@@ -2,6 +2,12 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-10-24 10:12 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change (approved 00b4cb0660e5ff19)
+- 2026-10-24 10:12 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change (approved d42a31086be1fafd)
+- 2026-10-24 10:12 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change (approved 43f31ddad289db7e)
+- 2026-10-24 10:12 UTC · **cpi_avg** (imf PCPIPCH, 2026-10) · no change (approved 45e2166545b206f1)
+- 2026-10-24 10:12 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD, 2026-10-08) · no change (approved e1b9390c2a673695)
+- 2026-10-24 10:12 UTC · **income_group** (worldbank_country incomeLevel) · no change (approved 8a39647d87cdb5d3)
 - 2026-10-24 10:07 UTC · **gdp_usd** (imf NGDPD, 2026-10) · held for review (unchanged since last run): first publication of this indicator: confirm the definition and the values; 8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 83.022 -> 139.171; GUY 2021->2022: 8.041 -
 - 2026-10-24 10:07 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · held for review (unchanged since last run): first publication of this indicator: confirm the definition and the values; 8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 2404.183 -> 3905.445; GUY 2021->2022: 9201
 - 2026-10-24 10:07 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · held for review (unchanged since last run): first publication of this indicator: confirm the definition and the values; 40 large year-on-year movements in new or changed values (threshold {'abs': 25.0}): ABW 2019->2020: 1.2 -> -23.9; ABW 2020->2021: -23.9 -> 1

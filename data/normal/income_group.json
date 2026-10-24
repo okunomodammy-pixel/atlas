@@ -1,0 +1,1337 @@
+{
+ "indicator": "income_group",
+ "source": "worldbank_country",
+ "source_code": "incomeLevel",
+ "name": "World Bank income group",
+ "unit": "classification",
+ "kind": "classification",
+ "definition": {
+  "label": "World Bank income group",
+  "unit": "classification",
+  "description": "World Bank analytical income classification, as listed in the Indicators API country list.",
+  "categories": {
+   "HIC": "High income",
+   "LIC": "Low income",
+   "LMC": "Lower middle income",
+   "NA": "Aggregates",
+   "UMC": "Upper middle income"
+  }
+ },
+ "fingerprint": "2d074b06ebf13d8c",
+ "edition": null,
+ "edition_label": "date not stated by the API",
+ "edition_date": null,
+ "retrieved": "2026-10-24T09:54:49Z",
+ "status_basis": "classification as listed; the API does not date it",
+ "series": {
+  "ABW": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "AFG": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "AGO": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "ALB": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "AND": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ARE": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ARG": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "ARM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "ASM": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ATG": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "AUS": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "AUT": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "AZE": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "BDI": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "BEL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BEN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "BFA": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "BGD": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "BGR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BHR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BHS": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BIH": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "BLR": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "BLZ": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "BMU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BOL": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "BRA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "BRB": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BRN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "BTN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "BWA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "CAF": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "CAN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CHE": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CHL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CHN": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "CIV": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "CMR": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "COD": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "COG": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "COL": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "COM": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "CPV": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "CRI": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CUB": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "CUW": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CYM": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CYP": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "CZE": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "DEU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "DJI": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "DMA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "DNK": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "DOM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "DZA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "ECU": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "EGY": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "ERI": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "ESP": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "EST": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ETH": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "FIN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "FJI": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "FRA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "FRO": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "FSM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GAB": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GBR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "GEO": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GHA": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "GIB": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "GIN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "GMB": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "GNB": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "GNQ": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GRC": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "GRD": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GRL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "GTM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "GUM": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "GUY": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "HKG": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "HND": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "HRV": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "HTI": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "HUN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "IDN": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "IMN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "IND": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "IRL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "IRN": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "IRQ": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "ISL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ISR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ITA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "JAM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "JOR": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "JPN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "KAZ": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "KEN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "KGZ": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "KHM": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "KIR": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "KNA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "KOR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "KWT": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "LAO": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "LBN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "LBR": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "LBY": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "LCA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "LIE": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "LKA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "LSO": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "LTU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "LUX": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "LVA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MAC": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MAF": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MAR": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "MCO": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MDA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MDG": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "MDV": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MEX": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MHL": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MKD": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MLI": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "MLT": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MMR": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "MNE": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MNG": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MNP": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "MOZ": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "MRT": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "MUS": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "MWI": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "MYS": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "NAM": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "NCL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "NER": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "NGA": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "NIC": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "NLD": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "NOR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "NPL": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "NRU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "NZL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "OMN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PAK": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "PAN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PER": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "PHL": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "PLW": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PNG": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "POL": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PRI": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PRK": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "PRT": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "PRY": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "PSE": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "PYF": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "QAT": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "ROU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "RUS": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "RWA": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "SAU": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SDN": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "SEN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "SGP": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SLB": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "SLE": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "SLV": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "SMR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SOM": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "SRB": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "SSD": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "STP": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "SUR": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "SVK": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SVN": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SWE": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SWZ": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "SXM": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SYC": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "SYR": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "TCA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "TCD": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "TGO": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "THA": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "TJK": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "TKM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "TLS": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "TON": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "TTO": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "TUN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "TUR": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "TUV": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "TZA": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "UGA": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "UKR": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "UNK": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "URY": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "USA": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "UZB": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "VCT": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "VEN": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "VGB": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "VIR": {
+   "current": [
+    "HIC",
+    "classification"
+   ]
+  },
+  "VNM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "VUT": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "WSM": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "YEM": {
+   "current": [
+    "LIC",
+    "classification"
+   ]
+  },
+  "ZAF": {
+   "current": [
+    "UMC",
+    "classification"
+   ]
+  },
+  "ZMB": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  },
+  "ZWE": {
+   "current": [
+    "LMC",
+    "classification"
+   ]
+  }
+ },
+ "unmatched": [],
+ "invalid": [],
+ "attempts": [
+  "HTTP 200 in 0.1s"
+ ],
+ "hash": "8a39647d87cdb5d3",
+ "raw": [
+  {
+   "label": "country-list",
+   "file": "data/raw/worldbank_country/c9acf3932785191a.json.gz",
+   "bytes": 113954
+  }
+ ]
+}
