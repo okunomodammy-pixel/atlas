@@ -89,6 +89,16 @@ with sync_playwright() as pw:
                 a = p.evaluate("(()=>{const t=document.querySelector('#panel .q').textContent;return QB.find(x=>x.q===t).a})()")
                 p.click(f'.opts [data-j="{a}"]'); p.wait_for_timeout(80); p.click("#nextq"); p.wait_for_timeout(120)
             check("desktop: passing a lesson check marks it mastered", p.evaluate("!!saved.mastered.politics"))
+            bad_at = []
+            for q in p.evaluate("QB.filter(q => typeof q.at === 'string').map(q => ({id: q.id, l: q.l, at: q.at}))"):
+                p.evaluate(f"setMode('{q['l']}')"); p.wait_for_timeout(60)
+                if not p.evaluate("at => [...panel.querySelectorAll('h2, h3, h4, .case b, b')].some(e => e.textContent.trim().startsWith(at) || e.textContent.includes(at))", q["at"]): bad_at.append(q["id"])
+            check("desktop: every lesson-check 'Re-read' link finds its section", not bad_at, ",".join(bad_at))
+            p.evaluate("localStorage.clear(); setMode('nigeria')"); p.wait_for_timeout(300)
+            p.click('#checkcard [data-act="check"]'); p.wait_for_timeout(300)
+            a = p.evaluate("(() => { const t = document.querySelector('#panel .q').textContent; const q = QB.find(x => x.q === t); return q.a; })()")
+            p.click(f'.opts button:not([data-j="{a}"]) >> nth=0'); p.wait_for_timeout(150); wtxt = p.inner_text("#why")
+            check("desktop: a wrong lesson-check answer names the choice and offers to re-read", "You chose" in wtxt and "Re-read" in wtxt, wtxt[:160])
             p.evaluate("Object.values(saved.srs).forEach(r=>r.d-=30)")
             p.evaluate("setMode('course')"); p.wait_for_timeout(300)
             check("desktop: answered questions come back for review", p.evaluate("dueItems().length>0 && !!panel.querySelector('[data-act=review]')"),
