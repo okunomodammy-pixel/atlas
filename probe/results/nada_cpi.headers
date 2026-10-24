@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Date: Sat, 24 Oct 2026 13:31:58 GMT
+Server: Apache
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, X-API-KEY
+Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, PATCH, DELETE
+Set-Cookie: ccsrf=5af03dcb0eb2428578705aa278693ee2; expires=Sat, 24 Oct 2026 15:31:58 GMT; Max-Age=7200; path=/; SameSite=Strict
+Set-Cookie: ihsn_nada=1a3f8006cd0b3bf42b440b21d71dce76551c313a; expires=Sat, 24 Oct 2026 15:31:58 GMT; Max-Age=7200; path=/; HttpOnly; SameSite=Lax
+Transfer-Encoding: chunked
+Content-Type: application/json; charset=utf-8
+

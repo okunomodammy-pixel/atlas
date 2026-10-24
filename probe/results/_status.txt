@@ -1,12 +1,5 @@
-nbs_home 200 160943 2.177033 https://nigerianstat.gov.ng/
-nbs_elibrary 200 1946953 3.729678 https://nigerianstat.gov.ng/elibrary
-nbs_elibrary_cpi curl-failed https://nigerianstat.gov.ng/elibrary?queries[search]=CPI
-nbs_download_sample 200 87829 1.951442 https://nigerianstat.gov.ng/download/1212
-nbs_microdata 200 124598 1.567288 https://microdata.nigerianstat.gov.ng/index.php/catalog
-nbs_nada_api 200 2863 1.578181 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=5
-cbn_home 200 35269 2.347878 https://www.cbn.gov.ng/
-cbn_rates_page 200 14221 0.166931 https://www.cbn.gov.ng/rates/ExchRateByCurrency.html
-cbn_rates_asp 404 0 0.533038 https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp
-cbn_api_rates 200 8175373 1.203463 https://www.cbn.gov.ng/api/GetAllExchangeRates
-cbn_inflation 200 13271 0.167863 https://www.cbn.gov.ng/rates/inflrates.html
-cbn_api_rates.body truncated from 8175373 bytes
+nada_cpi 200 3683 1.801366 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=CPI&ps=10&sort_by=created&sort_order=desc
+nada_inflation 200 6020 1.087427 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=inflation&ps=10&sort_by=created&sort_order=desc
+nada_recent 200 8310 1.326663 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=15&sort_by=created&sort_order=desc
+nada_gdp 200 6159 1.857716 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=GDP&ps=10&sort_by=created&sort_order=desc
+nbs_home2 200 160943 1.706173 https://nigerianstat.gov.ng/
