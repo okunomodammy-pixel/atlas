@@ -1,0 +1,83 @@
+{
+ "_about": "Hand corrections applied on top of world-countries 5.1.0 currencies and Natural Earth ECONOMY. Each record replaces the derived one in full.",
+ "notes": {
+  "BGR": "Bulgaria adopted the euro on 1 January 2026; world-countries 5.1.0 lists the lev (BGN).",
+  "CUB": "The convertible peso (CUC) was withdrawn in 2021; world-countries lists CUC and CUP.",
+  "ESH": "Western Sahara: world-countries lists DZD, MAD and MRU; the atlas keeps MAD and DZD only.",
+  "UNK": "Kosovo: currency unchanged; the Natural Earth economy class is left empty in the live data (the reason was not recorded).",
+  "SLE": "Sierra Leone redenominated the leone in 2022 (new code SLE); world-countries lists the old code SLL.",
+  "ZWE": "Zimbabwe introduced Zimbabwe Gold (ZiG) in April 2024; the US dollar is also in use. world-countries lists nine currencies, including bond notes (ZWB), and not ZiG."
+ },
+ "records": {
+  "BGR": {
+   "cur": [
+    [
+     "EUR",
+     "Euro",
+     "€"
+    ]
+   ],
+   "eco": "2. Developed region: nonG7"
+  },
+  "CUB": {
+   "cur": [
+    [
+     "CUP",
+     "Cuban peso",
+     "$"
+    ]
+   ],
+   "eco": "5. Emerging region: G20"
+  },
+  "ESH": {
+   "cur": [
+    [
+     "MAD",
+     "Moroccan dirham",
+     "DH"
+    ],
+    [
+     "DZD",
+     "Algerian dinar",
+     "دج"
+    ]
+   ],
+   "eco": "7. Least developed region"
+  },
+  "UNK": {
+   "cur": [
+    [
+     "EUR",
+     "Euro",
+     "€"
+    ]
+   ],
+   "eco": null
+  },
+  "SLE": {
+   "cur": [
+    [
+     "SLE",
+     "Sierra Leonean leone",
+     "Le"
+    ]
+   ],
+   "eco": "7. Least developed region"
+  },
+  "ZWE": {
+   "cur": [
+    [
+     "ZWG",
+     "Zimbabwe Gold (ZiG)",
+     "ZiG"
+    ],
+    [
+     "USD",
+     "United States dollar",
+     "$"
+    ]
+   ],
+   "eco": "5. Emerging region: G20"
+  }
+ }
+}
