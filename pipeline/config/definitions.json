@@ -1,0 +1,47 @@
+{
+ "_about": "Definition fingerprints a person has confirmed, per indicator. Written when a review is approved.",
+ "confirmed": {
+  "gdp_usd": {
+   "fingerprint": "1f9793b06be6ca3e",
+   "label": "GDP, current prices",
+   "unit": "Billions of U.S. dollars",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved 00b4cb0660e5ff19"
+  },
+  "gdp_pc": {
+   "fingerprint": "1d212d904636b90d",
+   "label": "GDP per capita, current prices",
+   "unit": "U.S. dollars per capita",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved d42a31086be1fafd"
+  },
+  "gdp_growth": {
+   "fingerprint": "8fdc21cda3a0af5d",
+   "label": "Real GDP growth",
+   "unit": "Annual percent change",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved 43f31ddad289db7e"
+  },
+  "cpi_avg": {
+   "fingerprint": "d800a0857187bc8a",
+   "label": "Inflation rate, average consumer prices",
+   "unit": "Annual percent change",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved 45e2166545b206f1"
+  },
+  "gdp_pc_obs": {
+   "fingerprint": "f5d1921dc2fda153",
+   "label": "GDP per capita (current US$)",
+   "unit": "current US$",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved e1b9390c2a673695"
+  },
+  "income_group": {
+   "fingerprint": "2d074b06ebf13d8c",
+   "label": "World Bank income group",
+   "unit": "classification",
+   "confirmed": "2026-10-24T10:12:59Z",
+   "how": "approved 8a39647d87cdb5d3"
+  }
+ }
+}

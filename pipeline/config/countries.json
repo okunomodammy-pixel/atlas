@@ -1,0 +1,13 @@
+{
+ "_about": "Atlas countries are the ISO3 codes (c3) in src/data/facts.json. Source codes equal the atlas code except where listed. Codes listed as aggregates are regional or income groups and are not countries.",
+ "exceptions": {
+  "UNK": {"imf": "UVK", "worldbank": "XKX", "note": "Kosovo: world-countries uses UNK"},
+  "PSE": {"imf": "WBG", "worldbank": "PSE", "note": "The IMF codes Palestine as West Bank and Gaza"}
+ },
+ "world": {"imf": "WEOWORLD", "worldbank": "WLD"},
+ "aggregates": {
+  "imf": ["ADVEC","AFQ","APQ","AS5","AZQ","CAQ","CBQ","CMQ","DA","EAQ","EDE","EEQ","EU","EUQ","EURO","MAE","MECA","MEQ","NAQ","NMQ","OAE","OEMDC","PIQ","SAQ","SEQ","SMQ","SSA","SSQ","WE","WEOWORLD","WEQ","WHQ"],
+  "worldbank_rule": "an economy whose region is 'Aggregates' in the World Bank country list"
+ },
+ "not_in_atlas": {"imf": ["CHI", "IMY", "MFX", "KOS", "ATI", "ATL"], "worldbank": ["CHI"], "note": "economies a source covers that the atlas map does not have"}
+}

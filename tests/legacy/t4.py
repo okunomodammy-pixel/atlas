@@ -1,0 +1,10 @@
+import os; exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "harness.py")).read())
+with sync_playwright() as pw:
+    b=pw.chromium.launch(); p,errs=page(b,1300,800)
+    reqs=[]; p.on("request", lambda r: reqs.append(r.url))
+    p.reload(); p.wait_for_selector("#loading", state="hidden", timeout=20000); p.wait_for_timeout(800)
+    print("countries drawn:", p.evaluate("document.querySelectorAll('path.country').length"))
+    print("data requests:", [u for u in reqs if "/data/" in u])
+    p.fill("#q","lagos"); p.keyboard.press("Enter"); p.wait_for_timeout(1000); print(p.inner_text("#panel h2"))
+    p.click('nav.tabs button[data-mode="nigeria"]'); p.wait_for_timeout(1200); print("states:", p.evaluate("document.querySelectorAll('path.state').length"))
+    print("errors:", [e for e in errs if "ERR_FAILED" not in e])

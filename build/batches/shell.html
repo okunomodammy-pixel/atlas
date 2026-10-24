@@ -1,0 +1,68 @@
+<div class="app" id="app">
+  <a class="skip" href="#panel">Skip to reading panel</a>
+  <div class="brand" role="banner">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 16h26M16 3c4 4 5.5 8.5 5.5 13S20 25 16 29M16 3c-4 4-5.5 8.5-5.5 13S12 25 16 29" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="20.5" cy="12" r="2.6" fill="var(--sel)"/></svg>
+    <span>Mental Map Atlas</span>
+  </div>
+  <nav class="primary" aria-label="Main sections">
+    <button data-nav="explore"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg><span>Explore</span></button>
+    <button data-nav="learn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5l9-3.5 9 3.5-9 3.5z"/><path d="M7 8.5V14c0 1.5 2.5 3 5 3s5-1.5 5-3V8.5"/></svg><span>Learn</span></button>
+    <button data-nav="quiz"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="4"/><path d="M8 10.5v4M6 12.5h4"/><circle cx="15.5" cy="11.5" r=".8"/><circle cx="17.5" cy="13.5" r=".8"/></svg><span>Play</span></button>
+    <button data-nav="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20L20 4"/><path d="M7 17l1.5 1.5M10 14l1.5 1.5M13 11l1.5 1.5M16 8l1.5 1.5"/></svg><span>Tools</span></button>
+    <button data-nav="about"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span>About</span></button>
+  </nav>
+  <div class="actions">
+    <button class="iconbtn" id="helpbtn" aria-label="How to use the atlas" title="How to use"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7v.5M12 17v.3"/></svg></button>
+    <button class="iconbtn" id="themebtn" aria-label="Colour theme" title="Theme: automatic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+  </div>
+  <div class="main" id="main">
+    <div class="mapwrap" id="mapwrap">
+      <svg id="map" role="img" aria-label="Interactive world map"></svg>
+      <div class="loading" id="loading"><div class="spin" aria-hidden="true"></div><span>Drawing the map…</span></div>
+      <div class="mapbar">
+        <div class="search">
+          <label for="q" class="vh">Search countries, capitals, cities and features</label>
+          <svg class="sicon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
+          <input id="q" type="search" placeholder="Search a country, city, sea…" autocomplete="off" enterkeyhint="search">
+          <kbd class="slash" aria-hidden="true">/</kbd>
+          <div class="results" id="results" hidden></div>
+        </div>
+        <button class="mapopt" id="layersbtn" aria-expanded="false" aria-controls="layers" title="Map style and layers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg><span>Map</span></button>
+      </div>
+      <div class="layers" id="layers" hidden>
+        <div class="lh">Projection</div>
+        <label for="proj" class="vh">Map projection</label>
+        <select id="proj">
+          <option value="equal">Equal Earth · true areas</option>
+          <option value="natural">Natural Earth · balanced</option>
+          <option value="mercator">Mercator · web maps</option>
+          <option value="globe">Globe · drag to turn</option>
+        </select>
+        <div class="lh">Layers</div>
+        <label><input type="checkbox" id="L-labels" checked> Country names</label>
+        <label><input type="checkbox" id="L-lines" checked> Equator, tropics &amp; grid</label>
+        <label><input type="checkbox" id="L-rivers" checked> Rivers &amp; lakes</label>
+        <label><input type="checkbox" id="L-seas" checked> Oceans &amp; seas</label>
+        <label><input type="checkbox" id="L-phys"> Mountains, deserts, plateaus</label>
+        <label><input type="checkbox" id="L-cities"> Capitals &amp; big cities</label>
+        <label><input type="checkbox" id="L-tz"> Time zones</label>
+        <label><input type="checkbox" id="L-depth"> Ocean depths</label>
+      </div>
+      <div class="banner" id="banner" role="status" hidden></div>
+      <div class="legend" id="legend" hidden></div>
+      <div class="zoom" role="group" aria-label="Zoom">
+        <button id="zin" aria-label="Zoom in">+</button>
+        <button id="zout" aria-label="Zoom out">−</button>
+        <button id="zreset" aria-label="Show whole world" title="Whole world"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 3.5 5 3.5 8s-1 5.5-3.5 8M12 4c-2.5 2.5-3.5 5-3.5 8s1 5.5 3.5 8"/></svg></button>
+      </div>
+      <div class="coords" id="coords">Tap the sea or land to read coordinates</div>
+    </div>
+    <aside class="side" id="side">
+      <button class="grip" id="grip" aria-label="Resize map and reading panel"><i></i></button>
+      <div class="crumb" id="crumb" hidden></div>
+      <div class="panel" id="panel" tabindex="-1"></div>
+    </aside>
+  </div>
+  <div class="overlay" id="overlay" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</div>
