@@ -11,6 +11,21 @@ python3 -m pipeline.run --only gdp_pc,cpi_avg
 python3 tests/test_pipeline.py       52 offline checks against recorded live responses
 ```
 
+## Running on its own (GitHub Actions: .github/workflows/atlas.yml)
+
+| When | What it does |
+|---|---|
+| Mondays 05:17 UTC (06:17 Lagos) | fetch and check the data; publish routine changes; hold the rest |
+| a push to `main` that changes the app or pipeline | rebuild, test and publish (for example, after merging a pull request) |
+| **Run workflow** on the Actions tab | the same, by hand (untick "fetch" to republish without fetching) |
+| the owner comments `approve` on the data-review issue | publish exactly the held versions that issue lists |
+
+The site is published only after `tests/smoke.py` and `tests/test_atlas_pipeline.py` pass on the new build
+(`python3 -m pipeline.release`); if they fail, the live site stays as it was and the run is marked failed.
+When something needs a person (a held update, or a source unreachable for three weeks), the run opens or
+updates one GitHub issue labelled `data-review` that mentions the owner, so GitHub sends a notification.
+The issue closes itself when nothing is waiting. Runs on other branches build and test but never publish.
+
 ## What happens to an update
 
 | Outcome | When | What changes |
