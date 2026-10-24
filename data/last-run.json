@@ -1,12 +1,12 @@
 {
- "time": "2026-10-24T12:18:21Z",
+ "time": "2026-10-24T14:10:50Z",
  "dry_run": false,
  "results": [
   {
    "indicator": "gdp_usd",
    "source": "imf",
    "code": "NGDPD",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "00b4cb0660e5ff19",
@@ -16,7 +16,7 @@
    "indicator": "gdp_pc",
    "source": "imf",
    "code": "NGDPDPC",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "d42a31086be1fafd",
@@ -26,7 +26,7 @@
    "indicator": "gdp_growth",
    "source": "imf",
    "code": "NGDP_RPCH",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "43f31ddad289db7e",
@@ -36,7 +36,7 @@
    "indicator": "cpi_avg",
    "source": "imf",
    "code": "PCPIPCH",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "45e2166545b206f1",
@@ -46,7 +46,7 @@
    "indicator": "gdp_pc_obs",
    "source": "worldbank",
    "code": "NY.GDP.PCAP.CD",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": "2026-10-08",
    "places": 212,
    "hash": "e1b9390c2a673695",
@@ -56,11 +56,175 @@
    "indicator": "income_group",
    "source": "worldbank_country",
    "code": "incomeLevel",
-   "time": "2026-10-24T12:18:21Z",
+   "time": "2026-10-24T14:10:50Z",
    "edition": null,
    "places": 216,
    "hash": "8a39647d87cdb5d3",
    "outcome": "no change"
+  },
+  {
+   "indicator": "ng_cpi",
+   "source": "nbs",
+   "code": "cpi:All-Items",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "CPI Sept-2026",
+   "places": 1,
+   "hash": "7cdd819fd5dc8b45",
+   "status_counts": {
+    "observed": 13
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "7cdd819fd5dc8b45"
+  },
+  {
+   "indicator": "ng_cpi_core",
+   "source": "nbs",
+   "code": "cpi:Core",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "CPI Sept-2026",
+   "places": 1,
+   "hash": "308776f077c28906",
+   "status_counts": {
+    "observed": 12
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "308776f077c28906"
+  },
+  {
+   "indicator": "ng_cpi_food",
+   "source": "nbs",
+   "code": "cpi:Food",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "CPI Sept-2026",
+   "places": 1,
+   "hash": "160c7885f8b87782",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [
+    "Food inflation: the monthly history on the NBS page is malformed (20.16,16.30,14.21,10.84,8.89,12.12,14.31,16.06,16.96,17.52,20.31.19.57); only the latest month was used"
+   ],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "160c7885f8b87782"
+  },
+  {
+   "indicator": "ng_petrol",
+   "source": "nbs",
+   "code": "fuel:PMS",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "PMS May-2026",
+   "places": 1,
+   "hash": "cabef482a6cb26c5",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "cabef482a6cb26c5"
+  },
+  {
+   "indicator": "ng_diesel",
+   "source": "nbs",
+   "code": "fuel:AGO",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "AGO May-2026",
+   "places": 1,
+   "hash": "a3931220ac2461ce",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "a3931220ac2461ce"
+  },
+  {
+   "indicator": "ng_kerosene",
+   "source": "nbs",
+   "code": "fuel:NHK",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "NHK May-2026",
+   "places": 1,
+   "hash": "0ff8ce3a6a56348c",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "0ff8ce3a6a56348c"
+  },
+  {
+   "indicator": "ng_lpg",
+   "source": "nbs",
+   "code": "fuel:LPG",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "LPG April-2026",
+   "places": 1,
+   "hash": "5548ad874222af6a",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "5548ad874222af6a"
+  },
+  {
+   "indicator": "ng_gdp_q",
+   "source": "nbs",
+   "code": "gdp:real_yoy",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "GDP Q1 2026",
+   "places": 1,
+   "hash": "f184737968954a49",
+   "status_counts": {
+    "observed": 1
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "f184737968954a49"
+  },
+  {
+   "indicator": "ng_fx_usd",
+   "source": "cbn",
+   "code": "US DOLLAR:sellingrate",
+   "time": "2026-10-24T14:10:50Z",
+   "edition": "2026-10-23",
+   "places": 1,
+   "hash": "d27cdea38123310c",
+   "status_counts": {
+    "observed": 273
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "d27cdea38123310c"
   }
  ]
 }
