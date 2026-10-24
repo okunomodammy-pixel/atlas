@@ -1,0 +1,124 @@
+{
+ "time": "2026-10-24T09:54:49Z",
+ "dry_run": false,
+ "results": [
+  {
+   "indicator": "gdp_usd",
+   "source": "imf",
+   "code": "NGDPD",
+   "time": "2026-10-24T09:54:49Z",
+   "edition": "2026-10",
+   "places": 198,
+   "hash": "00b4cb0660e5ff19",
+   "status_counts": {
+    "observed": 8149,
+    "estimate": 80,
+    "projection": 1138,
+    "aggregate": 46
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values",
+    "8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 83.022 -> 139.171; GUY 2021->2022: 8.041 -> 14.718; MAC 2022->2023: 24.93 -> 45.627; SSD 2015->2016: 15.082 -> 2.825; TLS 2020->2021: 2.163 -> 3.625; VEN 2020->2021: 20.012 -> 39.136; VEN 2021->2022: 39.136 -> 79.519; ZWE 2017->2018: 31.018 -> 53.914"
+   ],
+   "approve_with": "00b4cb0660e5ff19"
+  },
+  {
+   "indicator": "gdp_pc",
+   "source": "imf",
+   "code": "NGDPDPC",
+   "time": "2026-10-24T09:54:49Z",
+   "edition": "2026-10",
+   "places": 198,
+   "hash": "d42a31086be1fafd",
+   "status_counts": {
+    "observed": 8010,
+    "estimate": 80,
+    "projection": 1138,
+    "aggregate": 46
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values",
+    "8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 2404.183 -> 3905.445; GUY 2021->2022: 9201.445 -> 16425.048; MAC 2022->2023: 37053.475 -> 66734.813; SSD 2015->2016: 1357.832 -> 260.845; TLS 2020->2021: 1646.363 -> 2708.207; VEN 2020->2021: 703.544 -> 1385.954; VEN 2021->2022: 1385.954 -> 2818.519; ZWE 2017->2018: 2114.667 -> 3602.04"
+   ],
+   "approve_with": "d42a31086be1fafd"
+  },
+  {
+   "indicator": "gdp_growth",
+   "source": "imf",
+   "code": "NGDP_RPCH",
+   "time": "2026-10-24T09:54:49Z",
+   "edition": "2026-10",
+   "places": 198,
+   "hash": "43f31ddad289db7e",
+   "status_counts": {
+    "observed": 8094,
+    "estimate": 80,
+    "projection": 1148,
+    "aggregate": 46
+   },
+   "notes": [
+    "cross-checked 580 values against IMF WEO October 2026 statistical annex tables, read from the report: 580 agree"
+   ],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values",
+    "40 large year-on-year movements in new or changed values (threshold {'abs': 25.0}): ABW 2019->2020: 1.2 -> -23.9; ABW 2020->2021: -23.9 -> 14.8; ATG 2020->2021: -18.9 -> 8.2; BHR 2026->2027: -11.3 -> 13.9; BHS 2020->2021: -21.1 -> 16.7; BLZ 2020->2021: -13.5 -> 18; BRB 2020->2021: -17.4 -> 8; CPV 2019->2020: 6.9 -> -20.8; CPV 2020->2021: -20.8 -> 7; ERI 2014->2015: 30.9 -> -20.6; ERI 2015->2016: -20.6 -> 7.4; GUY 2019->2020: 5.4 -> 43.5; GUY 2021->2022: 20.1 -> 63.3; GUY 2022->2023: 63.3 -> 33.8; IRQ 2026->2027: -16 -> 19; KWT 2026->2027: -16.7 -> 17.1; LBN 2020->2021: -28.7 -> 1.6; LBY 2016->2017: -1.5 -> 32.5; LBY 2020->2021: -29.5 -> 27.3; LBY 2021->2022: 27.3 -> -8.6; LCA 2020->2021: -22.9 -> 11.1; MAC 2019->2020: -2.5 -> -54.4; MAC 2020->2021: -54.4 -> 22.5; MAC 2021->2022: 22.5 -> -19; MAC 2022->2023: -19 -> 75.3; ... and 15 more"
+   ],
+   "approve_with": "43f31ddad289db7e"
+  },
+  {
+   "indicator": "cpi_avg",
+   "source": "imf",
+   "code": "PCPIPCH",
+   "time": "2026-10-24T09:54:49Z",
+   "edition": "2026-10",
+   "places": 198,
+   "hash": "45e2166545b206f1",
+   "status_counts": {
+    "observed": 8094,
+    "projection": 1148,
+    "estimate": 18,
+    "aggregate": 46
+   },
+   "notes": [
+    "cross-checked 580 values against IMF WEO October 2026 statistical annex tables, read from the report: 580 agree"
+   ],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values",
+    "7 large year-on-year movements in new or changed values (threshold {'abs': 60.0, 'rel': 2.0}): LBN 2019->2020: 2.9 -> 84.9; SDN 2019->2020: 51 -> 163.3; SSD 2015->2016: 53 -> 346.1; VEN 2017->2018: 438.1 -> 65374.1; VEN 2024->2025: 49.4 -> 252; ZWE 2018->2019: 10.6 -> 255.3; ZWE 2022->2023: 193.4 -> 667.4"
+   ],
+   "approve_with": "45e2166545b206f1"
+  },
+  {
+   "indicator": "gdp_pc_obs",
+   "source": "worldbank",
+   "code": "NY.GDP.PCAP.CD",
+   "time": "2026-10-24T09:54:49Z",
+   "outcome": "fetch failed, last good data kept",
+   "reason": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000&page=1: gave up after 3 attempts (timeout after 60s; timeout after 90s; timeout after 120s)"
+  },
+  {
+   "indicator": "income_group",
+   "source": "worldbank_country",
+   "code": "incomeLevel",
+   "time": "2026-10-24T09:54:49Z",
+   "edition": null,
+   "places": 216,
+   "hash": "8a39647d87cdb5d3",
+   "status_counts": {
+    "classification": 216
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values"
+   ],
+   "approve_with": "8a39647d87cdb5d3"
+  }
+ ]
+}

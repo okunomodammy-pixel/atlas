@@ -1,0 +1,10 @@
+# Data update log
+
+Newest first. Written by pipeline/run.py; one line per indicator per run.
+
+- 2026-10-24 09:54 UTC · **gdp_usd** (imf NGDPD, 2026-10) · held for review: first publication of this indicator: confirm the definition and the values; 8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 83.022 -> 139.171; GUY 2021->2022: 8.041 -
+- 2026-10-24 09:54 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · held for review: first publication of this indicator: confirm the definition and the values; 8 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): AGO 2021->2022: 2404.183 -> 3905.445; GUY 2021->2022: 9201
+- 2026-10-24 09:54 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · held for review: first publication of this indicator: confirm the definition and the values; 40 large year-on-year movements in new or changed values (threshold {'abs': 25.0}): ABW 2019->2020: 1.2 -> -23.9; ABW 2020->2021: -23.9 -> 1
+- 2026-10-24 09:54 UTC · **cpi_avg** (imf PCPIPCH, 2026-10) · held for review: first publication of this indicator: confirm the definition and the values; 7 large year-on-year movements in new or changed values (threshold {'abs': 60.0, 'rel': 2.0}): LBN 2019->2020: 2.9 -> 84.9; SDN 2019->2020: 
+- 2026-10-24 09:54 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD) · fetch failed, last good data kept: https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000&page=1: gave up after 3 attempts (timeout after 60s; timeout after 90s; timeout after 120s)
+- 2026-10-24 09:54 UTC · **income_group** (worldbank_country incomeLevel) · held for review: first publication of this indicator: confirm the definition and the values

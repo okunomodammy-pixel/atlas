@@ -1,0 +1,96 @@
+{
+ "sources": {
+  "imf": {
+   "last_attempt": "2026-10-24T09:54:49Z",
+   "last_status": "ok",
+   "last_success": "2026-10-24T09:54:49Z",
+   "last_error": null
+  },
+  "worldbank": {
+   "last_attempt": "2026-10-24T09:54:49Z",
+   "last_status": "failed",
+   "last_error": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000&page=1: gave up after 3 attempts (timeout after 60s; timeout after 90s; timeout after 120s)"
+  },
+  "worldbank_country": {
+   "last_attempt": "2026-10-24T09:54:49Z",
+   "last_status": "ok",
+   "last_success": "2026-10-24T09:54:49Z",
+   "last_error": null
+  }
+ },
+ "indicators": {
+  "gdp_usd": {
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "held for review",
+   "held_hash": "00b4cb0660e5ff19",
+   "source_code": "NGDPD",
+   "edition_label": "World Economic Outlook (October 2026)",
+   "places": 198,
+   "status_counts": {
+    "observed": 8149,
+    "estimate": 80,
+    "projection": 1138,
+    "aggregate": 46
+   }
+  },
+  "gdp_pc": {
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "held for review",
+   "held_hash": "d42a31086be1fafd",
+   "source_code": "NGDPDPC",
+   "edition_label": "World Economic Outlook (October 2026)",
+   "places": 198,
+   "status_counts": {
+    "observed": 8010,
+    "estimate": 80,
+    "projection": 1138,
+    "aggregate": 46
+   }
+  },
+  "gdp_growth": {
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "held for review",
+   "held_hash": "43f31ddad289db7e",
+   "source_code": "NGDP_RPCH",
+   "edition_label": "World Economic Outlook (October 2026)",
+   "places": 198,
+   "status_counts": {
+    "observed": 8094,
+    "estimate": 80,
+    "projection": 1148,
+    "aggregate": 46
+   }
+  },
+  "cpi_avg": {
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "held for review",
+   "held_hash": "45e2166545b206f1",
+   "source_code": "PCPIPCH",
+   "edition_label": "World Economic Outlook (October 2026)",
+   "places": 198,
+   "status_counts": {
+    "observed": 8094,
+    "projection": 1148,
+    "estimate": 18,
+    "aggregate": 46
+   }
+  },
+  "gdp_pc_obs": {
+   "state": "never published",
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "fetch failed: https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000&page=1: gave up after 3 attempts (timeout after 60s; timeout after 90s; timeout after 120s)"
+  },
+  "income_group": {
+   "last_check": "2026-10-24T09:54:49Z",
+   "last_check_result": "held for review",
+   "held_hash": "8a39647d87cdb5d3",
+   "source_code": "incomeLevel",
+   "edition_label": "date not stated by the API",
+   "places": 216,
+   "status_counts": {
+    "classification": 216
+   }
+  }
+ },
+ "updated": "2026-10-24T09:54:49Z"
+}
