@@ -2,6 +2,12 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-10-24 11:17 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
+- 2026-10-24 11:17 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change
+- 2026-10-24 11:17 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change
+- 2026-10-24 11:17 UTC · **cpi_avg** (imf PCPIPCH, 2026-10) · no change
+- 2026-10-24 11:17 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD, 2026-10-08) · no change
+- 2026-10-24 11:17 UTC · **income_group** (worldbank_country incomeLevel) · no change
 - 2026-10-24 11:10 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
 - 2026-10-24 11:10 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change
 - 2026-10-24 11:10 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change
