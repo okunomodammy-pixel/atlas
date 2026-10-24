@@ -47,7 +47,8 @@ with sync_playwright() as pw:
     check("the FCT is described as a territory, not a state", "Not a state" in p.inner_text("#panel"))
     # Back keeps your place
     p.evaluate("setMode('nigeria')"); p.wait_for_timeout(500); p.evaluate("panel.scrollTop = 500"); before = p.evaluate("panel.scrollTop")
-    p.click("[data-act=stateopen][data-s=Kano]"); p.wait_for_timeout(300); p.click("#panel .back"); p.wait_for_timeout(400)
+    p.evaluate("panel.querySelector('[data-act=stateopen][data-s=Kano]').click()"); p.wait_for_timeout(300)   # a script click, so the panel is not scrolled first
+    p.evaluate("panel.querySelector('.back').click()"); p.wait_for_timeout(400)
     check("Back from a profile returns to the Nigeria page at the same place", p.evaluate("S.mode") == "nigeria" and abs(p.evaluate("panel.scrollTop") - before) < 5)
     # comparison
     p.evaluate("compareStates('Kano','Bayelsa')"); p.wait_for_timeout(250); s = p.inner_text("#overlay .dialog")
