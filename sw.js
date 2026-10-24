@@ -1,5 +1,5 @@
 // Mental Map Atlas service worker: newest page when online, saved copy when offline.
-const C = "mma-023d84b8fd";
+const C = "mma-4e1944ec8e";
 self.addEventListener("install", e => { e.waitUntil(caches.open(C).then(c => c.addAll(["./", "index.html", "manifest.webmanifest", "icon-192.png"]))); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k))))); self.clients.claim(); });
 self.addEventListener("fetch", e => {

@@ -6,7 +6,16 @@
   "gdp_pc": "d42a31086be1fafd",
   "gdp_pc_obs": "e1b9390c2a673695",
   "gdp_usd": "00b4cb0660e5ff19",
-  "income_group": "8a39647d87cdb5d3"
+  "income_group": "8a39647d87cdb5d3",
+  "ng_lpg": "5548ad874222af6a",
+  "ng_kerosene": "0ff8ce3a6a56348c",
+  "ng_cpi": "7cdd819fd5dc8b45",
+  "ng_gdp_q": "f184737968954a49",
+  "ng_petrol": "cabef482a6cb26c5",
+  "ng_fx_usd": "d27cdea38123310c",
+  "ng_cpi_food": "160c7885f8b87782",
+  "ng_cpi_core": "308776f077c28906",
+  "ng_diesel": "a3931220ac2461ce"
  },
- "approved_by": "Damilola, in chat, 24 Oct 2026 11:12 WAT (\"Continue. Even with six indicators\")"
+ "approved_by": "okunomodammy-pixel by comment on issue #5"
 }

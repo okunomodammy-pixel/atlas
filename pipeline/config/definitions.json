@@ -42,6 +42,69 @@
    "unit": "classification",
    "confirmed": "2026-10-24T10:12:59Z",
    "how": "approved 8a39647d87cdb5d3"
+  },
+  "ng_cpi": {
+   "fingerprint": "4902097f21b2e091",
+   "label": "Headline inflation (all items, year on year)",
+   "unit": "% year on year",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved 7cdd819fd5dc8b45"
+  },
+  "ng_cpi_core": {
+   "fingerprint": "35dc053b46377780",
+   "label": "Core inflation (year on year)",
+   "unit": "% year on year",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved 308776f077c28906"
+  },
+  "ng_cpi_food": {
+   "fingerprint": "f48b5442d3d13e68",
+   "label": "Food inflation (year on year)",
+   "unit": "% year on year",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved 160c7885f8b87782"
+  },
+  "ng_petrol": {
+   "fingerprint": "af39c3804693cc15",
+   "label": "Premium Motor Spirit (petrol)",
+   "unit": "naira per litre",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved cabef482a6cb26c5"
+  },
+  "ng_diesel": {
+   "fingerprint": "419b515b8a1e97cb",
+   "label": "Automotive Gas Oil (diesel)",
+   "unit": "naira per litre",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved a3931220ac2461ce"
+  },
+  "ng_kerosene": {
+   "fingerprint": "02c537bb61e1dac4",
+   "label": "National Household Kerosene",
+   "unit": "naira per litre",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved 0ff8ce3a6a56348c"
+  },
+  "ng_lpg": {
+   "fingerprint": "f1755c692cfcbea2",
+   "label": "Liquefied Petroleum Gas, 5 kg refill",
+   "unit": "naira per 5 kg",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved 5548ad874222af6a"
+  },
+  "ng_gdp_q": {
+   "fingerprint": "b13e6b5630a00d33",
+   "label": "Real GDP growth (quarter, year on year)",
+   "unit": "% year on year",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved f184737968954a49"
+  },
+  "ng_fx_usd": {
+   "fingerprint": "66e4298bc88d27dd",
+   "label": "Official naira rate, us dollar (selling rate)",
+   "unit": "naira per us dollar",
+   "confirmed": "2026-10-24T14:26:28Z",
+   "how": "approved d27cdea38123310c"
   }
  }
 }
