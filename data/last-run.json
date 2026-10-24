@@ -1,12 +1,12 @@
 {
- "time": "2026-10-24T10:01:34Z",
+ "time": "2026-10-24T10:07:45Z",
  "dry_run": false,
  "results": [
   {
    "indicator": "gdp_usd",
    "source": "imf",
    "code": "NGDPD",
-   "time": "2026-10-24T10:01:34Z",
+   "time": "2026-10-24T10:07:45Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "00b4cb0660e5ff19",
@@ -21,7 +21,7 @@
    "indicator": "gdp_pc",
    "source": "imf",
    "code": "NGDPDPC",
-   "time": "2026-10-24T10:01:34Z",
+   "time": "2026-10-24T10:07:45Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "d42a31086be1fafd",
@@ -36,7 +36,7 @@
    "indicator": "gdp_growth",
    "source": "imf",
    "code": "NGDP_RPCH",
-   "time": "2026-10-24T10:01:34Z",
+   "time": "2026-10-24T10:07:45Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "43f31ddad289db7e",
@@ -51,7 +51,7 @@
    "indicator": "cpi_avg",
    "source": "imf",
    "code": "PCPIPCH",
-   "time": "2026-10-24T10:01:34Z",
+   "time": "2026-10-24T10:07:45Z",
    "edition": "2026-10",
    "places": 198,
    "hash": "45e2166545b206f1",
@@ -66,15 +66,26 @@
    "indicator": "gdp_pc_obs",
    "source": "worldbank",
    "code": "NY.GDP.PCAP.CD",
-   "time": "2026-10-24T10:01:34Z",
-   "outcome": "fetch failed, nothing published yet",
-   "reason": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000&page=1: gave up after 3 attempts (HTTP 502 in 0.1s; HTTP 502 in 0.4s; HTTP 502 in 0.1s)"
+   "time": "2026-10-24T10:07:45Z",
+   "edition": "2026-10-08",
+   "places": 212,
+   "hash": "e1b9390c2a673695",
+   "status_counts": {
+    "reported": 1643
+   },
+   "notes": [],
+   "outcome": "held for review",
+   "review": [
+    "first publication of this indicator: confirm the definition and the values",
+    "3 large year-on-year movements in new or changed values (threshold {'rel': 0.6}): GUY 2021->2022: 9860.87014834386 -> 17913.4928066879; MAC 2022->2023: 36806.891255461 -> 67216.3631112124; TLS 2020->2021: 1630.86935439232 -> 2684.92673717299"
+   ],
+   "approve_with": "e1b9390c2a673695"
   },
   {
    "indicator": "income_group",
    "source": "worldbank_country",
    "code": "incomeLevel",
-   "time": "2026-10-24T10:01:34Z",
+   "time": "2026-10-24T10:07:45Z",
    "edition": null,
    "places": 216,
    "hash": "8a39647d87cdb5d3",
