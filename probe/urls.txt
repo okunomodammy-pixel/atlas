@@ -1,6 +1,6 @@
 # name|url
 wb_indicator_meta|https://api.worldbank.org/v2/indicator/NY.GDP.PCAP.CD?format=json
-wb_nga_gdppc|https://api.worldbank.org/v2/country/NGA/indicator/NY.GDP.PCAP.CD?format=json&date=2015:2026&per_page=50
+wb_nga_gdppc|https://api.worldbank.org/v2/country/NGA/indicator/NY.GDP.PCAP.CD?format=json&date=2015:2026&per_page=50&source=2
 wb_all_gdppc_mrv|https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=3&per_page=20000
 wb_countries|https://api.worldbank.org/v2/country?format=json&per_page=400
 wb_source_wdi|https://api.worldbank.org/v2/sources/2?format=json
@@ -15,3 +15,10 @@ imf_sdmx21_dataflows|https://api.imf.org/external/sdmx/2.1/dataflow
 imf_sdmx3_weo_struct|https://api.imf.org/external/sdmx/3.0/structure/dataflow/IMF.RES/WEO/+?references=datastructure
 imf_sdmx3_weo_nga|https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.RES/WEO/+/NGA.NGDP_RPCH.A?attributes=all&measures=all
 imf_sdmx21_weo_nga|https://api.imf.org/external/sdmx/2.1/data/IMF.RES,WEO/NGA.NGDP_RPCH.A
+wb_nga_pop_retry|https://api.worldbank.org/v2/country/nga/indicator/SP.POP.TOTL?format=json&mrv=5
+wb_two_countries|https://api.worldbank.org/v2/country/NGA;GHA/indicator/NY.GDP.PCAP.CD?format=json&mrv=2
+imf_dm_groups|https://www.imf.org/external/datamapper/api/v1/groups
+imf_dm_pcpipch_all|https://www.imf.org/external/datamapper/api/v1/PCPIPCH
+imf_dm_ngdpdpc_all|https://www.imf.org/external/datamapper/api/v1/NGDPDPC
+imf_sdmx_portal|https://api.imf.org/external/sdmx/3.0/structure/dataflow/all/*/+
+imf_weo_page|https://www.imf.org/en/Publications/WEO/weo-database/2026/october
