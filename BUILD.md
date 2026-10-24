@@ -43,12 +43,13 @@ python3 build/verify.py            # optional: proves the build and data are rep
 (github.com/nvkelso/natural-earth-vector). They look for it next to the repo, or set `NE_GEOJSON`
 to its `geojson` folder.
 
-## Publishing (still manual)
+## Publishing
 
-Nothing publishes automatically. To release: build, run the tests, copy
-`out/standalone/Mental-Map-Atlas.html` to `index.html`, change the cache name in `sw.js`
-(for example `mma-v18` to `mma-v19`) so phones pick up the new version, then commit to
-`main` and update `gh-pages` to the same commit. GitHub Pages deploys from `gh-pages`.
+Automatic, from `.github/workflows/atlas.yml` (see pipeline/README.md): a push to `main` that changes the
+app, a weekly data check, a manual run, or an approval comment. Each run builds, runs the site tests and
+only then publishes through GitHub Pages ("GitHub Actions" source). `python3 -m pipeline.release` does the
+same locally: build, test, refresh `index.html` and the offline cache name in `sw.js`, assemble `_site/`.
+The `gh-pages` branch is no longer used once Pages is switched to GitHub Actions.
 
 ## Where each data file comes from
 

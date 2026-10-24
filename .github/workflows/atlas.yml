@@ -1,0 +1,117 @@
+# Mental Map Atlas: weekly data check, build, test and publish.
+#
+#   Mondays 05:17 UTC (06:17 in Lagos)   fetch and check the data; publish routine changes; hold the rest
+#   a push to main that changes the app  rebuild, test and publish (for example, after merging a pull request)
+#   "Run workflow" button on GitHub      the same, by hand
+#   owner comments "approve" on the data-review issue   publish the held versions listed in that issue
+#
+# The site is published only after tests/smoke.py and tests/test_atlas_pipeline.py pass on the new build.
+# If anything fails, the live site stays as it was. Runs on other branches build and test but never publish.
+name: atlas
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+    inputs:
+      fetch:
+        description: "Fetch new data from the sources (no = rebuild and publish what is already in the repo)"
+        type: boolean
+        default: true
+  push:
+    branches: [main, "claude/phase3-*"]
+    paths: [src/**, build/**, pipeline/**, data/extracted/**, data/intermediate/**, manifest.webmanifest, "icon-*.png", og.png, package-lock.json, tests/**, .github/workflows/atlas.yml]
+  issue_comment:
+    types: [created]
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+concurrency:
+  group: atlas
+  cancel-in-progress: false
+jobs:
+  update:
+    if: >-
+      github.event_name != 'issue_comment' || (
+        github.event.issue.pull_request == null &&
+        contains(github.event.issue.labels.*.name, 'data-review') &&
+        github.event.comment.user.login == github.repository_owner)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      publish: ${{ steps.release.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: npm }
+      - name: Approve the versions listed in the issue
+        id: approve
+        if: github.event_name == 'issue_comment'
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENTER: ${{ github.event.comment.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if python3 -m pipeline.approve_from_issue; then echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            case "$(echo "$COMMENT_BODY" | tr 'A-Z' 'a-z' | tr -d ' .!\n')" in approve|approved)
+              gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "Nothing was published: the versions listed above are no longer the ones waiting (the source changed since). The list will be refreshed on the next run." ;;
+            esac
+          fi
+      - name: Stop here (comment was not an approval)
+        if: github.event_name == 'issue_comment' && steps.approve.outputs.ok != 'true'
+        run: echo "nothing to do"
+      - name: Pipeline tests (recorded responses, no network)
+        if: github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true'
+        run: python3 tests/test_pipeline.py
+      - name: Fetch, check and publish data
+        if: (github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true') && (github.event_name != 'workflow_dispatch' || inputs.fetch)
+        run: python3 -m pipeline.run
+      - name: Install the browser for the site tests
+        if: github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true'
+        run: |
+          npm ci --no-audit --no-fund
+          pip install --quiet playwright==1.56.0
+          python3 -m playwright install --with-deps chromium
+      - name: Build and test the site
+        id: release
+        if: github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true'
+        run: |
+          before=$(sha256sum index.html sw.js | sha256sum)
+          python3 -m pipeline.release
+          after=$(sha256sum index.html sw.js | sha256sum)
+          force=false; case "${{ github.event_name }}" in workflow_dispatch|push) force=true;; esac
+          if [ "$before" != "$after" ] || [ "$force" = true ]; then echo "publish=true" >> "$GITHUB_OUTPUT"; else echo "publish=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Commit data and site to this branch
+        if: always() && (github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true')
+        run: |
+          git config user.name "atlas-bot"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data pipeline/config/definitions.json pipeline/config/approvals.json
+          [ "${{ steps.release.outcome }}" = success ] && git add index.html sw.js
+          if git diff --cached --quiet; then echo "::notice::nothing to commit"; exit 0; fi
+          git commit -q -m "atlas-bot: ${{ github.event_name }} $(date -u +%FT%TZ)"
+          for i in 1 2 3; do git pull -q --rebase origin "${GITHUB_REF_NAME}" && git push -q origin "HEAD:${GITHUB_REF_NAME}" && break; sleep 5; done
+          echo "::notice::committed $(git rev-parse --short HEAD) to ${GITHUB_REF_NAME}"
+      - name: Tell the owner if anything needs review
+        if: always() && github.ref == 'refs/heads/main' && (github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true')
+        env: { GITHUB_TOKEN: "${{ github.token }}" }
+        run: python3 -m pipeline.notify
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.release.outputs.publish == 'true' && github.ref == 'refs/heads/main'
+        with: { path: _site }
+  deploy:
+    needs: update
+    if: needs.update.outputs.publish == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

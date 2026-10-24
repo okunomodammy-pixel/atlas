@@ -26,28 +26,47 @@ with sync_playwright() as pw:
     b = pw.chromium.launch()
     p, errs = page(b, 1400, 860)
     check("pipeline data loaded", p.evaluate("PL_ON && !!D.pl.indicators.gdp_usd"))
-    # figures and statuses come from the source's metadata
-    st = p.evaluate("Object.fromEntries([['NGA',2025],['LBY',2025],['AFG',2025],['NGA',2026]].map(([c,y])=>[c+y, plS('gdp_pc',c,y)]))")
-    check("statuses: Nigeria 2025 actual, Libya and Afghanistan 2025 IMF estimates, 2026 projection",
-          st == {"NGA2025": "observed", "LBY2025": "estimate", "AFG2025": "estimate", "NGA2026": "projection"}, str(st))
-    check("growth figures unchanged from the report tables (pipeline vs now.json)",
-          p.evaluate("Object.keys(D.now.imf).every(c=>['g25','g26'].every((k,i)=>{const r=D.now.imf[c][k], v=plV('gdp_growth',c,2025+i); return r==null||v==null||Math.abs(r-v)<0.051}))"))
-    check("2025 growth no longer labelled 'estimate' for every country",
-          p.evaluate("IND.gdp_growth_25.st('NGA')") == "observed" and p.evaluate("IND.gdp_growth_25.st('LBY')") == "estimate")
-    check("missing stays missing: Cuba has no IMF GDP, North Korea no growth", p.evaluate("ival('gdp_usd_25','CUB')===null && ival('gdp_growth_25','PRK')===null"))
-    p.evaluate("selectCountry('566',false)"); p.wait_for_timeout(400); t = p.inner_text("#panel")
-    check("Nigeria profile: GDP, income per person (two sources) and income group",
-          all(x in t for x in ["US$290 billion", "US$1,223", "US$1,224", "IMF figure for the same year", "Lower middle income"]))
+    # Every check below reads its expected values from data/atlas/pipeline.json, so the tests keep
+    # working when the sources publish new figures (they gate every release).
+    I = PLJ["indicators"]; CODES = {v: k for k, v in PLJ["status_codes"].items()}
+    def py(ind, c, y):
+        r = I[ind]; s = r["v"].get(c)
+        if not s: return None
+        i = y - r["y0"]; return None if i < 0 or i >= len(s[0]) or s[0][i] is None else [s[0][i], CODES[s[1][i]]]
+    js = p.evaluate("""Object.fromEntries(['gdp_usd','gdp_pc','gdp_growth','cpi_avg','gdp_pc_obs'].map(id=>[id,
+        Object.fromEntries(Object.keys(D.pl.indicators[id].v).map(c=>[c, [2015,2020,2024,2025,2026,2027,2031].map(y=>{const q=PL(id,c,y); return q?[q.v,q.s]:null})]))]))""")
+    bad = [f"{i} {c} {y}" for i in js for c in js[i] for y, v in zip([2015, 2020, 2024, 2025, 2026, 2027, 2031], js[i][c]) if v != py(i, c, y)]
+    check("every value and status the atlas reads equals the pipeline file (5 series, all countries, 7 years)", not bad, ", ".join(bad[:8]))
+    ed = I["gdp_growth"]["edition"]
+    if ed == "2026-10":
+        check("growth figures equal the October 2026 report tables (this edition only)",
+              p.evaluate("Object.keys(D.now.imf).every(c=>['g25','g26'].every((k,i)=>{const r=D.now.imf[c][k], v=plV('gdp_growth',c,2025+i); return r==null||v==null||Math.abs(r-v)<0.051}))"))
+    est = [c for c in I["gdp_pc"]["v"] if c != "WORLD" and (py("gdp_pc", c, 2025) or [0, ""])[1] == "estimate"]
+    obs = [c for c in I["gdp_pc"]["v"] if c != "WORLD" and (py("gdp_pc", c, 2025) or [0, ""])[1] == "observed"]
+    check("per-country tags: an actual figure and an IMF estimate get different tags",
+          bool(est and obs) and p.evaluate(f"IND.gdp_pc_25.st('{obs[0]}')==='observed' && IND.gdp_pc_25.st('{est[0]}')==='estimate'"), f"{obs[:1]} {est[:1]}")
+    missing = [f["c3"] for f in json.load(open(A + "/src/data/facts.json")).values() if f.get("un") and f["c3"] not in I["gdp_usd"]["v"]]
+    check("missing stays missing: UN members without IMF data have no value, not zero",
+          missing and p.evaluate(f"{json.dumps(missing)}.every(c=>ival('gdp_usd_25',c)===null)"), str(missing))
+    p.evaluate("selectCountry('566',false)"); p.wait_for_timeout(400)
+    want = p.evaluate("['gdp_usd_25','gdp_pc_25','gdp_pc_wb_25','income'].filter(id=>ival(id,'NGA')!=null).map(id=>IND[id].f(ival(id,'NGA')))")
+    t = p.inner_text("#panel")
+    check("Nigeria profile shows each new figure the data has for it", want and all(x in t for x in want), str(want))
     tags = p.evaluate("[...panel.querySelectorAll('.kt')].map(e=>e.textContent)")
-    check("Nigeria profile: tags show 'Observed · 2025', 'Projection · 2026' and 'Reported · 2025'",
-          all(x in tags for x in ["Observed · 2025", "Projection · 2026", "Reported · 2025"]), str(tags[:12]))
-    p.evaluate("compareSheet('gdp_growth_25','LBY')"); p.wait_for_timeout(250); s = sheet(p)
-    check("Libya's comparison is tagged Estimate and says how many in the set are estimates", "Estimate · 2025" in s and "IMF staff estimates" in s)
-    check("trend line: dotted for estimates", p.evaluate("document.querySelectorAll('#overlay svg.trend line.tm.es').length") > 0)
+    exp_tags = p.evaluate("['gdp_usd_25','gdp_growth_26','gdp_pc_wb_25'].filter(id=>ival(id,'NGA')!=null).map(id=>KIND[IND[id].st('NGA')]+' · '+IND[id].period)")
+    check("Nigeria profile: each figure's tag shows its own status and period", all(x in tags for x in exp_tags), f"{exp_tags} vs {tags[:12]}")
+    if est:
+        p.evaluate(f"compareSheet('gdp_pc_25','{est[0]}')"); p.wait_for_timeout(250); s = sheet(p)
+        check("an estimated country's comparison is tagged Estimate and says how many in the set are estimates",
+              "Estimate · " in s and "IMF staff estimates" in s, s[:200])
+        check("trend line: dotted for estimates", p.evaluate("document.querySelectorAll('#overlay svg.trend line.tm.es').length") > 0)
     p.evaluate("closeOverlay(); compareSheet('gdp_pc_wb_25','NGA')"); p.wait_for_timeout(250); s = sheet(p)
-    check("World Bank figure: ranked on its own series, no mixing with IMF values", "of 181 countries" in s and "Reported · 2025" in s, s[:200])
+    n_wb = p.evaluate("setOf('gdp_pc_wb_25').length")
+    check("World Bank figure: ranked on its own series, no mixing with IMF values",
+          f"of {n_wb} countries" in s and "Reported · " in s and n_wb == sum(1 for c in I["gdp_pc_obs"]["v"] if py("gdp_pc_obs", c, 2025) and p.evaluate(f"ival('gdp_pc_wb_25','{c}')!=null && setOf('gdp_pc_wb_25').some(x=>x.c==='{c}')")), s[:200])
     p.evaluate("closeOverlay(); indSheet('gdp_usd_25')"); p.wait_for_timeout(200); s = sheet(p)
-    check("About this figure: edition and last-confirmed date", "World Economic Outlook (October 2026)" in s and "Last confirmed current: 24 October 2026" in s)
+    conf = p.evaluate(f"dayLabel('{I['gdp_usd']['confirmed_current']}')")
+    check("About this figure: edition and last-confirmed date from the data", I["gdp_usd"]["edition_label"] in s and f"Last confirmed current: {conf}" in s)
     p.evaluate("closeOverlay(); compareSheet('ndgain','NGA')"); p.wait_for_timeout(250); s = sheet(p)
     check("new connection: climate readiness and income per person, as an association", "Climate readiness tracks income" in s)
     p.evaluate("closeOverlay(); setMode('politics')"); p.wait_for_timeout(300); p.click('[data-act="pol"][data-v="income"]'); p.wait_for_timeout(400)
@@ -60,7 +79,7 @@ with sync_playwright() as pw:
     check("without the pipeline file: atlas loads, falls back to report tables", q.evaluate("!PL_ON && IND.gdp_growth_25.src==='weo' && ival('gdp_growth_25','NGA')===4") and not e2, str(e2))
     check("without the pipeline file: new figures, layer and sources are removed", q.evaluate("!IND.gdp_usd_25 && !SOURCES.imfdm && !document.querySelector('#themesel option[value=gdppc]')"))
     q.evaluate("selectCountry('566',false)"); q.wait_for_timeout(300); t = q.inner_text("#panel")
-    check("without the pipeline file: Nigeria profile still shows growth, inflation and the old income group", "4.0%" in t and "Lower middle income" in t and "US$290 billion" not in t)
+    check("without the pipeline file: Nigeria profile still shows report-table growth and no pipeline-only rows", "Economic growth, 2025" in t and "Size of the economy" not in t)
     q.evaluate("setTheme('growth26')"); q.wait_for_timeout(300)
     check("without the pipeline file: growth layer still works", "Economic growth, 2026" in q.inner_text("#legend") and not e2)
     # stale and held: honest dates
@@ -78,7 +97,7 @@ with sync_playwright() as pw:
     q.evaluate("closeOverlay(); selectCountry('566',false)"); q.wait_for_timeout(300)
     q.evaluate("compareSheet('gdp_pc_25','NGA')"); q.wait_for_timeout(300)
     check("offline: pipeline figures, comparison and trend work with no network",
-          q.evaluate("PL_ON") and "US$1,223" in q.inner_text("#overlay .dialog") and q.evaluate("!!document.querySelector('#overlay svg.trend')") and not e5, str(e5))
+          q.evaluate("PL_ON") and q.evaluate("IND.gdp_pc_25.f(ival('gdp_pc_25','NGA'))") in q.inner_text("#overlay .dialog") and q.evaluate("!!document.querySelector('#overlay svg.trend')") and not e5, str(e5))
     b.close()
 failed = [n for n, ok in RES if not ok]
 print(f"\n{len(RES) - len(failed)}/{len(RES)} atlas pipeline checks passed")
