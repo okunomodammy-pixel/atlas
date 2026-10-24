@@ -30,6 +30,8 @@ jobs:
       - name: Commit results to this branch
         run: |
           git config user.name "atlas-probe[bot]"; git config user.email "actions@users.noreply.github.com"
+          echo "::notice::status $(tr '\n' ';' < probe/out/_status.txt | cut -c1-3000)"
           git add probe/out
-          git commit -m "API probe results $(date -u +%FT%TZ)" || echo "nothing to commit"
-          git push
+          git commit -q -m "API probe results $(date -u +%FT%TZ)" || echo "::notice::nothing to commit"
+          out=$(git push origin HEAD:refs/heads/claude/api-probe 2>&1) || { echo "::error::push failed: $(echo "$out" | tr '\n' ' ' | cut -c1-900)"; exit 1; }
+          echo "::notice::pushed"
