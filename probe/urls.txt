@@ -1,12 +1,6 @@
-# name|url   (fourth run: Nigerian sources)
-nbs_home|https://nigerianstat.gov.ng/
-nbs_elibrary|https://nigerianstat.gov.ng/elibrary
-nbs_elibrary_cpi|https://nigerianstat.gov.ng/elibrary?queries[search]=CPI
-nbs_download_sample|https://nigerianstat.gov.ng/download/1212
-nbs_microdata|https://microdata.nigerianstat.gov.ng/index.php/catalog
-nbs_nada_api|https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=5
-cbn_home|https://www.cbn.gov.ng/
-cbn_rates_page|https://www.cbn.gov.ng/rates/ExchRateByCurrency.html
-cbn_rates_asp|https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp
-cbn_api_rates|https://www.cbn.gov.ng/api/GetAllExchangeRates
-cbn_inflation|https://www.cbn.gov.ng/rates/inflrates.html
+# name|url   (fifth run: NBS reports in the microdata catalogue's API)
+nada_cpi|https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=CPI&ps=10&sort_by=created&sort_order=desc
+nada_inflation|https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=inflation&ps=10&sort_by=created&sort_order=desc
+nada_recent|https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=15&sort_by=created&sort_order=desc
+nada_gdp|https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?sk=GDP&ps=10&sort_by=created&sort_order=desc
+nbs_home2|https://nigerianstat.gov.ng/
