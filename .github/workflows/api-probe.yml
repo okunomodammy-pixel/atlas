@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch
         run: |
-          mkdir -p probe/results
+          mkdir -p probe/results; rm -f probe/results/_status.txt
           i=0
           while IFS='|' read -r name url; do
             [ -z "$name" ] && continue; case "$name" in \#*) continue;; esac
@@ -26,7 +26,7 @@ jobs:
             sleep 1
           done < probe/urls.txt
           # keep the repo small: truncate very large bodies but record their size
-          for f in probe/results/*.body; do s=$(stat -c %s "$f"); if [ "$s" -gt 3000000 ]; then head -c 3000000 "$f" > "$f.tmp"; mv "$f.tmp" "$f"; echo "$(basename $f) truncated from $s bytes" >> probe/results/_status.txt; fi; done
+          for f in probe/results/*.body; do s=$(stat -c %s "$f"); case "$f" in *_pdf.body) continue;; esac; if [ "$s" -gt 3000000 ]; then head -c 3000000 "$f" > "$f.tmp"; mv "$f.tmp" "$f"; echo "$(basename $f) truncated from $s bytes" >> probe/results/_status.txt; fi; done
       - name: Commit results to this branch
         run: |
           git config user.name "atlas-probe[bot]"; git config user.email "actions@users.noreply.github.com"
