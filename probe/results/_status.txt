@@ -1,8 +1,12 @@
-wb_mrv8_20000 502 54078 0.095098 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000
-wb_mrv8_1000_p1 502 54078 0.057273 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=1000&page=1
-wb_mrv3_20000 200 177694 0.051596 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=3&per_page=20000
-wb_date_2018_2026 502 54078 0.061375 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=3000
-wb_date_2018_2026_p500 502 54078 0.055850 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=500&page=1
-wb_mrnev8 502 54078 0.064501 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrnev=8&per_page=3000
-wb_mrv8_again 502 54078 0.038886 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&mrv=8&per_page=20000
-wb_date_again 502 54078 0.042651 https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.CD?format=json&date=2018:2026&per_page=3000
+nbs_home 200 160943 2.177033 https://nigerianstat.gov.ng/
+nbs_elibrary 200 1946953 3.729678 https://nigerianstat.gov.ng/elibrary
+nbs_elibrary_cpi curl-failed https://nigerianstat.gov.ng/elibrary?queries[search]=CPI
+nbs_download_sample 200 87829 1.951442 https://nigerianstat.gov.ng/download/1212
+nbs_microdata 200 124598 1.567288 https://microdata.nigerianstat.gov.ng/index.php/catalog
+nbs_nada_api 200 2863 1.578181 https://microdata.nigerianstat.gov.ng/index.php/api/catalog/search?ps=5
+cbn_home 200 35269 2.347878 https://www.cbn.gov.ng/
+cbn_rates_page 200 14221 0.166931 https://www.cbn.gov.ng/rates/ExchRateByCurrency.html
+cbn_rates_asp 404 0 0.533038 https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp
+cbn_api_rates 200 8175373 1.203463 https://www.cbn.gov.ng/api/GetAllExchangeRates
+cbn_inflation 200 13271 0.167863 https://www.cbn.gov.ng/rates/inflrates.html
+cbn_api_rates.body truncated from 8175373 bytes

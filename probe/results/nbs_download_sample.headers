@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Date: Sat, 24 Oct 2026 13:30:26 GMT
+Server: Apache
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Referrer-Policy: no-referrer-when-downgrade
+Permissions-Policy: geolocation=(), camera=()
+Content-Security-Policy: frame-ancestors 'self';
+Pragma: public
+Expires: 0
+Cache-Control: must-revalidate, post-check=0, pre-check=0, private
+Content-Disposition: attachment; filename="2021 Data Release Calendar Updated.pdf";
+Content-Transfer-Encoding: binary
+Set-Cookie: ci_session=94b0e78725ccf52b63e12f8ac3051dc8a4ef1db6; expires=Sat, 24 Oct 2026 15:30:26 GMT; Max-Age=7200; path=/; HttpOnly
+Transfer-Encoding: chunked
+Content-Type: application/pdf
+

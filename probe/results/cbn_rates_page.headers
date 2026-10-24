@@ -1,0 +1,11 @@
+HTTP/2 200 
+date: Sat, 24 Oct 2026 13:30:37 GMT
+content-type: text/html
+server: cloudflare
+cf-cache-status: DYNAMIC
+last-modified: Wed, 07 Oct 2026 16:14:09 GMT
+vary: Accept-Encoding
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-powered-by: ASP.NET
+cf-ray: a4f9564d6d69accf-MSP
+
