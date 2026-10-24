@@ -392,6 +392,24 @@ button.lnk { background: none; border: 0; padding: 0; font: inherit; color: var(
 .key.fl { width: 14px; height: 8px; } .key.nt { width: 2px; height: 12px; } .key.ci { width: 14px; height: 2px; }
 .pick { display: flex; gap: 10px; flex-wrap: wrap; margin: 6px 0 10px; } .pick label { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
 .pick select, #ngmetric { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); max-width: 100%; }
+.vsglance { font-size: 15px; line-height: 1.5; margin: 4px 0 10px; }
+.vs h2 .vsand { font-size: .6em; font-weight: 400; color: var(--muted); }
+.vs .pick { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 8px; }
+.vs .pick label { flex-direction: column; align-items: stretch; gap: 3px; min-width: 0; } .vs .pick select { width: 100%; }
+.vst h4.vsg { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin: 16px 0 2px; }
+.vsr { padding: 8px 0 6px; border-bottom: 1px solid var(--line); }
+.vsn { font-size: 14px; line-height: 1.35; } .vsn .src { font-size: 12px; }
+.vsv { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 3px; font-variant-numeric: tabular-nums; font-size: 14px; line-height: 1.3; }
+.vsv .vsd { text-align: right; color: var(--muted); font-size: 13px; } .vsv .vsd b { color: var(--ink); font-weight: 600; }
+.vshead { position: sticky; top: -1px; background: var(--panel); box-shadow: 0 -24px 0 var(--panel); padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 12.5px; font-weight: 600; z-index: 1; }
+.vshead .vsd { font-weight: 400; }
+.vsdots { position: relative; height: 10px; margin: 6px 5px 0; }
+.vsdots::before { content: ""; position: absolute; left: -5px; right: -5px; top: 4px; height: 2px; border-radius: 1px; background: var(--line); }
+.vsdots i { position: absolute; top: 0; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
+.vsdots i.va { background: var(--accent); } .vsdots i.vb { background: var(--ink); opacity: .45; }
+.vkey { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: 1px; }
+.vkey.va { background: var(--accent); } .vkey.vb { background: var(--ink); opacity: .45; }
+.kmix { background: color-mix(in srgb, var(--c-sa) 22%, var(--panel)); border-radius: 4px; padding: 0 4px; color: var(--ink); }
 #ngmetric { font-weight: 600; width: 100%; }
 .ngbubble { fill: var(--sel); fill-opacity: .6; stroke: var(--panel); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
 
@@ -417,7 +435,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
 <symbol id="i-learn" viewBox="0 0 24 24"><path d="M3 8.5l9-4 9 4-9 4z"/><path d="M7 10.5v5c1.3 1.4 3 2 5 2s3.7-.6 5-2v-5"/><path d="M21 8.5v5"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
 <symbol id="i-ruler" viewBox="0 0 24 24"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6.5 8v3M10.5 8v4M14.5 8v3M18.5 8v4"/></symbol>
-<symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1"/><circle cx="15" cy="15" r="1.1"/><circle cx="15" cy="9" r="1.1"/><circle cx="9" cy="15" r="1.1"/></symbol>
+<symbol id="i-vs" viewBox="0 0 24 24"><rect x="3" y="5" width="7" height="14" rx="2"/><rect x="14" y="5" width="7" height="14" rx="2"/><path d="M6.5 9v6M17.5 12v3"/></symbol><symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.1"/><circle cx="15" cy="15" r="1.1"/><circle cx="15" cy="9" r="1.1"/><circle cx="9" cy="15" r="1.1"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5"/><path d="M3.5 16.5l8.5 4.5 8.5-4.5"/></symbol>
 <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></symbol>
@@ -833,7 +851,7 @@ function countryPanel(k) {
     <div class="tile"><small>Area</small><b>${shortNum(f.a)} km²</b><em>${esc(vsNg)}</em></div>
     <div class="tile"><small>Land neighbours</small><b>${nbs.length}</b><em>${f.land ? "landlocked" : f.b.length === 0 ? "island state" : "has a coast"}</em></div>
   </div>
-  <div class="actrow"><button class="btn" data-act="share" data-c3="${esc(f.c3)}">Share</button><button class="btn" data-act="random">Surprise me</button>${S.sel === k && nbs.length ? `<button class="btn" data-act="walk" data-k="${k}">Next door</button>` : ""}</div>
+  <div class="actrow"><button class="btn" data-act="share" data-c3="${esc(f.c3)}">Share</button>${f.un || f.obs ? `<button class="btn" data-act="vs" data-c3="${esc(f.c3)}">Compare</button>` : ""}<button class="btn" data-act="random">Surprise me</button>${S.sel === k && nbs.length ? `<button class="btn" data-act="walk" data-k="${k}">Next door</button>` : ""}</div>
   <dl class="facts">
     <dt>Centre (approx.)</dt><dd style="font-family:var(--mono);font-size:13px">${latStr(c[1])}, ${lonStr(c[0])}</dd>
     <dt>Exact area</dt><dd>${fmt(f.a)} km²</dd>
@@ -1215,7 +1233,7 @@ function aboutPanel() {
   <ul>
   <li><b>You can place any country</b> and say what surrounds it. Every one of the ${n} countries has a profile: its neighbours, its people, how its borders were made, why its location matters, and a line to help you remember it.</li>
   <li><b>You read maps critically.</b> You will know why Africa looks small on most maps, why the shortest flight looks curved, and when a "natural" border is really a political choice.</li>
-  <li><b>You understand Nigeria from the inside.</b> From Nok and the old kingdoms to 1914, the civil war, June 12 and the Fourth Republic, with the national question argued from several sides.</li>
+  <li><b>You understand Nigeria from the inside.</b> From Nok and the old kingdoms to 1914, the civil war, June 12 and the Fourth Republic, with the national question argued from several sides. Every state and the FCT has its own profile, from the 2022 national poverty survey, and the monthly figures (inflation, fuel prices, the naira) come straight from NBS and the Central Bank.</li>
   <li><b>You can follow the news with a map in mind.</b> Wars, chokepoints, blocs, currencies and the minerals the world now fights over, checked against sources dated 2026.</li>
   <li><b>You think in more than one frame.</b> Lessons separate facts from interpretation and set rival views side by side (realist and liberal, geography and institutions, Soyinka and Achebe), so you form your own judgement.</li>
   <li><b>You remember it.</b> Each lesson ends with a short check, and a daily review brings back what you missed at growing intervals, one of the best-supported methods in memory research.</li></ul>
@@ -1230,8 +1248,8 @@ function aboutPanel() {
   <p>Curious readers who want truth over half-truths; students of geography, history, economics and International Relations (the lessons cover Westphalia, geopolitics, non-alignment, Nigerian foreign policy and the CFA debate); teachers who want a map that changes as they talk; travellers who want context before they go.</p>
 
   <h3>How to read what it tells you</h3>
-  <p>Labels mark the difference between a fact, an <span class="kind">Interpretation</span> and something <span class="kind">Debated</span>. Fast-changing facts carry a date: memberships were checked in October 2026, population comes from the UN's 2024 projections for mid-2026, and Nigeria has not held a census since 2006. If a fact looks wrong to you, it may have changed; check the date, then the source.</p>
-  <p>On a country page, tap an underlined figure to see how the country compares with its neighbours, its region and the world, where it sits among all countries with data, and which other figures relate to it. Connections are labelled for what they are: a <b>descriptive comparison</b>, a <b>statistical association</b> calculated by the atlas (a pattern, not proof of cause), or a <b>proposed explanation</b> from a lesson or from research, with what it would take to test it.</p>
+  <p>Labels mark the difference between a fact, an <span class="kind">Interpretation</span> and something <span class="kind">Debated</span>. Fast-changing facts carry a date: memberships were checked in October 2026, population comes from the UN's 2024 projections for mid-2026, and Nigeria has not held a census since 2006. Economic figures from the IMF, the World Bank, NBS and the Central Bank of Nigeria are checked automatically, each as often as its source publishes: routine updates go straight in, and anything unusual (a new edition, a large revision) waits until a person approves it. If a fact looks wrong to you, it may have changed; check the date, then the source.</p>
+  <p>On a country page, tap an underlined figure to see how the country compares with its neighbours, its region and the world, where it sits among all countries with data, and which other figures relate to it. Press <b>Compare</b> to set the country beside any other, figure by figure. Connections are labelled for what they are: a <b>descriptive comparison</b>, a <b>statistical association</b> calculated by the atlas (a pattern, not proof of cause), or a <b>proposed explanation</b> from a lesson or from research, with what it would take to test it.</p>
 
   <h3>Where the facts come from</h3>
   <ul>
@@ -4217,6 +4235,84 @@ runQs = function (items, ctx) { runQsBase(items, ctx);
     const nx = $("#nextq"); if (nx && !nx.dataset.hooked) { nx.dataset.hooked = 1; nx.addEventListener("click", () => setTimeout(hook, 0)); } }, 0)));
   hook(); };
 
+/* ---------- batch 24: compare two countries ----------
+   Any two countries side by side, on every figure the registry can compare. Each row says where both sit
+   among all countries, flags when the two values are of different kinds (an estimate against a projection),
+   and links to the figure's explanation. Nothing is derived beyond plain ratios and differences. */
+const VS_GROUPS = [
+  ["People", ["pop", "median_age", "tfr", "life_exp", "imr", "pop_growth", "pop_change_2050"]],
+  ["Money", ["gdp_usd_25", "gdp_pc_25", "gdp_growth_26", "cpi_avg_26", "unemp_26", "ca_26"]],
+  ["Movement", ["net_mig", "mig_share", "mig_in", "mig_out"]],
+  ["Energy and climate", ["oil_share", "gas_share", "ndgain"]]
+];
+const vsKey = c3 => { const k = k3(c3); return k && byKey.get(k) ? k : null; };
+const vsAll = () => Object.values(D.facts).filter(f => f.un || f.obs).sort((a, b) => a.n.localeCompare(b.n));
+function vsPartner(c3) { const f = byKey.get(k3(c3)); if (!f) return "GHA";
+  const pop = c => ival("pop", c) || 0, nb = (f.b || []).map(x => byKey.get(k3(x))).filter(x => x && (x.un || x.obs));
+  if (nb.length) return nb.sort((a, b) => pop(b.c3) - pop(a.c3))[0].c3;
+  const same = vsAll().filter(x => x.c3 !== f.c3 && x.sub === f.sub);
+  const p0 = pop(f.c3); same.sort((a, b) => Math.abs(Math.log((pop(a.c3) || 1) / (p0 || 1))) - Math.abs(Math.log((pop(b.c3) || 1) / (p0 || 1))));
+  return same.length ? same[0].c3 : f.c3 === "NGA" ? "GHA" : "NGA"; }
+/* where each value sits among all countries with data: 0 = lowest, 1 = highest */
+function vsDots(id, a, b) { const set = setOf(id); if (set.length < 10) return "";
+  const pos = v => v == null ? null : set.filter(x => x.v < v).length / (set.length - 1 || 1);
+  const pa = pos(a), pb = pos(b), X = p => (Math.min(1, p) * 100).toFixed(1);
+  return `<div class="vsdots" aria-hidden="true">${pb != null ? `<i class="vb" style="left:${X(pb)}%"></i>` : ""}${pa != null ? `<i class="va" style="left:${X(pa)}%"></i>` : ""}</div>`; }
+/* "the" before names that take it, so sentences read naturally */
+const VS_THE = /^(United |Netherlands|Philippines|Bahamas|Gambia|Central African|Dominican Republic|Republic of the|Marshall|Solomon|Maldives|Comoros|Seychelles)/;
+const theN = (n, cap) => VS_THE.test(n) ? (cap ? "The " : "the ") + n : n;
+/* the difference, stated as which country is higher and by how much; neither direction is called better */
+function vsUnit(id) { const u = IND[id].unit || "", m = (CMP[id] || {}).m;
+  if (u.includes("%") || m === "share") return " points"; if (u === "years") return " years"; if (u === "children") return " children";
+  if (u.startsWith("per 1,000")) return " per 1,000"; return ""; }
+const vsTimes = r => r >= 10 ? fmt(Math.round(r)) : r.toFixed(1);
+function vsDiff(id, a, b, A, B) { if (a == null || b == null) return "";
+  const m = (CMP[id] || {}).m, hi = a >= b ? A : B;
+  if (m === "level" && a > 0 && b > 0 && IND[id].unit !== "years") { const r = Math.max(a, b) / Math.min(a, b);
+    if (r < 1.005) return "about the same"; return `<b>${esc(hi.n)}</b><br>${r >= 2 ? vsTimes(r) + " times" : "+" + Math.round((r - 1) * 100) + "%"}`; }
+  const d = Math.abs(a - b); if (d < .05) return "about the same";
+  return `<b>${esc(hi.n)}</b><br>+${d >= 100 ? fmt(Math.round(d)) : d.toFixed(1)}${vsUnit(id)}`; }
+function vsGlance(A, B) { const out = [], pa = ival("pop", A.c3), pb = ival("pop", B.c3), ga = ival("gdp_pc_25", A.c3), gb = ival("gdp_pc_25", B.c3);
+  if (pa && pb) { const [big, small, r] = pa >= pb ? [A, B, pa / pb] : [B, A, pb / pa];
+    out.push(r < 1.1 ? `${esc(theN(A.n, 1))} and ${esc(theN(B.n))} have about the same number of people.` : `${esc(theN(big.n, 1))} has <b>${vsTimes(r)} times</b> as many people as ${esc(theN(small.n))}.`); }
+  if (ga && gb) { const [rich, poor, r] = ga >= gb ? [A, B, ga / gb] : [B, A, gb / ga];
+    out.push(r < 1.1 ? "Their output per person is about the same." : `Output per person in ${esc(theN(rich.n))} is <b>${vsTimes(r)} times</b> ${esc(theN(poor.n))}'s (${r >= 2 ? "in US dollars at market exchange rates, which widen the gap because prices are lower in poorer countries" : "in US dollars at market exchange rates"}).`); }
+  if (pa && pb && ga && gb && (pa - pb) * (pa * ga - pb * gb) < 0) out.push("So the smaller population has the larger economy.");
+  return out.length ? `<p class="vsglance">${out.join(" ")}</p>` : ""; }
+function vsRow(id, A, B) { const r = IND[id]; if (!r || !CMP[id]) return "";
+  const a = ival(id, A.c3), b = ival(id, B.c3); if (a == null && b == null) return "";
+  const ka = r.st ? r.st(A.c3) || r.kind : r.kind, kb = r.st ? r.st(B.c3) || r.kind : r.kind;
+  const mixed = a != null && b != null && ka !== kb ? ` · <span class="kmix">${esc(A.n)}: ${esc((KIND[ka] || ka).toLowerCase())}; ${esc(B.n)}: ${esc((KIND[kb] || kb).toLowerCase())}</span>` : "";
+  const per = r.period && !r.name.includes(r.period) ? esc(r.period) : "", val = v => v == null ? `<span class="src">no data</span>` : esc(r.f(v));
+  return `<div class="vsr"><div class="vsn"><button class="lnk" data-ind="${id}">${esc(r.name)}</button>${per || mixed ? ` <span class="src">${per}${mixed}</span>` : ""}</div>
+    <div class="vsv"><span>${val(a)}</span><span>${val(b)}</span><span class="vsd">${vsDiff(id, a, b, A, B)}</span></div>${vsDots(id, a, b)}</div>`; }
+function compareCountriesHTML(a, b) { const A = byKey.get(vsKey(a)), B = byKey.get(vsKey(b));
+  const opt = sel => vsAll().map(f => `<option value="${esc(f.c3)}"${f.c3 === sel ? " selected" : ""}>${esc(f.n)}</option>`).join("");
+  const groups = VS_GROUPS.map(([g, ids]) => { const rows = ids.map(id => vsRow(id, A, B)).join(""); return rows ? `<h4 class="vsg">${esc(g)}</h4>${rows}` : ""; }).join("");
+  const shared = (A.b || []).includes(B.c3);
+  return `<div class="dialog cmp vs" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Compare two countries${shared ? " · neighbours" : ""}</div>
+    <h2 id="cmpT">${esc(A.flag)} ${esc(A.n)} <span class="vsand">and</span> ${esc(B.flag)} ${esc(B.n)}</h2>
+    <div class="pick"><label>Country <select data-vsa>${opt(A.c3)}</select></label><button class="btn" data-vsswap aria-label="Swap the two countries">Swap</button><label>with <select data-vsb>${opt(B.c3)}</select></label></div>
+    ${vsGlance(A, B)}
+    <div class="vst"><div class="vsv vshead"><span><i class="vkey va"></i>${esc(A.n)}</span><span><i class="vkey vb"></i>${esc(B.n)}</span><span class="vsd">Which is higher</span></div>${groups}</div>
+    <p class="src">The line under each row runs from the lowest country in the world to the highest, so you can see whether a gap is large by world standards. Where the two values are of different kinds, the row says so. Figures show how the countries differ, not why: that takes history, geography and policy, which the profiles cover.</p>
+    <div class="btnrow" style="margin:14px 0 0"><button class="btn" data-vsopen="${esc(vsKey(A.c3))}">Open ${esc(A.n)}</button><button class="btn" data-vsopen="${esc(vsKey(B.c3))}">Open ${esc(B.n)}</button><button class="btn" data-vsshare>Share</button><button class="btn primary" data-dlg="close">Close</button></div></div>`; }
+function compareCountries(a, b) { if (!vsKey(a)) return; if (!b || !vsKey(b) || b === a) b = vsPartner(a);
+  $("#overlay").innerHTML = compareCountriesHTML(a, b); $("#overlay").hidden = false; $("#overlay .dialog").scrollTop = 0; S.lastSheet = () => compareCountries(a, b);
+  const o = $("#overlay"), go = () => compareCountries(o.querySelector("select[data-vsa]").value, o.querySelector("select[data-vsb]").value);
+  o.querySelectorAll("select[data-vsa],select[data-vsb]").forEach(s => s.addEventListener("change", go));
+  o.querySelector("[data-vsswap]").addEventListener("click", e => { e.stopPropagation(); compareCountries(b, a); });
+  o.querySelectorAll("[data-vsopen]").forEach(x => x.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); closeOverlay();
+    if (S.mode !== "explore") setMode("explore"); selectCountry(x.dataset.vsopen, true); }));
+  o.querySelector("[data-vsshare]").addEventListener("click", async e => { e.stopPropagation(); const url = shareURL(`vs/${a}/${b}`), title = `${nameOf(vsKey(a))} and ${nameOf(vsKey(b))} · Mental Map Atlas`;
+    try { if (navigator.share) { await navigator.share({title, url}); return; } } catch (er) { if (er && er.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(url); toast("Link copied"); } catch (er) { toast(url, 6000); } }); }
+ACT.vs = el => compareCountries(el.dataset.c3, el.dataset.b);
+const routeHashVS = routeHash;
+routeHash = function (initial) { let h = ""; try { h = decodeURIComponent((location.hash || "").slice(1)); } catch (e) {}
+  const m = /^vs\/([A-Z]{3})(?:\/([A-Z]{3}))?$/.exec(h);
+  if (m && vsKey(m[1])) { routing = true; try { setMode("explore", true); MODES.explore(); } finally { routing = false; } setTimeout(() => compareCountries(m[1], m[2]), 50); return; }
+  return routeHashVS(initial); };
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
   ["learn", "Reading the map", "Globes, projections, the grid, distance and direction"],
@@ -4310,7 +4406,7 @@ MODES.explore = () => { resetView();
     <button class="cardbtn" data-mode-go="tools"><svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg><b>Measure the world</b><span>Distances and true sizes</span></button>
     <button class="cardbtn" data-act="random"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg><b>Surprise me</b><span>A country you have not opened yet</span></button>
     <button class="cardbtn" data-act="themes"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><b>Today's world</b><span>Income, growth, wars, minerals, ageing and currencies on the map</span></button>
-    <button class="cardbtn" data-mode-go="about"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><b>What you'll gain</b><span>How to use the atlas in ten minutes a day</span></button>
+    <button class="cardbtn" data-act="vs" data-c3="${esc((() => { const k = saved.seen[saved.seen.length - 1], f = k && byKey.get(k); return f && (f.un || f.obs) ? f.c3 : "NGA"; })())}"><svg class="ic" aria-hidden="true"><use href="#i-vs"/></svg><b>Compare two countries</b><span>Any pair, side by side, on every figure the atlas holds</span></button>
   </div>
   <h4>A first walk across Africa</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>
   <h4>Your progress</h4>${progressBars()}
@@ -4353,6 +4449,7 @@ function showWelcome(isHelp) {
       <dt>Search</dt><dd>Countries, capitals, cities, seas, mountains<span class="desk">; press <kbd>/</kbd> to jump there</span>.</dd>
       <dt>Map</dt><dd>Projection and layers: rivers, cities, time zones, depths.</dd>
       <dt class="mob">Handle</dt><dd class="mob">Drag the bar above the reading panel to resize the map.</dd>
+      <dt>Compare</dt><dd>Open a country and press Compare to set it beside any other.</dd>
       <dt>Back</dt><dd>Your Back button works, and every country has a shareable link.</dd>
     </dl>
     <div class="btnrow" style="justify-content:flex-end;margin:0"><button class="btn primary" data-dlg="close">${isHelp ? "Got it" : "Start exploring"}</button></div></div>`;

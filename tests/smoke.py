@@ -114,9 +114,20 @@ with sync_playwright() as pw:
             p.evaluate(f"closeOverlay(); compareSheet('{tie[0]}', '{tie[1]}')"); p.wait_for_timeout(150)
             check(f"{tag}: tied values share a rank ('Joint ...')", "Joint " in p.inner_text("#overlay .dialog"), str(tie))
         p.evaluate("closeOverlay()")
+        # compare two countries: opened from the profile, values match the registry, fits the screen
+        p.evaluate("setMode('explore'); selectCountry(byC3.get('NGA'), true)"); p.wait_for_timeout(300)
+        p.click("#panel [data-act=vs]"); p.wait_for_timeout(300)
+        rows = p.evaluate("document.querySelectorAll('#overlay .vsr').length")
+        pop_ok = p.evaluate("(() => { const r = [...document.querySelectorAll('#overlay .vsr')].find(x => x.querySelector('[data-ind=pop]')); return !!r && r.innerText.includes(IND.pop.f(ival('pop','NGA'))); })()")
+        fits = p.evaluate("$('#overlay .dialog').scrollWidth <= $('#overlay .dialog').clientWidth + 1")
+        check(f"{tag}: compare two countries opens from the profile, with registry values", rows >= 12 and pop_ok and fits, f"rows={rows} pop={pop_ok} fits={fits}")
+        p.evaluate("closeOverlay()")
         # links by URL
         q, e2 = page(b, w, h, hash="c/NGA")
         check(f"{tag}: link #c/NGA opens Nigeria", "Nigeria" in q.inner_text("#panel h2"))
+        q2, e4 = page(b, w, h); q2.goto("http://127.0.0.1:8765/_t.html#vs/KEN/TZA"); q2.wait_for_selector("#loading", state="hidden", timeout=20000); q2.wait_for_timeout(1200)
+        check(f"{tag}: link #vs/KEN/TZA opens the comparison", "Kenya" in q2.evaluate("(document.querySelector('#overlay h2') || {}).textContent || ''") and "Tanzania" in q2.evaluate("(document.querySelector('#overlay h2') || {}).textContent || ''"))
+        errs += e4
         check(f"{tag}: no script errors", not real(errs) and not real(e2), "; ".join(real(errs) + real(e2))[:200])
     # offline: standalone file with the network switched off
     ctx = b.new_context(viewport={"width": 390, "height": 844}, offline=True)
