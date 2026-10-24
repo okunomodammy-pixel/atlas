@@ -3,7 +3,7 @@
     python3 -m pipeline.release [--no-tests]
 
 1. builds out/ from src/ and data/ (build/dist.py)
-2. runs tests/smoke.py and tests/test_atlas_pipeline.py against the build (unless --no-tests)
+2. runs tests/smoke.py, tests/test_atlas_pipeline.py and tests/test_nigeria.py against the build (unless --no-tests)
 3. only if they pass: copies the build to index.html when it differs, and sets the offline cache
    name in sw.js to a hash of the page, so phones fetch the new version
 4. assembles _site/ (the files GitHub Pages serves) and writes out/release.json
@@ -25,7 +25,7 @@ def main(argv):
     report = {"tests": "skipped" if "--no-tests" in argv else None, "changed": False}
     if run("build/dist.py"): raise SystemExit("build failed")
     if "--no-tests" not in argv:
-        failed = [t for t in ("tests/smoke.py", "tests/test_atlas_pipeline.py") if run(t)]
+        failed = [t for t in ("tests/smoke.py", "tests/test_atlas_pipeline.py", "tests/test_nigeria.py") if run(t)]
         report["tests"] = "failed: " + ", ".join(failed) if failed else "passed"
         if failed:
             json.dump(report, open(os.path.join(R, "out", "release.json"), "w"), indent=1)

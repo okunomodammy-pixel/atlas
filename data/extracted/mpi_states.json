@@ -1,0 +1,3850 @@
+{
+ "source": "National Bureau of Statistics, Nigeria Multidimensional Poverty Index 2022, Appendix D (Tables D12 and D49) and Table 2",
+ "period": "survey fieldwork November 2021 to February 2022",
+ "checks": "MPI = sum of weight x censored headcount for every state (within 0.004); no censored headcount above H",
+ "indicators": [
+  {
+   "key": "nutrition",
+   "name": "Nutrition",
+   "dimension": "Health",
+   "weight": 0.083333,
+   "deprived_if": "a child under 5 is stunted or underweight, or an adult is underweight"
+  },
+  {
+   "key": "food",
+   "name": "Food insecurity",
+   "dimension": "Health",
+   "weight": 0.083333,
+   "deprived_if": "the household is severely food insecure (FAO Food Insecurity Experience Scale)"
+  },
+  {
+   "key": "health_time",
+   "name": "Time to healthcare",
+   "dimension": "Health",
+   "weight": 0.083333,
+   "deprived_if": "the nearest health facility is 30 minutes or more away on foot"
+  },
+  {
+   "key": "attendance",
+   "name": "School attendance",
+   "dimension": "Education",
+   "weight": 0.09375,
+   "deprived_if": "a child aged 6-15 is not attending school"
+  },
+  {
+   "key": "schooling",
+   "name": "Years of schooling",
+   "dimension": "Education",
+   "weight": 0.125,
+   "deprived_if": "no one aged 15 or over has completed primary school"
+  },
+  {
+   "key": "school_lag",
+   "name": "School lag",
+   "dimension": "Education",
+   "weight": 0.03125,
+   "deprived_if": "a child aged 8-17 is two or more grades behind"
+  },
+  {
+   "key": "water",
+   "name": "Water",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "no safe drinking water"
+  },
+  {
+   "key": "water_rel",
+   "name": "Water reliability",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "water is available fewer than 20 days a month or 4 hours a day"
+  },
+  {
+   "key": "sanitation",
+   "name": "Sanitation",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "the toilet is unimproved, or shared with other households"
+  },
+  {
+   "key": "housing",
+   "name": "Housing materials",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "the floor, roof or walls are natural or rudimentary"
+  },
+  {
+   "key": "cooking",
+   "name": "Cooking fuel",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "the household cooks with dung, wood or charcoal"
+  },
+  {
+   "key": "assets",
+   "name": "Assets",
+   "dimension": "Living standards",
+   "weight": 0.041667,
+   "deprived_if": "the household has fewer than two of the listed assets and no car"
+  },
+  {
+   "key": "unemployment",
+   "name": "Unemployment",
+   "dimension": "Work and shocks",
+   "weight": 0.1,
+   "deprived_if": "a member aged 15 or over is unemployed and looking for work"
+  },
+  {
+   "key": "underemployment",
+   "name": "Underemployment",
+   "dimension": "Work and shocks",
+   "weight": 0.05,
+   "deprived_if": "a member works under 40 hours a week and wants more"
+  },
+  {
+   "key": "shock",
+   "name": "Security shock",
+   "dimension": "Work and shocks",
+   "weight": 0.1,
+   "deprived_if": "the household suffered a security shock in the past 12 months"
+  }
+ ],
+ "national": {
+  "mpi": 0.257,
+  "h": 62.9,
+  "h_ci": [
+   61.9,
+   63.8
+  ],
+  "a": 40.9,
+  "pop_share": 100.0,
+  "poor_m": 132.92,
+  "censored": {
+   "nutrition": [
+    28.7,
+    27.9,
+    29.5
+   ],
+   "food": [
+    38.6,
+    37.7,
+    39.5
+   ],
+   "health_time": [
+    38.7,
+    37.4,
+    40.0
+   ],
+   "attendance": [
+    26.3,
+    25.5,
+    27.1
+   ],
+   "schooling": [
+    13.0,
+    12.2,
+    13.7
+   ],
+   "school_lag": [
+    16.6,
+    16.0,
+    17.2
+   ],
+   "water": [
+    29.3,
+    28.1,
+    30.5
+   ],
+   "water_rel": [
+    16.7,
+    16.0,
+    17.4
+   ],
+   "sanitation": [
+    46.5,
+    45.4,
+    47.5
+   ],
+   "housing": [
+    38.6,
+    37.6,
+    39.7
+   ],
+   "cooking": [
+    50.6,
+    49.7,
+    51.6
+   ],
+   "assets": [
+    25.9,
+    25.1,
+    26.7
+   ],
+   "unemployment": [
+    14.3,
+    13.8,
+    14.9
+   ],
+   "underemployment": [
+    15.9,
+    15.3,
+    16.5
+   ],
+   "shock": [
+    14.0,
+    13.4,
+    14.6
+   ]
+  },
+  "school": {
+   "children_m": 56.32,
+   "out_of_school_pct": 28.7
+  }
+ },
+ "area": {
+  "Rural": {
+   "mpi": 0.302,
+   "h": 72.0,
+   "h_ci": [
+    70.9,
+    73.0
+   ],
+   "a": 41.9,
+   "pop_share": 69.6,
+   "poor_m": 105.98
+  },
+  "Urban": {
+   "mpi": 0.155,
+   "h": 42.0,
+   "h_ci": [
+    40.3,
+    43.6
+   ],
+   "a": 36.9,
+   "pop_share": 30.4,
+   "poor_m": 26.94
+  }
+ },
+ "zones": {
+  "North Central": {
+   "mpi": 0.272,
+   "h": 66.3,
+   "h_ci": [
+    64.3,
+    68.3
+   ],
+   "a": 41.0,
+   "pop_share": 14.4,
+   "poor_m": 20.19
+  },
+  "North East": {
+   "mpi": 0.324,
+   "h": 76.5,
+   "h_ci": [
+    74.6,
+    78.3
+   ],
+   "a": 42.4,
+   "pop_share": 12.7,
+   "poor_m": 20.47
+  },
+  "North West": {
+   "mpi": 0.324,
+   "h": 75.8,
+   "h_ci": [
+    73.8,
+    77.7
+   ],
+   "a": 42.7,
+   "pop_share": 28.4,
+   "poor_m": 45.49
+  },
+  "South East": {
+   "mpi": 0.183,
+   "h": 49.0,
+   "h_ci": [
+    46.8,
+    51.1
+   ],
+   "a": 37.3,
+   "pop_share": 10.5,
+   "poor_m": 10.85
+  },
+  "South South": {
+   "mpi": 0.25,
+   "h": 62.6,
+   "h_ci": [
+    60.5,
+    64.7
+   ],
+   "a": 39.8,
+   "pop_share": 14.8,
+   "poor_m": 19.66
+  },
+  "South West": {
+   "mpi": 0.151,
+   "h": 40.0,
+   "h_ci": [
+    37.0,
+    42.9
+   ],
+   "a": 37.7,
+   "pop_share": 19.2,
+   "poor_m": 16.27
+  }
+ },
+ "states": {
+  "Abia": {
+   "censored": {
+    "nutrition": [
+     9.4,
+     6.7,
+     12.1
+    ],
+    "food": [
+     24.6,
+     21.0,
+     28.2
+    ],
+    "health_time": [
+     17.3,
+     13.0,
+     21.5
+    ],
+    "attendance": [
+     4.3,
+     2.7,
+     5.9
+    ],
+    "schooling": [
+     3.0,
+     2.2,
+     3.8
+    ],
+    "school_lag": [
+     5.8,
+     3.3,
+     8.4
+    ],
+    "water": [
+     4.1,
+     2.4,
+     5.9
+    ],
+    "water_rel": [
+     11.8,
+     9.4,
+     14.2
+    ],
+    "sanitation": [
+     16.4,
+     13.4,
+     19.5
+    ],
+    "housing": [
+     2.6,
+     1.4,
+     3.8
+    ],
+    "cooking": [
+     23.8,
+     19.7,
+     28.0
+    ],
+    "assets": [
+     6.1,
+     4.6,
+     7.7
+    ],
+    "unemployment": [
+     14.7,
+     11.5,
+     17.9
+    ],
+    "underemployment": [
+     7.5,
+     5.2,
+     9.9
+    ],
+    "shock": [
+     3.2,
+     1.7,
+     4.7
+    ]
+   },
+   "school": {
+    "children_m": 0.86,
+    "out_of_school_pct": 5.6
+   },
+   "mpi_ci": [
+    0.086,
+    0.116
+   ],
+   "h_ci": [
+    25.5,
+    34.1
+   ],
+   "a_ci": [
+    33.1,
+    34.7
+   ],
+   "pop_share": 1.8
+  },
+  "Adamawa": {
+   "censored": {
+    "nutrition": [
+     32.2,
+     28.5,
+     35.8
+    ],
+    "food": [
+     42.5,
+     38.0,
+     47.0
+    ],
+    "health_time": [
+     46.3,
+     38.4,
+     54.3
+    ],
+    "attendance": [
+     25.4,
+     21.2,
+     29.6
+    ],
+    "schooling": [
+     9.5,
+     7.0,
+     12.0
+    ],
+    "school_lag": [
+     30.6,
+     26.8,
+     34.4
+    ],
+    "water": [
+     31.5,
+     24.5,
+     38.6
+    ],
+    "water_rel": [
+     17.8,
+     13.4,
+     22.2
+    ],
+    "sanitation": [
+     39.1,
+     33.1,
+     45.0
+    ],
+    "housing": [
+     52.0,
+     45.4,
+     58.7
+    ],
+    "cooking": [
+     28.9,
+     24.2,
+     33.6
+    ],
+    "assets": [
+     22.8,
+     19.0,
+     26.5
+    ],
+    "unemployment": [
+     6.8,
+     3.7,
+     9.8
+    ],
+    "underemployment": [
+     26.3,
+     22.4,
+     30.1
+    ],
+    "shock": [
+     37.0,
+     32.2,
+     41.7
+    ]
+   },
+   "school": {
+    "children_m": 1.41,
+    "out_of_school_pct": 21.7
+   },
+   "mpi_ci": [
+    0.257,
+    0.309
+   ],
+   "h_ci": [
+    63.6,
+    73.8
+   ],
+   "a_ci": [
+    40.1,
+    42.3
+   ],
+   "pop_share": 2.4
+  },
+  "Akwa Ibom": {
+   "censored": {
+    "nutrition": [
+     23.1,
+     19.6,
+     26.6
+    ],
+    "food": [
+     60.3,
+     54.3,
+     66.2
+    ],
+    "health_time": [
+     59.5,
+     52.9,
+     66.2
+    ],
+    "attendance": [
+     13.6,
+     10.5,
+     16.7
+    ],
+    "schooling": [
+     3.0,
+     2.2,
+     3.8
+    ],
+    "school_lag": [
+     13.4,
+     9.9,
+     16.9
+    ],
+    "water": [
+     31.5,
+     25.1,
+     37.8
+    ],
+    "water_rel": [
+     23.6,
+     19.0,
+     28.2
+    ],
+    "sanitation": [
+     48.4,
+     44.1,
+     52.7
+    ],
+    "housing": [
+     19.9,
+     16.3,
+     23.4
+    ],
+    "cooking": [
+     52.8,
+     47.8,
+     57.8
+    ],
+    "assets": [
+     28.3,
+     24.2,
+     32.3
+    ],
+    "unemployment": [
+     36.2,
+     31.3,
+     41.1
+    ],
+    "underemployment": [
+     32.7,
+     28.0,
+     37.4
+    ],
+    "shock": [
+     15.8,
+     12.3,
+     19.3
+    ]
+   },
+   "school": {
+    "children_m": 1.71,
+    "out_of_school_pct": 10.6
+   },
+   "mpi_ci": [
+    0.268,
+    0.319
+   ],
+   "h_ci": [
+    66.3,
+    76.3
+   ],
+   "a_ci": [
+    40.0,
+    42.2
+   ],
+   "pop_share": 3.4
+  },
+  "Anambra": {
+   "censored": {
+    "nutrition": [
+     9.1,
+     7.1,
+     11.1
+    ],
+    "food": [
+     24.2,
+     20.2,
+     28.2
+    ],
+    "health_time": [
+     22.9,
+     18.1,
+     27.7
+    ],
+    "attendance": [
+     2.9,
+     1.7,
+     4.1
+    ],
+    "schooling": [
+     2.1,
+     1.3,
+     2.9
+    ],
+    "school_lag": [
+     5.4,
+     3.7,
+     7.1
+    ],
+    "water": [
+     12.5,
+     9.5,
+     15.6
+    ],
+    "water_rel": [
+     10.5,
+     7.5,
+     13.5
+    ],
+    "sanitation": [
+     19.4,
+     14.7,
+     24.0
+    ],
+    "housing": [
+     3.3,
+     1.8,
+     4.8
+    ],
+    "cooking": [
+     23.2,
+     18.8,
+     27.6
+    ],
+    "assets": [
+     8.9,
+     6.8,
+     11.0
+    ],
+    "unemployment": [
+     8.9,
+     6.5,
+     11.3
+    ],
+    "underemployment": [
+     9.2,
+     7.3,
+     11.1
+    ],
+    "shock": [
+     9.4,
+     7.1,
+     11.7
+    ]
+   },
+   "school": {
+    "children_m": 1.18,
+    "out_of_school_pct": 2.9
+   },
+   "mpi_ci": [
+    0.094,
+    0.125
+   ],
+   "h_ci": [
+    27.7,
+    36.4
+   ],
+   "a_ci": [
+    33.2,
+    35.0
+   ],
+   "pop_share": 2.4
+  },
+  "Bauchi": {
+   "censored": {
+    "nutrition": [
+     21.0,
+     16.8,
+     25.2
+    ],
+    "food": [
+     21.9,
+     18.1,
+     25.8
+    ],
+    "health_time": [
+     33.0,
+     27.1,
+     38.9
+    ],
+    "attendance": [
+     53.9,
+     48.9,
+     58.9
+    ],
+    "schooling": [
+     39.4,
+     33.3,
+     45.5
+    ],
+    "school_lag": [
+     15.8,
+     12.8,
+     18.7
+    ],
+    "water": [
+     40.7,
+     33.7,
+     47.7
+    ],
+    "water_rel": [
+     13.4,
+     10.7,
+     16.0
+    ],
+    "sanitation": [
+     46.7,
+     41.5,
+     51.9
+    ],
+    "housing": [
+     71.9,
+     67.5,
+     76.4
+    ],
+    "cooking": [
+     69.2,
+     63.8,
+     74.5
+    ],
+    "assets": [
+     30.6,
+     25.7,
+     35.5
+    ],
+    "unemployment": [
+     8.4,
+     6.3,
+     10.6
+    ],
+    "underemployment": [
+     6.6,
+     4.3,
+     8.9
+    ],
+    "shock": [
+     5.1,
+     3.1,
+     7.2
+    ]
+   },
+   "school": {
+    "children_m": 2.46,
+    "out_of_school_pct": 55.7
+   },
+   "mpi_ci": [
+    0.275,
+    0.321
+   ],
+   "h_ci": [
+    69.6,
+    78.1
+   ],
+   "a_ci": [
+    39.2,
+    41.6
+   ],
+   "pop_share": 3.7
+  },
+  "Bayelsa": {
+   "censored": {
+    "nutrition": [
+     23.1,
+     19.0,
+     27.2
+    ],
+    "food": [
+     81.1,
+     77.1,
+     85.1
+    ],
+    "health_time": [
+     39.4,
+     32.9,
+     45.9
+    ],
+    "attendance": [
+     9.6,
+     6.9,
+     12.2
+    ],
+    "schooling": [
+     4.2,
+     2.9,
+     5.6
+    ],
+    "school_lag": [
+     20.3,
+     17.1,
+     23.4
+    ],
+    "water": [
+     64.1,
+     57.1,
+     71.2
+    ],
+    "water_rel": [
+     17.5,
+     11.7,
+     23.4
+    ],
+    "sanitation": [
+     81.0,
+     76.9,
+     85.0
+    ],
+    "housing": [
+     30.9,
+     25.3,
+     36.4
+    ],
+    "cooking": [
+     74.2,
+     69.2,
+     79.1
+    ],
+    "assets": [
+     62.2,
+     55.9,
+     68.5
+    ],
+    "unemployment": [
+     55.8,
+     50.3,
+     61.3
+    ],
+    "underemployment": [
+     28.8,
+     24.1,
+     33.4
+    ],
+    "shock": [
+     53.5,
+     48.8,
+     58.1
+    ]
+   },
+   "school": {
+    "children_m": 0.73,
+    "out_of_school_pct": 7.4
+   },
+   "mpi_ci": [
+    0.38,
+    0.423
+   ],
+   "h_ci": [
+    85.8,
+    91.3
+   ],
+   "a_ci": [
+    43.9,
+    46.7
+   ],
+   "pop_share": 1.4
+  },
+  "Benue": {
+   "censored": {
+    "nutrition": [
+     21.4,
+     17.9,
+     24.9
+    ],
+    "food": [
+     51.6,
+     46.7,
+     56.4
+    ],
+    "health_time": [
+     64.8,
+     58.3,
+     71.2
+    ],
+    "attendance": [
+     21.2,
+     17.6,
+     24.7
+    ],
+    "schooling": [
+     10.9,
+     8.1,
+     13.6
+    ],
+    "school_lag": [
+     28.9,
+     24.6,
+     33.1
+    ],
+    "water": [
+     54.3,
+     47.8,
+     60.8
+    ],
+    "water_rel": [
+     9.1,
+     6.5,
+     11.6
+    ],
+    "sanitation": [
+     63.4,
+     57.2,
+     69.5
+    ],
+    "housing": [
+     55.7,
+     48.7,
+     62.7
+    ],
+    "cooking": [
+     66.4,
+     61.4,
+     71.4
+    ],
+    "assets": [
+     49.9,
+     44.1,
+     55.8
+    ],
+    "unemployment": [
+     6.5,
+     4.6,
+     8.4
+    ],
+    "underemployment": [
+     23.5,
+     19.6,
+     27.4
+    ],
+    "shock": [
+     12.2,
+     8.9,
+     15.5
+    ]
+   },
+   "school": {
+    "children_m": 1.65,
+    "out_of_school_pct": 18.4
+   },
+   "mpi_ci": [
+    0.287,
+    0.337
+   ],
+   "h_ci": [
+    70.4,
+    79.7
+   ],
+   "a_ci": [
+    40.3,
+    42.9
+   ],
+   "pop_share": 3.0
+  },
+  "Borno": {
+   "censored": {
+    "nutrition": [
+     34.3,
+     29.8,
+     38.8
+    ],
+    "food": [
+     53.7,
+     47.8,
+     59.7
+    ],
+    "health_time": [
+     24.7,
+     18.6,
+     30.8
+    ],
+    "attendance": [
+     50.7,
+     45.8,
+     55.6
+    ],
+    "schooling": [
+     19.4,
+     16.3,
+     22.5
+    ],
+    "school_lag": [
+     17.7,
+     13.6,
+     21.8
+    ],
+    "water": [
+     16.9,
+     11.2,
+     22.6
+    ],
+    "water_rel": [
+     24.6,
+     20.2,
+     28.9
+    ],
+    "sanitation": [
+     42.4,
+     36.9,
+     47.9
+    ],
+    "housing": [
+     53.0,
+     46.2,
+     59.7
+    ],
+    "cooking": [
+     59.2,
+     53.9,
+     64.6
+    ],
+    "assets": [
+     29.4,
+     24.5,
+     34.3
+    ],
+    "unemployment": [
+     25.4,
+     20.4,
+     30.4
+    ],
+    "underemployment": [
+     23.4,
+     19.6,
+     27.1
+    ],
+    "shock": [
+     12.3,
+     9.7,
+     14.9
+    ]
+   },
+   "school": {
+    "children_m": 1.0,
+    "out_of_school_pct": 54.2
+   },
+   "mpi_ci": [
+    0.287,
+    0.343
+   ],
+   "h_ci": [
+    67.6,
+    77.4
+   ],
+   "a_ci": [
+    42.1,
+    44.7
+   ],
+   "pop_share": 1.5
+  },
+  "Cross River": {
+   "censored": {
+    "nutrition": [
+     17.7,
+     14.5,
+     20.9
+    ],
+    "food": [
+     70.6,
+     66.8,
+     74.4
+    ],
+    "health_time": [
+     36.3,
+     29.8,
+     42.7
+    ],
+    "attendance": [
+     9.1,
+     7.0,
+     11.3
+    ],
+    "schooling": [
+     5.6,
+     4.0,
+     7.2
+    ],
+    "school_lag": [
+     14.3,
+     11.6,
+     16.9
+    ],
+    "water": [
+     47.5,
+     39.9,
+     55.0
+    ],
+    "water_rel": [
+     6.9,
+     4.4,
+     9.4
+    ],
+    "sanitation": [
+     64.9,
+     60.7,
+     69.1
+    ],
+    "housing": [
+     36.1,
+     30.6,
+     41.5
+    ],
+    "cooking": [
+     65.7,
+     61.8,
+     69.6
+    ],
+    "assets": [
+     44.6,
+     40.4,
+     48.9
+    ],
+    "unemployment": [
+     36.4,
+     33.1,
+     39.8
+    ],
+    "underemployment": [
+     22.0,
+     19.2,
+     24.9
+    ],
+    "shock": [
+     17.2,
+     13.1,
+     21.3
+    ]
+   },
+   "school": {
+    "children_m": 1.12,
+    "out_of_school_pct": 7.6
+   },
+   "mpi_ci": [
+    0.281,
+    0.317
+   ],
+   "h_ci": [
+    71.7,
+    79.2
+   ],
+   "a_ci": [
+    38.8,
+    40.5
+   ],
+   "pop_share": 2.2
+  },
+  "Delta": {
+   "censored": {
+    "nutrition": [
+     18.1,
+     15.4,
+     20.8
+    ],
+    "food": [
+     22.4,
+     18.9,
+     25.9
+    ],
+    "health_time": [
+     30.0,
+     23.9,
+     36.0
+    ],
+    "attendance": [
+     10.6,
+     7.7,
+     13.5
+    ],
+    "schooling": [
+     5.8,
+     4.0,
+     7.5
+    ],
+    "school_lag": [
+     15.4,
+     12.1,
+     18.7
+    ],
+    "water": [
+     20.7,
+     15.1,
+     26.2
+    ],
+    "water_rel": [
+     12.7,
+     9.9,
+     15.5
+    ],
+    "sanitation": [
+     37.3,
+     31.7,
+     42.9
+    ],
+    "housing": [
+     10.9,
+     6.2,
+     15.6
+    ],
+    "cooking": [
+     37.0,
+     31.6,
+     42.3
+    ],
+    "assets": [
+     20.4,
+     16.7,
+     24.2
+    ],
+    "unemployment": [
+     15.4,
+     12.6,
+     18.2
+    ],
+    "underemployment": [
+     10.8,
+     8.3,
+     13.3
+    ],
+    "shock": [
+     13.9,
+     11.1,
+     16.7
+    ]
+   },
+   "school": {
+    "children_m": 1.55,
+    "out_of_school_pct": 9.3
+   },
+   "mpi_ci": [
+    0.153,
+    0.194
+   ],
+   "h_ci": [
+    42.3,
+    52.8
+   ],
+   "a_ci": [
+    35.5,
+    37.4
+   ],
+   "pop_share": 2.7
+  },
+  "Ebonyi": {
+   "censored": {
+    "nutrition": [
+     26.4,
+     23.2,
+     29.6
+    ],
+    "food": [
+     66.7,
+     61.5,
+     71.9
+    ],
+    "health_time": [
+     64.2,
+     57.6,
+     70.8
+    ],
+    "attendance": [
+     16.6,
+     14.2,
+     19.1
+    ],
+    "schooling": [
+     11.4,
+     9.6,
+     13.2
+    ],
+    "school_lag": [
+     28.8,
+     24.4,
+     33.2
+    ],
+    "water": [
+     29.7,
+     23.1,
+     36.4
+    ],
+    "water_rel": [
+     30.7,
+     25.8,
+     35.6
+    ],
+    "sanitation": [
+     74.4,
+     69.1,
+     79.6
+    ],
+    "housing": [
+     45.4,
+     39.2,
+     51.5
+    ],
+    "cooking": [
+     72.6,
+     67.0,
+     78.2
+    ],
+    "assets": [
+     39.0,
+     35.1,
+     42.9
+    ],
+    "unemployment": [
+     13.7,
+     11.0,
+     16.5
+    ],
+    "underemployment": [
+     18.4,
+     15.0,
+     21.8
+    ],
+    "shock": [
+     6.0,
+     3.3,
+     8.8
+    ]
+   },
+   "school": {
+    "children_m": 1.17,
+    "out_of_school_pct": 16.7
+   },
+   "mpi_ci": [
+    0.298,
+    0.343
+   ],
+   "h_ci": [
+    73.3,
+    82.6
+   ],
+   "a_ci": [
+    40.3,
+    41.9
+   ],
+   "pop_share": 2.2
+  },
+  "Edo": {
+   "censored": {
+    "nutrition": [
+     8.2,
+     6.4,
+     10.0
+    ],
+    "food": [
+     26.1,
+     22.3,
+     29.9
+    ],
+    "health_time": [
+     22.4,
+     17.8,
+     26.9
+    ],
+    "attendance": [
+     8.6,
+     6.3,
+     10.8
+    ],
+    "schooling": [
+     6.2,
+     4.4,
+     8.0
+    ],
+    "school_lag": [
+     9.6,
+     7.7,
+     11.6
+    ],
+    "water": [
+     14.9,
+     11.3,
+     18.5
+    ],
+    "water_rel": [
+     9.9,
+     7.2,
+     12.6
+    ],
+    "sanitation": [
+     22.4,
+     17.8,
+     27.0
+    ],
+    "housing": [
+     7.2,
+     4.1,
+     10.3
+    ],
+    "cooking": [
+     27.9,
+     23.4,
+     32.5
+    ],
+    "assets": [
+     9.4,
+     6.9,
+     11.8
+    ],
+    "unemployment": [
+     8.7,
+     6.6,
+     10.7
+    ],
+    "underemployment": [
+     8.3,
+     5.7,
+     10.8
+    ],
+    "shock": [
+     8.9,
+     6.5,
+     11.3
+    ]
+   },
+   "school": {
+    "children_m": 0.98,
+    "out_of_school_pct": 11.3
+   },
+   "mpi_ci": [
+    0.109,
+    0.143
+   ],
+   "h_ci": [
+    31.0,
+    39.8
+   ],
+   "a_ci": [
+    34.5,
+    36.6
+   ],
+   "pop_share": 1.9
+  },
+  "Ekiti": {
+   "censored": {
+    "nutrition": [
+     13.6,
+     10.0,
+     17.1
+    ],
+    "food": [
+     23.5,
+     19.5,
+     27.4
+    ],
+    "health_time": [
+     19.0,
+     12.5,
+     25.6
+    ],
+    "attendance": [
+     4.5,
+     3.0,
+     6.1
+    ],
+    "schooling": [
+     6.5,
+     4.9,
+     8.2
+    ],
+    "school_lag": [
+     7.1,
+     4.9,
+     9.3
+    ],
+    "water": [
+     11.3,
+     6.9,
+     15.7
+    ],
+    "water_rel": [
+     10.1,
+     7.4,
+     12.9
+    ],
+    "sanitation": [
+     33.0,
+     27.3,
+     38.6
+    ],
+    "housing": [
+     11.0,
+     6.9,
+     15.1
+    ],
+    "cooking": [
+     31.2,
+     25.7,
+     36.8
+    ],
+    "assets": [
+     11.2,
+     8.2,
+     14.2
+    ],
+    "unemployment": [
+     6.6,
+     4.5,
+     8.8
+    ],
+    "underemployment": [
+     9.1,
+     6.0,
+     12.2
+    ],
+    "shock": [
+     8.0,
+     5.1,
+     10.9
+    ]
+   },
+   "school": {
+    "children_m": 0.85,
+    "out_of_school_pct": 5.1
+   },
+   "mpi_ci": [
+    0.104,
+    0.147
+   ],
+   "h_ci": [
+    30.4,
+    41.5
+   ],
+   "a_ci": [
+    33.9,
+    35.9
+   ],
+   "pop_share": 1.7
+  },
+  "Enugu": {
+   "censored": {
+    "nutrition": [
+     12.1,
+     9.4,
+     14.8
+    ],
+    "food": [
+     49.5,
+     44.5,
+     54.4
+    ],
+    "health_time": [
+     54.4,
+     48.0,
+     60.8
+    ],
+    "attendance": [
+     7.9,
+     5.8,
+     10.1
+    ],
+    "schooling": [
+     10.1,
+     8.0,
+     12.2
+    ],
+    "school_lag": [
+     14.1,
+     10.1,
+     18.1
+    ],
+    "water": [
+     30.9,
+     23.2,
+     38.7
+    ],
+    "water_rel": [
+     16.7,
+     12.7,
+     20.6
+    ],
+    "sanitation": [
+     55.1,
+     49.1,
+     61.1
+    ],
+    "housing": [
+     27.9,
+     20.7,
+     35.1
+    ],
+    "cooking": [
+     50.2,
+     43.8,
+     56.6
+    ],
+    "assets": [
+     23.2,
+     19.1,
+     27.2
+    ],
+    "unemployment": [
+     17.1,
+     13.6,
+     20.7
+    ],
+    "underemployment": [
+     5.0,
+     2.8,
+     7.2
+    ],
+    "shock": [
+     8.7,
+     5.7,
+     11.8
+    ]
+   },
+   "school": {
+    "children_m": 0.98,
+    "out_of_school_pct": 7.5
+   },
+   "mpi_ci": [
+    0.211,
+    0.257
+   ],
+   "h_ci": [
+    57.7,
+    68.4
+   ],
+   "a_ci": [
+    36.3,
+    38.1
+   ],
+   "pop_share": 2.0
+  },
+  "FCT": {
+   "censored": {
+    "nutrition": [
+     14.2,
+     11.0,
+     17.4
+    ],
+    "food": [
+     38.8,
+     32.2,
+     45.5
+    ],
+    "health_time": [
+     19.2,
+     14.4,
+     24.1
+    ],
+    "attendance": [
+     12.0,
+     8.7,
+     15.3
+    ],
+    "schooling": [
+     6.9,
+     3.7,
+     10.0
+    ],
+    "school_lag": [
+     12.6,
+     8.3,
+     16.8
+    ],
+    "water": [
+     14.8,
+     8.9,
+     20.6
+    ],
+    "water_rel": [
+     26.5,
+     20.8,
+     32.1
+    ],
+    "sanitation": [
+     34.7,
+     28.4,
+     41.1
+    ],
+    "housing": [
+     11.0,
+     6.7,
+     15.3
+    ],
+    "cooking": [
+     42.4,
+     35.9,
+     48.8
+    ],
+    "assets": [
+     16.6,
+     12.7,
+     20.5
+    ],
+    "unemployment": [
+     20.4,
+     16.4,
+     24.4
+    ],
+    "underemployment": [
+     11.7,
+     8.3,
+     15.1
+    ],
+    "shock": [
+     15.0,
+     10.4,
+     19.7
+    ]
+   },
+   "school": {
+    "children_m": 0.79,
+    "out_of_school_pct": 12.8
+   },
+   "mpi_ci": [
+    0.157,
+    0.215
+   ],
+   "h_ci": [
+    41.9,
+    54.6
+   ],
+   "a_ci": [
+    37.1,
+    40.0
+   ],
+   "pop_share": 1.6
+  },
+  "Gombe": {
+   "censored": {
+    "nutrition": [
+     49.6,
+     44.8,
+     54.3
+    ],
+    "food": [
+     46.4,
+     41.1,
+     51.6
+    ],
+    "health_time": [
+     46.5,
+     38.8,
+     54.3
+    ],
+    "attendance": [
+     47.3,
+     42.3,
+     52.2
+    ],
+    "schooling": [
+     15.8,
+     11.0,
+     20.5
+    ],
+    "school_lag": [
+     25.0,
+     20.2,
+     29.8
+    ],
+    "water": [
+     49.9,
+     42.0,
+     57.8
+    ],
+    "water_rel": [
+     22.9,
+     17.7,
+     28.0
+    ],
+    "sanitation": [
+     59.8,
+     54.7,
+     64.8
+    ],
+    "housing": [
+     78.6,
+     74.6,
+     82.5
+    ],
+    "cooking": [
+     76.9,
+     73.3,
+     80.5
+    ],
+    "assets": [
+     33.7,
+     30.0,
+     37.4
+    ],
+    "unemployment": [
+     11.5,
+     8.7,
+     14.4
+    ],
+    "underemployment": [
+     21.8,
+     17.4,
+     26.2
+    ],
+    "shock": [
+     32.8,
+     28.1,
+     37.4
+    ]
+   },
+   "school": {
+    "children_m": 1.01,
+    "out_of_school_pct": 48.0
+   },
+   "mpi_ci": [
+    0.359,
+    0.401
+   ],
+   "h_ci": [
+    83.4,
+    89.1
+   ],
+   "a_ci": [
+    42.6,
+    45.5
+   ],
+   "pop_share": 1.7
+  },
+  "Imo": {
+   "censored": {
+    "nutrition": [
+     10.0,
+     7.2,
+     12.8
+    ],
+    "food": [
+     37.9,
+     33.2,
+     42.6
+    ],
+    "health_time": [
+     29.4,
+     23.3,
+     35.5
+    ],
+    "attendance": [
+     4.6,
+     3.0,
+     6.2
+    ],
+    "schooling": [
+     4.1,
+     2.9,
+     5.3
+    ],
+    "school_lag": [
+     6.5,
+     4.7,
+     8.3
+    ],
+    "water": [
+     8.5,
+     5.0,
+     12.0
+    ],
+    "water_rel": [
+     23.5,
+     19.2,
+     27.8
+    ],
+    "sanitation": [
+     17.0,
+     13.8,
+     20.3
+    ],
+    "housing": [
+     11.1,
+     8.1,
+     14.0
+    ],
+    "cooking": [
+     37.3,
+     32.9,
+     41.8
+    ],
+    "assets": [
+     14.3,
+     10.9,
+     17.7
+    ],
+    "unemployment": [
+     13.1,
+     10.2,
+     16.0
+    ],
+    "underemployment": [
+     6.7,
+     4.2,
+     9.2
+    ],
+    "shock": [
+     3.4,
+     1.6,
+     5.1
+    ]
+   },
+   "school": {
+    "children_m": 0.97,
+    "out_of_school_pct": 5.1
+   },
+   "mpi_ci": [
+    0.125,
+    0.16
+   ],
+   "h_ci": [
+    36.1,
+    45.3
+   ],
+   "a_ci": [
+    34.1,
+    35.8
+   ],
+   "pop_share": 2.1
+  },
+  "Jigawa": {
+   "censored": {
+    "nutrition": [
+     65.9,
+     60.3,
+     71.6
+    ],
+    "food": [
+     39.8,
+     35.3,
+     44.3
+    ],
+    "health_time": [
+     52.1,
+     43.2,
+     60.9
+    ],
+    "attendance": [
+     56.0,
+     50.7,
+     61.3
+    ],
+    "schooling": [
+     25.3,
+     19.6,
+     31.0
+    ],
+    "school_lag": [
+     30.3,
+     25.7,
+     34.8
+    ],
+    "water": [
+     6.1,
+     3.6,
+     8.6
+    ],
+    "water_rel": [
+     37.6,
+     30.4,
+     44.8
+    ],
+    "sanitation": [
+     60.7,
+     54.8,
+     66.5
+    ],
+    "housing": [
+     76.3,
+     70.2,
+     82.3
+    ],
+    "cooking": [
+     67.0,
+     61.4,
+     72.6
+    ],
+    "assets": [
+     34.5,
+     30.6,
+     38.4
+    ],
+    "unemployment": [
+     14.4,
+     11.6,
+     17.2
+    ],
+    "underemployment": [
+     24.4,
+     21.1,
+     27.7
+    ],
+    "shock": [
+     16.1,
+     12.6,
+     19.6
+    ]
+   },
+   "school": {
+    "children_m": 2.08,
+    "out_of_school_pct": 51.1
+   },
+   "mpi_ci": [
+    0.356,
+    0.414
+   ],
+   "h_ci": [
+    79.9,
+    88.7
+   ],
+   "a_ci": [
+    44.2,
+    47.2
+   ],
+   "pop_share": 3.2
+  },
+  "Kaduna": {
+   "censored": {
+    "nutrition": [
+     37.5,
+     32.6,
+     42.4
+    ],
+    "food": [
+     39.6,
+     34.6,
+     44.6
+    ],
+    "health_time": [
+     47.6,
+     39.3,
+     55.8
+    ],
+    "attendance": [
+     27.7,
+     23.2,
+     32.1
+    ],
+    "schooling": [
+     6.1,
+     4.2,
+     7.9
+    ],
+    "school_lag": [
+     31.8,
+     28.6,
+     35.0
+    ],
+    "water": [
+     28.6,
+     21.2,
+     36.0
+    ],
+    "water_rel": [
+     20.5,
+     16.6,
+     24.4
+    ],
+    "sanitation": [
+     49.1,
+     44.0,
+     54.1
+    ],
+    "housing": [
+     49.3,
+     42.6,
+     56.0
+    ],
+    "cooking": [
+     56.5,
+     51.4,
+     61.6
+    ],
+    "assets": [
+     20.9,
+     16.6,
+     25.2
+    ],
+    "unemployment": [
+     21.8,
+     18.6,
+     25.1
+    ],
+    "underemployment": [
+     27.2,
+     23.6,
+     30.8
+    ],
+    "shock": [
+     21.6,
+     17.5,
+     25.6
+    ]
+   },
+   "school": {
+    "children_m": 3.01,
+    "out_of_school_pct": 21.9
+   },
+   "mpi_ci": [
+    0.277,
+    0.319
+   ],
+   "h_ci": [
+    69.7,
+    78.1
+   ],
+   "a_ci": [
+    39.1,
+    41.5
+   ],
+   "pop_share": 5.1
+  },
+  "Kano": {
+   "censored": {
+    "nutrition": [
+     47.7,
+     43.4,
+     52.0
+    ],
+    "food": [
+     31.2,
+     27.0,
+     35.4
+    ],
+    "health_time": [
+     37.9,
+     30.6,
+     45.2
+    ],
+    "attendance": [
+     39.0,
+     33.6,
+     44.4
+    ],
+    "schooling": [
+     23.3,
+     18.0,
+     28.5
+    ],
+    "school_lag": [
+     18.7,
+     15.3,
+     22.1
+    ],
+    "water": [
+     26.0,
+     20.2,
+     31.8
+    ],
+    "water_rel": [
+     15.5,
+     11.7,
+     19.3
+    ],
+    "sanitation": [
+     36.7,
+     31.0,
+     42.4
+    ],
+    "housing": [
+     54.8,
+     48.9,
+     60.7
+    ],
+    "cooking": [
+     49.9,
+     45.2,
+     54.6
+    ],
+    "assets": [
+     23.5,
+     19.6,
+     27.4
+    ],
+    "unemployment": [
+     3.5,
+     1.8,
+     5.2
+    ],
+    "underemployment": [
+     11.5,
+     8.1,
+     15.0
+    ],
+    "shock": [
+     6.3,
+     4.0,
+     8.6
+    ]
+   },
+   "school": {
+    "children_m": 4.83,
+    "out_of_school_pct": 39.2
+   },
+   "mpi_ci": [
+    0.244,
+    0.297
+   ],
+   "h_ci": [
+    61.1,
+    71.4
+   ],
+   "a_ci": [
+    39.5,
+    42.1
+   ],
+   "pop_share": 7.5
+  },
+  "Katsina": {
+   "censored": {
+    "nutrition": [
+     52.2,
+     47.4,
+     57.0
+    ],
+    "food": [
+     28.0,
+     24.0,
+     32.0
+    ],
+    "health_time": [
+     44.1,
+     36.8,
+     51.3
+    ],
+    "attendance": [
+     49.9,
+     44.4,
+     55.4
+    ],
+    "schooling": [
+     14.3,
+     10.4,
+     18.2
+    ],
+    "school_lag": [
+     19.1,
+     15.6,
+     22.6
+    ],
+    "water": [
+     29.4,
+     23.3,
+     35.5
+    ],
+    "water_rel": [
+     26.8,
+     21.5,
+     32.1
+    ],
+    "sanitation": [
+     48.4,
+     42.8,
+     53.9
+    ],
+    "housing": [
+     61.0,
+     54.2,
+     67.8
+    ],
+    "cooking": [
+     61.4,
+     55.5,
+     67.3
+    ],
+    "assets": [
+     26.6,
+     22.3,
+     31.0
+    ],
+    "unemployment": [
+     10.5,
+     8.0,
+     13.0
+    ],
+    "underemployment": [
+     9.8,
+     7.5,
+     12.0
+    ],
+    "shock": [
+     8.3,
+     6.2,
+     10.5
+    ]
+   },
+   "school": {
+    "children_m": 3.04,
+    "out_of_school_pct": 45.9
+   },
+   "mpi_ci": [
+    0.277,
+    0.33
+   ],
+   "h_ci": [
+    67.7,
+    77.8
+   ],
+   "a_ci": [
+    40.3,
+    43.2
+   ],
+   "pop_share": 4.5
+  },
+  "Kebbi": {
+   "censored": {
+    "nutrition": [
+     54.4,
+     50.6,
+     58.3
+    ],
+    "food": [
+     38.1,
+     33.9,
+     42.3
+    ],
+    "health_time": [
+     47.3,
+     39.3,
+     55.3
+    ],
+    "attendance": [
+     60.8,
+     56.0,
+     65.6
+    ],
+    "schooling": [
+     34.9,
+     29.5,
+     40.3
+    ],
+    "school_lag": [
+     13.5,
+     10.8,
+     16.2
+    ],
+    "water": [
+     58.1,
+     50.3,
+     65.8
+    ],
+    "water_rel": [
+     6.8,
+     4.3,
+     9.3
+    ],
+    "sanitation": [
+     63.1,
+     56.8,
+     69.3
+    ],
+    "housing": [
+     71.5,
+     65.8,
+     77.3
+    ],
+    "cooking": [
+     71.8,
+     66.2,
+     77.5
+    ],
+    "assets": [
+     37.0,
+     32.6,
+     41.4
+    ],
+    "unemployment": [
+     12.6,
+     9.2,
+     15.9
+    ],
+    "underemployment": [
+     10.4,
+     7.5,
+     13.3
+    ],
+    "shock": [
+     16.9,
+     12.4,
+     21.4
+    ]
+   },
+   "school": {
+    "children_m": 1.57,
+    "out_of_school_pct": 67.6
+   },
+   "mpi_ci": [
+    0.357,
+    0.413
+   ],
+   "h_ci": [
+    78.2,
+    86.3
+   ],
+   "a_ci": [
+    45.3,
+    48.3
+   ],
+   "pop_share": 2.5
+  },
+  "Kogi": {
+   "censored": {
+    "nutrition": [
+     24.0,
+     20.0,
+     27.9
+    ],
+    "food": [
+     53.3,
+     48.1,
+     58.6
+    ],
+    "health_time": [
+     42.6,
+     35.3,
+     49.9
+    ],
+    "attendance": [
+     9.0,
+     6.1,
+     11.8
+    ],
+    "schooling": [
+     10.2,
+     7.4,
+     13.1
+    ],
+    "school_lag": [
+     12.7,
+     9.5,
+     15.9
+    ],
+    "water": [
+     28.4,
+     21.2,
+     35.7
+    ],
+    "water_rel": [
+     17.9,
+     13.2,
+     22.7
+    ],
+    "sanitation": [
+     52.3,
+     46.6,
+     58.0
+    ],
+    "housing": [
+     30.2,
+     24.3,
+     36.1
+    ],
+    "cooking": [
+     50.7,
+     45.8,
+     55.6
+    ],
+    "assets": [
+     30.2,
+     25.5,
+     35.0
+    ],
+    "unemployment": [
+     18.2,
+     15.4,
+     21.1
+    ],
+    "underemployment": [
+     22.9,
+     19.4,
+     26.5
+    ],
+    "shock": [
+     7.6,
+     5.4,
+     9.9
+    ]
+   },
+   "school": {
+    "children_m": 1.09,
+    "out_of_school_pct": 10.2
+   },
+   "mpi_ci": [
+    0.224,
+    0.276
+   ],
+   "h_ci": [
+    56.2,
+    66.5
+   ],
+   "a_ci": [
+    39.3,
+    42.2
+   ],
+   "pop_share": 2.2
+  },
+  "Kwara": {
+   "censored": {
+    "nutrition": [
+     13.7,
+     10.0,
+     17.3
+    ],
+    "food": [
+     24.2,
+     19.1,
+     29.2
+    ],
+    "health_time": [
+     31.1,
+     23.0,
+     39.1
+    ],
+    "attendance": [
+     18.8,
+     12.7,
+     24.8
+    ],
+    "schooling": [
+     24.4,
+     18.3,
+     30.5
+    ],
+    "school_lag": [
+     12.2,
+     8.5,
+     15.9
+    ],
+    "water": [
+     14.4,
+     6.7,
+     22.1
+    ],
+    "water_rel": [
+     22.7,
+     17.4,
+     27.9
+    ],
+    "sanitation": [
+     45.4,
+     38.0,
+     52.8
+    ],
+    "housing": [
+     21.3,
+     13.7,
+     28.9
+    ],
+    "cooking": [
+     40.0,
+     33.9,
+     46.2
+    ],
+    "assets": [
+     10.1,
+     6.5,
+     13.6
+    ],
+    "unemployment": [
+     4.9,
+     3.1,
+     6.6
+    ],
+    "underemployment": [
+     6.9,
+     4.9,
+     9.0
+    ],
+    "shock": [
+     2.8,
+     1.4,
+     4.3
+    ]
+   },
+   "school": {
+    "children_m": 1.01,
+    "out_of_school_pct": 22.0
+   },
+   "mpi_ci": [
+    0.152,
+    0.217
+   ],
+   "h_ci": [
+    41.1,
+    55.5
+   ],
+   "a_ci": [
+    36.4,
+    40.1
+   ],
+   "pop_share": 1.7
+  },
+  "Lagos": {
+   "censored": {
+    "nutrition": [
+     11.0,
+     8.3,
+     13.7
+    ],
+    "food": [
+     24.1,
+     20.1,
+     28.1
+    ],
+    "health_time": [
+     14.9,
+     10.2,
+     19.5
+    ],
+    "attendance": [
+     5.2,
+     3.5,
+     6.9
+    ],
+    "schooling": [
+     1.9,
+     1.0,
+     2.7
+    ],
+    "school_lag": [
+     5.5,
+     3.6,
+     7.3
+    ],
+    "water": [
+     22.5,
+     18.4,
+     26.7
+    ],
+    "water_rel": [
+     4.2,
+     2.5,
+     6.0
+    ],
+    "sanitation": [
+     23.4,
+     18.7,
+     28.0
+    ],
+    "housing": [
+     3.7,
+     1.7,
+     5.7
+    ],
+    "cooking": [
+     18.5,
+     14.7,
+     22.4
+    ],
+    "assets": [
+     4.7,
+     3.1,
+     6.4
+    ],
+    "unemployment": [
+     10.8,
+     8.2,
+     13.3
+    ],
+    "underemployment": [
+     4.7,
+     2.8,
+     6.7
+    ],
+    "shock": [
+     5.0,
+     2.6,
+     7.4
+    ]
+   },
+   "school": {
+    "children_m": 3.13,
+    "out_of_school_pct": 6.4
+   },
+   "mpi_ci": [
+    0.084,
+    0.118
+   ],
+   "h_ci": [
+    24.9,
+    33.9
+   ],
+   "a_ci": [
+    33.1,
+    35.5
+   ],
+   "pop_share": 6.8
+  },
+  "Nasarawa": {
+   "censored": {
+    "nutrition": [
+     26.0,
+     22.5,
+     29.6
+    ],
+    "food": [
+     24.1,
+     20.7,
+     27.6
+    ],
+    "health_time": [
+     24.1,
+     17.7,
+     30.5
+    ],
+    "attendance": [
+     23.4,
+     19.0,
+     27.8
+    ],
+    "schooling": [
+     16.7,
+     12.3,
+     21.2
+    ],
+    "school_lag": [
+     12.3,
+     9.5,
+     15.1
+    ],
+    "water": [
+     25.9,
+     19.7,
+     32.1
+    ],
+    "water_rel": [
+     16.1,
+     12.6,
+     19.5
+    ],
+    "sanitation": [
+     47.6,
+     41.7,
+     53.4
+    ],
+    "housing": [
+     28.7,
+     23.2,
+     34.1
+    ],
+    "cooking": [
+     55.5,
+     50.4,
+     60.7
+    ],
+    "assets": [
+     24.0,
+     20.1,
+     27.9
+    ],
+    "unemployment": [
+     12.3,
+     9.4,
+     15.3
+    ],
+    "underemployment": [
+     23.5,
+     19.1,
+     27.9
+    ],
+    "shock": [
+     27.5,
+     22.1,
+     32.9
+    ]
+   },
+   "school": {
+    "children_m": 0.51,
+    "out_of_school_pct": 25.4
+   },
+   "mpi_ci": [
+    0.219,
+    0.266
+   ],
+   "h_ci": [
+    55.8,
+    65.7
+   ],
+   "a_ci": [
+    38.7,
+    41.1
+   ],
+   "pop_share": 1.1
+  },
+  "Niger": {
+   "censored": {
+    "nutrition": [
+     30.9,
+     27.2,
+     34.6
+    ],
+    "food": [
+     30.9,
+     27.9,
+     33.9
+    ],
+    "health_time": [
+     45.0,
+     38.1,
+     51.9
+    ],
+    "attendance": [
+     43.5,
+     38.2,
+     48.8
+    ],
+    "schooling": [
+     17.0,
+     13.4,
+     20.5
+    ],
+    "school_lag": [
+     18.1,
+     15.3,
+     20.9
+    ],
+    "water": [
+     35.3,
+     28.4,
+     42.3
+    ],
+    "water_rel": [
+     27.3,
+     22.2,
+     32.3
+    ],
+    "sanitation": [
+     57.4,
+     51.4,
+     63.4
+    ],
+    "housing": [
+     29.9,
+     25.1,
+     34.8
+    ],
+    "cooking": [
+     56.6,
+     51.7,
+     61.5
+    ],
+    "assets": [
+     20.4,
+     17.0,
+     23.9
+    ],
+    "unemployment": [
+     9.2,
+     6.7,
+     11.6
+    ],
+    "underemployment": [
+     8.9,
+     6.5,
+     11.4
+    ],
+    "shock": [
+     13.2,
+     9.0,
+     17.4
+    ]
+   },
+   "school": {
+    "children_m": 1.5,
+    "out_of_school_pct": 42.8
+   },
+   "mpi_ci": [
+    0.255,
+    0.301
+   ],
+   "h_ci": [
+    64.1,
+    74.2
+   ],
+   "a_ci": [
+    39.1,
+    41.3
+   ],
+   "pop_share": 2.5
+  },
+  "Ogun": {
+   "censored": {
+    "nutrition": [
+     25.2,
+     15.8,
+     34.6
+    ],
+    "food": [
+     58.0,
+     48.8,
+     67.3
+    ],
+    "health_time": [
+     58.0,
+     46.3,
+     69.8
+    ],
+    "attendance": [
+     16.7,
+     7.3,
+     26.1
+    ],
+    "schooling": [
+     23.9,
+     10.7,
+     37.1
+    ],
+    "school_lag": [
+     16.9,
+     11.7,
+     22.0
+    ],
+    "water": [
+     44.2,
+     30.7,
+     57.6
+    ],
+    "water_rel": [
+     8.9,
+     5.7,
+     12.0
+    ],
+    "sanitation": [
+     63.3,
+     53.2,
+     73.4
+    ],
+    "housing": [
+     36.8,
+     27.4,
+     46.2
+    ],
+    "cooking": [
+     57.6,
+     46.3,
+     68.9
+    ],
+    "assets": [
+     37.2,
+     26.0,
+     48.4
+    ],
+    "unemployment": [
+     6.6,
+     4.5,
+     8.7
+    ],
+    "underemployment": [
+     7.5,
+     4.9,
+     10.1
+    ],
+    "shock": [
+     6.4,
+     3.6,
+     9.2
+    ]
+   },
+   "school": {
+    "children_m": 1.36,
+    "out_of_school_pct": 20.5
+   },
+   "mpi_ci": [
+    0.227,
+    0.35
+   ],
+   "h_ci": [
+    59.3,
+    77.0
+   ],
+   "a_ci": [
+    38.1,
+    46.6
+   ],
+   "pop_share": 2.6
+  },
+  "Ondo": {
+   "censored": {
+    "nutrition": [
+     8.0,
+     5.7,
+     10.3
+    ],
+    "food": [
+     12.9,
+     9.9,
+     15.9
+    ],
+    "health_time": [
+     17.0,
+     11.9,
+     22.1
+    ],
+    "attendance": [
+     9.0,
+     6.5,
+     11.6
+    ],
+    "schooling": [
+     6.6,
+     4.7,
+     8.5
+    ],
+    "school_lag": [
+     7.6,
+     5.3,
+     9.9
+    ],
+    "water": [
+     17.0,
+     12.2,
+     21.9
+    ],
+    "water_rel": [
+     2.5,
+     1.4,
+     3.6
+    ],
+    "sanitation": [
+     25.4,
+     20.5,
+     30.2
+    ],
+    "housing": [
+     16.8,
+     11.6,
+     22.1
+    ],
+    "cooking": [
+     22.2,
+     17.8,
+     26.6
+    ],
+    "assets": [
+     7.5,
+     5.6,
+     9.3
+    ],
+    "unemployment": [
+     4.3,
+     2.3,
+     6.2
+    ],
+    "underemployment": [
+     1.7,
+     0.8,
+     2.5
+    ],
+    "shock": [
+     1.2,
+     0.3,
+     2.0
+    ]
+   },
+   "school": {
+    "children_m": 1.14,
+    "out_of_school_pct": 13.8
+   },
+   "mpi_ci": [
+    0.077,
+    0.113
+   ],
+   "h_ci": [
+    22.4,
+    32.0
+   ],
+   "a_ci": [
+    33.6,
+    36.2
+   ],
+   "pop_share": 2.2
+  },
+  "Osun": {
+   "censored": {
+    "nutrition": [
+     17.9,
+     14.3,
+     21.6
+    ],
+    "food": [
+     28.0,
+     22.8,
+     33.2
+    ],
+    "health_time": [
+     21.5,
+     16.0,
+     27.0
+    ],
+    "attendance": [
+     11.0,
+     8.3,
+     13.7
+    ],
+    "schooling": [
+     6.1,
+     4.4,
+     7.8
+    ],
+    "school_lag": [
+     12.5,
+     9.7,
+     15.3
+    ],
+    "water": [
+     13.1,
+     9.1,
+     17.1
+    ],
+    "water_rel": [
+     8.4,
+     5.0,
+     11.8
+    ],
+    "sanitation": [
+     37.0,
+     31.0,
+     43.0
+    ],
+    "housing": [
+     13.8,
+     8.8,
+     18.7
+    ],
+    "cooking": [
+     34.5,
+     28.6,
+     40.5
+    ],
+    "assets": [
+     15.2,
+     11.4,
+     19.0
+    ],
+    "unemployment": [
+     6.2,
+     4.2,
+     8.3
+    ],
+    "underemployment": [
+     8.1,
+     5.9,
+     10.3
+    ],
+    "shock": [
+     10.8,
+     7.8,
+     13.8
+    ]
+   },
+   "school": {
+    "children_m": 1.16,
+    "out_of_school_pct": 12.8
+   },
+   "mpi_ci": [
+    0.126,
+    0.174
+   ],
+   "h_ci": [
+    34.8,
+    46.6
+   ],
+   "a_ci": [
+    35.5,
+    38.2
+   ],
+   "pop_share": 2.2
+  },
+  "Oyo": {
+   "censored": {
+    "nutrition": [
+     17.7,
+     13.7,
+     21.7
+    ],
+    "food": [
+     37.1,
+     31.6,
+     42.5
+    ],
+    "health_time": [
+     30.1,
+     22.1,
+     38.2
+    ],
+    "attendance": [
+     14.3,
+     10.1,
+     18.5
+    ],
+    "schooling": [
+     17.3,
+     11.6,
+     23.0
+    ],
+    "school_lag": [
+     8.8,
+     6.1,
+     11.5
+    ],
+    "water": [
+     24.8,
+     17.3,
+     32.4
+    ],
+    "water_rel": [
+     4.3,
+     2.5,
+     6.1
+    ],
+    "sanitation": [
+     44.5,
+     37.6,
+     51.4
+    ],
+    "housing": [
+     18.6,
+     12.1,
+     25.1
+    ],
+    "cooking": [
+     34.4,
+     28.8,
+     40.1
+    ],
+    "assets": [
+     22.5,
+     17.1,
+     27.9
+    ],
+    "unemployment": [
+     6.6,
+     4.9,
+     8.4
+    ],
+    "underemployment": [
+     6.7,
+     4.8,
+     8.7
+    ],
+    "shock": [
+     9.2,
+     5.8,
+     12.6
+    ]
+   },
+   "school": {
+    "children_m": 1.72,
+    "out_of_school_pct": 20.9
+   },
+   "mpi_ci": [
+    0.159,
+    0.221
+   ],
+   "h_ci": [
+    42.3,
+    55.0
+   ],
+   "a_ci": [
+    37.1,
+    40.9
+   ],
+   "pop_share": 3.7
+  },
+  "Plateau": {
+   "censored": {
+    "nutrition": [
+     32.4,
+     28.1,
+     36.6
+    ],
+    "food": [
+     52.3,
+     47.1,
+     57.4
+    ],
+    "health_time": [
+     52.6,
+     45.5,
+     59.7
+    ],
+    "attendance": [
+     26.1,
+     21.6,
+     30.5
+    ],
+    "schooling": [
+     8.9,
+     6.1,
+     11.6
+    ],
+    "school_lag": [
+     28.9,
+     25.4,
+     32.5
+    ],
+    "water": [
+     52.7,
+     46.2,
+     59.3
+    ],
+    "water_rel": [
+     14.5,
+     11.3,
+     17.7
+    ],
+    "sanitation": [
+     73.2,
+     68.4,
+     78.1
+    ],
+    "housing": [
+     67.8,
+     62.8,
+     72.7
+    ],
+    "cooking": [
+     49.5,
+     44.8,
+     54.3
+    ],
+    "assets": [
+     47.6,
+     42.9,
+     52.3
+    ],
+    "unemployment": [
+     21.2,
+     17.0,
+     25.3
+    ],
+    "underemployment": [
+     41.2,
+     37.0,
+     45.3
+    ],
+    "shock": [
+     37.0,
+     32.6,
+     41.4
+    ]
+   },
+   "school": {
+    "children_m": 1.33,
+    "out_of_school_pct": 23.2
+   },
+   "mpi_ci": [
+    0.345,
+    0.385
+   ],
+   "h_ci": [
+    80.6,
+    87.3
+   ],
+   "a_ci": [
+    42.3,
+    44.6
+   ],
+   "pop_share": 2.4
+  },
+  "Rivers": {
+   "censored": {
+    "nutrition": [
+     11.5,
+     8.9,
+     14.0
+    ],
+    "food": [
+     50.2,
+     45.4,
+     54.9
+    ],
+    "health_time": [
+     39.9,
+     33.5,
+     46.3
+    ],
+    "attendance": [
+     8.8,
+     6.0,
+     11.5
+    ],
+    "schooling": [
+     1.1,
+     0.5,
+     1.6
+    ],
+    "school_lag": [
+     11.3,
+     8.2,
+     14.3
+    ],
+    "water": [
+     24.2,
+     18.2,
+     30.2
+    ],
+    "water_rel": [
+     18.3,
+     14.2,
+     22.3
+    ],
+    "sanitation": [
+     51.0,
+     45.7,
+     56.3
+    ],
+    "housing": [
+     12.2,
+     7.7,
+     16.6
+    ],
+    "cooking": [
+     53.1,
+     48.6,
+     57.5
+    ],
+    "assets": [
+     21.1,
+     16.8,
+     25.4
+    ],
+    "unemployment": [
+     38.6,
+     35.0,
+     42.1
+    ],
+    "underemployment": [
+     20.7,
+     16.7,
+     24.7
+    ],
+    "shock": [
+     20.1,
+     16.6,
+     23.5
+    ]
+   },
+   "school": {
+    "children_m": 1.74,
+    "out_of_school_pct": 7.7
+   },
+   "mpi_ci": [
+    0.219,
+    0.264
+   ],
+   "h_ci": [
+    57.7,
+    67.0
+   ],
+   "a_ci": [
+    37.6,
+    39.9
+   ],
+   "pop_share": 3.3
+  },
+  "Sokoto": {
+   "censored": {
+    "nutrition": [
+     54.5,
+     51.4,
+     57.7
+    ],
+    "food": [
+     25.9,
+     22.8,
+     29.1
+    ],
+    "health_time": [
+     45.7,
+     37.6,
+     53.7
+    ],
+    "attendance": [
+     60.7,
+     55.7,
+     65.7
+    ],
+    "schooling": [
+     21.6,
+     15.6,
+     27.7
+    ],
+    "school_lag": [
+     16.8,
+     12.6,
+     21.0
+    ],
+    "water": [
+     52.4,
+     45.2,
+     59.6
+    ],
+    "water_rel": [
+     15.2,
+     11.2,
+     19.2
+    ],
+    "sanitation": [
+     62.1,
+     56.4,
+     67.7
+    ],
+    "housing": [
+     78.5,
+     73.1,
+     84.0
+    ],
+    "cooking": [
+     84.8,
+     81.5,
+     88.1
+    ],
+    "assets": [
+     51.6,
+     46.3,
+     57.0
+    ],
+    "unemployment": [
+     23.6,
+     19.7,
+     27.5
+    ],
+    "underemployment": [
+     33.9,
+     28.9,
+     39.0
+    ],
+    "shock": [
+     30.9,
+     24.8,
+     37.0
+    ]
+   },
+   "school": {
+    "children_m": 1.89,
+    "out_of_school_pct": 66.4
+   },
+   "mpi_ci": [
+    0.391,
+    0.427
+   ],
+   "h_ci": [
+    88.2,
+    92.8
+   ],
+   "a_ci": [
+    44.0,
+    46.4
+   ],
+   "pop_share": 3.0
+  },
+  "Taraba": {
+   "censored": {
+    "nutrition": [
+     36.2,
+     31.3,
+     41.0
+    ],
+    "food": [
+     66.9,
+     62.6,
+     71.2
+    ],
+    "health_time": [
+     42.7,
+     34.4,
+     50.9
+    ],
+    "attendance": [
+     32.7,
+     27.4,
+     37.9
+    ],
+    "schooling": [
+     10.6,
+     7.9,
+     13.2
+    ],
+    "school_lag": [
+     26.8,
+     23.4,
+     30.2
+    ],
+    "water": [
+     46.1,
+     39.3,
+     53.0
+    ],
+    "water_rel": [
+     24.4,
+     20.0,
+     28.9
+    ],
+    "sanitation": [
+     49.4,
+     43.6,
+     55.1
+    ],
+    "housing": [
+     46.8,
+     40.0,
+     53.6
+    ],
+    "cooking": [
+     59.5,
+     53.8,
+     65.3
+    ],
+    "assets": [
+     38.0,
+     33.1,
+     43.0
+    ],
+    "unemployment": [
+     14.6,
+     11.1,
+     18.0
+    ],
+    "underemployment": [
+     22.1,
+     18.6,
+     25.7
+    ],
+    "shock": [
+     30.5,
+     25.7,
+     35.3
+    ]
+   },
+   "school": {
+    "children_m": 0.99,
+    "out_of_school_pct": 28.8
+   },
+   "mpi_ci": [
+    0.316,
+    0.364
+   ],
+   "h_ci": [
+    75.7,
+    83.1
+   ],
+   "a_ci": [
+    41.3,
+    44.2
+   ],
+   "pop_share": 1.7
+  },
+  "Yobe": {
+   "censored": {
+    "nutrition": [
+     55.8,
+     51.6,
+     60.0
+    ],
+    "food": [
+     47.9,
+     43.3,
+     52.6
+    ],
+    "health_time": [
+     50.3,
+     42.1,
+     58.4
+    ],
+    "attendance": [
+     58.6,
+     54.1,
+     63.1
+    ],
+    "schooling": [
+     9.8,
+     6.9,
+     12.6
+    ],
+    "school_lag": [
+     13.3,
+     10.2,
+     16.4
+    ],
+    "water": [
+     14.8,
+     9.0,
+     20.6
+    ],
+    "water_rel": [
+     42.8,
+     35.9,
+     49.8
+    ],
+    "sanitation": [
+     60.3,
+     53.3,
+     67.3
+    ],
+    "housing": [
+     70.5,
+     64.3,
+     76.7
+    ],
+    "cooking": [
+     77.5,
+     72.7,
+     82.3
+    ],
+    "assets": [
+     31.1,
+     25.7,
+     36.4
+    ],
+    "unemployment": [
+     10.2,
+     7.8,
+     12.6
+    ],
+    "underemployment": [
+     28.3,
+     24.3,
+     32.3
+    ],
+    "shock": [
+     22.4,
+     19.0,
+     25.8
+    ]
+   },
+   "school": {
+    "children_m": 1.17,
+    "out_of_school_pct": 62.9
+   },
+   "mpi_ci": [
+    0.346,
+    0.394
+   ],
+   "h_ci": [
+    79.9,
+    87.1
+   ],
+   "a_ci": [
+    42.9,
+    45.7
+   ],
+   "pop_share": 1.8
+  },
+  "Zamfara": {
+   "censored": {
+    "nutrition": [
+     41.2,
+     37.4,
+     45.0
+    ],
+    "food": [
+     39.1,
+     33.7,
+     44.6
+    ],
+    "health_time": [
+     45.0,
+     37.7,
+     52.3
+    ],
+    "attendance": [
+     55.7,
+     50.9,
+     60.5
+    ],
+    "schooling": [
+     18.3,
+     14.3,
+     22.3
+    ],
+    "school_lag": [
+     15.2,
+     12.3,
+     18.0
+    ],
+    "water": [
+     37.5,
+     31.4,
+     43.6
+    ],
+    "water_rel": [
+     20.7,
+     16.7,
+     24.8
+    ],
+    "sanitation": [
+     55.8,
+     50.8,
+     60.9
+    ],
+    "housing": [
+     66.3,
+     60.5,
+     72.1
+    ],
+    "cooking": [
+     64.0,
+     58.4,
+     69.7
+    ],
+    "assets": [
+     36.3,
+     31.5,
+     41.2
+    ],
+    "unemployment": [
+     4.2,
+     2.8,
+     5.7
+    ],
+    "underemployment": [
+     15.9,
+     12.5,
+     19.3
+    ],
+    "shock": [
+     14.9,
+     11.7,
+     18.2
+    ]
+   },
+   "school": {
+    "children_m": 1.64,
+    "out_of_school_pct": 61.3
+   },
+   "mpi_ci": [
+    0.303,
+    0.353
+   ],
+   "h_ci": [
+    73.4,
+    82.7
+   ],
+   "a_ci": [
+    40.7,
+    43.4
+   ],
+   "pop_share": 2.5
+  }
+ }
+}

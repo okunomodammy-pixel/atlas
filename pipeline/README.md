@@ -105,6 +105,20 @@ data/manifest.json                per source and indicator: last attempt, last s
 data/UPDATE_LOG.md                one line per indicator per run, newest first
 ```
 
+## Sources and how often they are checked
+
+The weekly run (`--scheduled`) skips any source checked more recently than its `check_every_days`
+in `pipeline/config/sources.json`; it reports "not due" and fetches nothing. Manual runs and approvals
+always fetch. After an indicator's first review, a new release that passes every check is published
+on its own; only unusual changes come to you.
+
+| Source | What | Publishes | Checked |
+|---|---|---|---|
+| IMF DataMapper | GDP, GDP per person, growth, inflation (all countries) | April and October | every 13 days |
+| World Bank API | GDP per person, income groups | several times a year | every 6 days |
+| NBS homepage dashboard | headline, core and food inflation; fuel prices; quarterly GDP growth (Nigeria) | monthly / quarterly | every 6 days |
+| CBN exchange-rate API | official naira rate per US dollar | daily | every 6 days |
+
 ## Behaviour of the sources (verified on 24 Oct 2026)
 
 - **IMF DataMapper**
@@ -112,6 +126,14 @@ data/UPDATE_LOG.md                one line per indicator per run, newest first
   - An unknown code returns HTTP 200 with no values; the pipeline treats that as a failure.
   - The indicator list names the edition ("World Economic Outlook (October 2026)").
   - The newer IMF API at api.imf.org answered 503 "no healthy upstream" on every attempt, so it is not used.
+- **NBS** has no data API, and its e-library stopped listing new reports in December 2024. Its homepage
+  dashboard carries the latest official CPI (headline, core, food, with monthly history and the index base
+  period), average fuel prices and a sentence giving the latest quarterly GDP growth. The page showed a
+  malformed food history ("20.31.19.57"); the reader uses only the labelled latest value when a history
+  does not parse, and says so in the log. A change of base period counts as a definition change (held).
+- **CBN** serves every official rate since 2019 as one JSON list (~8 MB). The raw store keeps only the
+  US dollar rows. The atlas's earlier hand-entered rate (₦1,333.64 "on 21 October") matched CBN's
+  20 October selling rate; the fetched series fixes the date.
 - **World Bank**
   - All-country requests with `mrv` are cached by Cloudflare for about a day.
   - A new request shape can be slow the first time.

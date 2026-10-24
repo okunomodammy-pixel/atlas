@@ -73,7 +73,7 @@ jobs:
         run: python3 tests/test_pipeline.py
       - name: Fetch, check and publish data
         if: (github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true') && (github.event_name != 'workflow_dispatch' || inputs.fetch)
-        run: python3 -m pipeline.run
+        run: python3 -m pipeline.run ${{ github.event_name == 'schedule' && '--scheduled' || '' }}
       - name: Install the browser for the site tests
         if: github.event_name != 'issue_comment' || steps.approve.outputs.ok == 'true'
         run: |

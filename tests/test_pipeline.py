@@ -52,7 +52,7 @@ check("first run: atlas file has no indicators yet", J(root, "data", "atlas", "p
 check("first run: 580 growth and inflation values agree with the report tables",
       all(any("580 agree" in n for n in res[i]["notes"]) for i in ("gdp_growth", "cpi_avg")))
 lg = open(os.path.join(root, "data", "UPDATE_LOG.md")).read()
-check("first run: the update log has one line per indicator", lg.count("held for review") == 6)
+check("first run: the update log has one line per indicator", lg.count("held for review") == len(res), f"{lg.count('held for review')} lines, {len(res)} indicators")
 
 a = J(root, "pipeline", "config", "approvals.json"); a["approve"]["gdp_usd"] = "0000000000000000"
 json.dump(a, open(os.path.join(root, "pipeline", "config", "approvals.json"), "w"))
@@ -65,15 +65,16 @@ check("approved updates are published", all(exists(root, "data", "normal", f"{i}
 check("approval confirms the definition", set(J(root, "pipeline", "config", "definitions.json")["confirmed"]) == set(res3))
 check("review files are removed once published", not glob.glob(os.path.join(root, "data", "review", "*.json")))
 atl = J(root, "data", "atlas", "pipeline.json")["indicators"]
-check("atlas file has all six indicators", set(atl) == set(res3))
+check("atlas file has every indicator", set(atl) == set(res3))
 ATL = J(root, "data", "atlas", "pipeline.json"); CODES = {v: k for k, v in ATL["status_codes"].items()}
 def A(ind, c, y):
     r = atl[ind]; s = r["v"].get(c)
     if not s: return None
     i = y - r["y0"]
     return None if i < 0 or i >= len(s[0]) or s[0][i] is None else (s[0][i], CODES[s[1][i]])
-check("atlas file keeps 2015-2031 only", all(atl[i]["y0"] == 2015 and len(s[0]) <= 17 for i in atl if i != "income_group" for s in atl[i]["v"].values()))
-check("atlas file: values and status strings line up", all(len(s[0]) == len(s[1]) for i in atl if i != "income_group" for s in atl[i]["v"].values()))
+ANNUAL = [i for i in atl if "y0" in atl[i]]
+check("atlas file keeps 2015-2031 only (annual series)", len(ANNUAL) == 5 and all(atl[i]["y0"] == 2015 and len(s[0]) <= 17 for i in ANNUAL for s in atl[i]["v"].values()))
+check("atlas file: values and status strings line up", all(len(s[0]) == len(s[1]) for i in ANNUAL for s in atl[i]["v"].values()))
 check("atlas file: Nigeria GDP per person 2025 observed, 2026 projection (IMF appendix)",
       A("gdp_pc", "NGA", 2025)[1] == "observed" and A("gdp_pc", "NGA", 2026)[1] == "projection")
 check("atlas file: Libya 2020 is an IMF estimate (national accounts actual only to 2019)", A("gdp_pc", "LBY", 2020)[1] == "estimate")
@@ -208,6 +209,43 @@ check("a bug in one indicator does not stop the others or touch its data",
 root = published(); before = snapshot(root)
 res = run(root, Replay(edit={"imf_dm_ngdpd_all": edit_values("NGDPD", big)}), dry=True)
 check("dry run changes nothing under data/", snapshot(root) == before and exists(root, "out", "pipeline-report.json"))
+
+# ---------------------------------------------------------------- Nigerian sources (NBS homepage, CBN API)
+def next_month(html):
+    h = html.replace("CPI (Sept-2026)", "CPI (Oct-2026)").replace("14.63%<!--", "14.20%<!--")
+    h = h.replace('<span class="counter">14.63</span>', '<span class="counter">14.20</span>')
+    h = h.replace("15.93,15.91,15.43,15.39,14.63</div>", "15.93,15.91,15.43,15.39,14.63,14.20</div>")
+    h = h.replace('<span class="counter">12.95</span>', '<span class="counter">12.70</span>').replace("14.97,13.29,12.95</div>", "14.97,13.29,12.95,12.70</div>")
+    return h.replace('<span class="counter">19.59</span>', '<span class="counter">19.10</span>')
+root = published()
+NG = {"ng_cpi", "ng_cpi_core", "ng_cpi_food", "ng_petrol", "ng_fx_usd"}
+check("NBS and CBN: published after the first review (approved with the rest)", all(J(root, "data", "normal", f"{i}.json")["source"] in ("nbs", "cbn") for i in NG))
+check("NBS: food inflation history is malformed on the page, so only the latest month is kept",
+      list(J(root, "data", "normal", "ng_cpi_food.json")["series"]["NGA"]) == ["2026-09"] and len(J(root, "data", "normal", "ng_cpi.json")["series"]["NGA"]) == 13)
+res = run(root, Replay(edit={"nbs_home.html": next_month}), only={"ng_cpi", "ng_cpi_core", "ng_cpi_food", "ng_petrol"})
+check("NBS: next month's CPI is published on its own (routine), unchanged fuel prices report no change",
+      all(res[i]["outcome"] == "published" for i in ("ng_cpi", "ng_cpi_core", "ng_cpi_food")) and res["ng_petrol"]["outcome"] == "no change"
+      and J(root, "data", "normal", "ng_cpi.json")["series"]["NGA"]["2026-10"] == [14.2, "observed"], str({k: v["outcome"] for k, v in res.items()}))
+atl = J(root, "data", "atlas", "pipeline.json")["indicators"]["ng_cpi"]
+check("NBS: the atlas file carries the monthly series with periods", atl.get("period") == "month" and atl["v"]["NGA"]["2026-10"] == [14.2, "o"])
+held_case("NBS: index rebased (base period changes): held", {"nbs_home.html": lambda h: next_month(h).replace("Base Period 2024", "Base Period 2025")}, only="ng_cpi", expect="definition changed")
+held_case("NBS: inflation jumps 9 points in a month: held", {"nbs_home.html": lambda h: next_month(h).replace('<span class="counter">14.20</span>', '<span class="counter">23.60</span>').replace("15.39,14.63,14.20</div>", "15.39,14.63,23.60</div>")}, only="ng_cpi", expect="year-on-year")
+failure_case("NBS: homepage layout changed (CPI widget gone)", Replay(edit={"nbs_home.html": lambda h: h.replace('data-original-title="CPI', 'data-original-title="XPI')}), only="ng_cpi", expect="CPI widget not found")
+failure_case("NBS: site down", Replay(fail={"nigerianstat.gov.ng/": [503, 503, 503]}), only="ng_cpi", expect="gave up")
+def cbn_next(j):
+    d = [dict(x, ratedate="2026-10-26", id=x["id"] + 9999) for x in j if x["ratedate"] == "2026-10-23"]; return d + j
+res = run(root, Replay(edit={"cbn_rates": cbn_next}), only={"ng_fx_usd"})
+check("CBN: a new day's rate is published on its own", res["ng_fx_usd"]["outcome"] == "published" and "2026-10-26" in J(root, "data", "normal", "ng_fx_usd.json")["series"]["NGA"], res["ng_fx_usd"]["outcome"])
+held_case("CBN: the naira halves overnight: held", {"cbn_rates": lambda j: [dict(x, ratedate="2026-10-26", sellingrate=str(float(x["sellingrate"]) * 2)) for x in j if x["ratedate"] == "2026-10-23"] + j}, only="ng_fx_usd", expect="year-on-year")
+# release-paced checks
+root = published(); now = __import__("datetime").datetime.now(__import__("datetime").timezone.utc)
+calls = Replay(); r = Run(root=root, transport=calls, sleep=lambda s: None, force=False, now=now + __import__("datetime").timedelta(days=2)).go()
+by = {x["indicator"]: x["outcome"] for x in r["results"]}
+check("scheduled run two days later: every source is 'not due' and nothing is fetched", set(by.values()) == {"not due"} and not calls.calls, str(set(by.values())))
+calls = Replay(); r = Run(root=root, transport=calls, sleep=lambda s: None, force=False, now=now + __import__("datetime").timedelta(days=8)).go()
+by = {x["indicator"]: x["outcome"] for x in r["results"]}
+check("scheduled run eight days later: weekly sources are checked, the IMF (every 13 days) is not",
+      by["ng_cpi"] == "no change" and by["gdp_pc_obs"] == "no change" and by["gdp_usd"] == "not due", str(by))
 
 failed = [n for n, ok in RES if not ok]
 print(f"\n{len(RES) - len(failed)}/{len(RES)} pipeline checks passed")

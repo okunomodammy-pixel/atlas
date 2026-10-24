@@ -70,7 +70,7 @@ def validate(ind, new, old, confirmed_fp, edition_table_ok, crosscheck=None, rev
     lo, hi = ind.get("bounds", [float("-inf"), float("inf")])
     for c, ys in S.items():
         g = G.get(c, {})
-        prev = None
+        prev, prev_y = None, None
         for y in sorted(ys):
             v, st = ys[y]
             if v == 0 and not ind.get("zero_ok"): zeros.append(f"{c} {y}")
@@ -86,16 +86,16 @@ def validate(ind, new, old, confirmed_fp, edition_table_ok, crosscheck=None, rev
                 if ost in ("projection", "estimate") and st == "observed": progressed += 1
             else:
                 newyears += 1 if G else 0
-            if changed and prev is not None and int(y) >= ind.get("movement_from", 0) and _big(ind.get("movement"), prev, v):
-                moves.append(f"{c} {int(y) - 1}->{y}: {prev} -> {v}")
-            prev = v
+            if changed and prev is not None and int(str(y)[:4]) >= ind.get("movement_from", 0) and _big(ind.get("movement"), prev, v):
+                moves.append(f"{c} {prev_y}->{y}: {prev} -> {v}")
+            prev, prev_y = v, y
     if zeros: review.append(f"{len(zeros)} zero values where zero is implausible (a source sometimes writes 0 for missing): " + ", ".join(_cap(zeros)))
     if oob: review.append(f"{len(oob)} values outside {lo} to {hi}: " + "; ".join(_cap(oob)))
     if revs: review.append(f"{len(revs)} revisions beyond the threshold {ind.get('revision')}: " + "; ".join(_cap(revs)))
     if regress: review.append(f"{len(regress)} values went from observed back to estimate or projection: " + "; ".join(_cap(regress)))
     if moves: review.append(f"{len(moves)} large year-on-year movements in new or changed values (threshold {ind.get('movement')}): " + "; ".join(_cap(moves)))
     if small_revs: notes.append(f"{small_revs} values revised within the threshold")
-    if newyears: notes.append(f"{newyears} new country-years")
+    if newyears: notes.append(f"{newyears} new " + ("country-years" if ind.get("period", "year") == "year" else "periods"))
     if progressed: notes.append(f"{progressed} values moved from estimate or projection to observed")
 
     if crosscheck:

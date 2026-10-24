@@ -376,6 +376,37 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .trend .st { font: 10px var(--sans); fill: var(--muted); }
 .trend .sme { fill: var(--sel); stroke: var(--panel); stroke-width: 1.5; }
 .kt-reported { background: color-mix(in srgb, var(--hit) 10%, var(--panel)); }
+
+/* batch 20: state profiles */
+.lede { font-size: 15.5px; }
+button.lnk { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; text-align: left; }
+.deps { margin: 8px 0 0; }
+.dimh { font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+.dep { display: grid; grid-template-columns: minmax(7.5em, 34%) 1fr 3.2em; gap: 8px; align-items: center; font-size: 13px; min-height: 26px; }
+.dep .n { text-align: right; font-variant-numeric: tabular-nums; }
+.dep .tr { position: relative; height: 10px; background: var(--tag); border-radius: 3px; }
+.dep .fl, .key.fl { position: absolute; left: 0; top: 0; bottom: 0; background: var(--sel); border-radius: 3px; }
+.dep .ci, .key.ci { position: absolute; top: 4px; height: 2px; background: var(--ink); opacity: .45; }
+.dep .nt, .key.nt { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.key { position: relative !important; display: inline-block; vertical-align: middle; top: auto !important; bottom: auto !important; }
+.key.fl { width: 14px; height: 8px; } .key.nt { width: 2px; height: 12px; } .key.ci { width: 14px; height: 2px; }
+.pick { display: flex; gap: 10px; flex-wrap: wrap; margin: 6px 0 10px; } .pick label { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.pick select, #ngmetric { font: inherit; font-size: 13px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); max-width: 100%; }
+#ngmetric { font-weight: 600; width: 100%; }
+.ngbubble { fill: var(--sel); fill-opacity: .6; stroke: var(--panel); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
+
+.tiles3 { grid-template-columns: repeat(3, 1fr); } @media (max-width: 520px) { .tiles3 { grid-template-columns: 1fr 1fr; } }
+button.tile.tb { text-align: left; border: 1px solid transparent; cursor: pointer; font: inherit; color: inherit; }
+button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent); }
+.zsw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+.zt td { vertical-align: middle; } .zbar { display: inline-block; width: 60px; height: 8px; background: var(--tag); border-radius: 3px; vertical-align: middle; margin-right: 6px; position: relative; overflow: hidden; }
+.zbar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--sel); }
+.zrow { margin: 10px 0; } .zrow .chips { margin-top: 6px; } .chip.sc { padding: 5px 10px; min-height: 30px; font-size: 13px; }
+
+.cardbtn.wide { grid-column: 1 / -1; background: color-mix(in srgb, var(--accent) 8%, var(--panel)); border-color: color-mix(in srgb, var(--accent) 30%, var(--line)); }
+
+.spark { width: 72px; height: 18px; vertical-align: -3px; margin-left: 6px; overflow: visible; }
+.spark polyline { fill: none; stroke: var(--accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; } .spark circle { fill: var(--sel); }
 </style>
 
 <div class="app" id="app">
@@ -1052,15 +1083,18 @@ function nigeriaMode() {
   // detailed Nigerian rivers (Natural Earth 1:10m) on top of the states
   G.states.selectAll("path.ngriver").data(D.ng.rivers.features).join("path").attr("class", d => "river ngriver" + (["Niger","Benue","Bénoué"].includes(d.properties.name) ? " major" : ""));
   G.cities.selectAll("g").each(d => { d.force = d.c3 === "NGA"; });
+  { const names = new Set(st.map(f => stName(f.properties.name))); G.cities.selectAll("g").select("text").attr("display", d => d.c3 === "NGA" && names.has(d.n) ? "none" : null); }
   G.phys.selectAll("text").each(d => { d.force = ["Niger Delta","SAHEL","Adamawa Plateau"].includes(d.n); });
   $("#L-cities").checked = false; applyLayers();
   render(); legend(Object.keys(ZONES).map(z => [ZCOL[z], z]));
   flyTo(featByKey.get(ng), {pad: .9, maxk: 14});
   const f = byKey.get(ng), b = d3.geoBounds({type: "FeatureCollection", features: st});
-  setPanel(`<div class="eyebrow">Case study</div><h2>🇳🇬 Nigeria in its place</h2>
-  <p>Nigeria is the most populous country in Africa. It sits on the Gulf of Guinea at the corner where West Africa's coast turns from running east–west to running north–south. The map shows its 36 states and the Federal Capital Territory, coloured by geopolitical zone. Tap a state.</p>
+  setPanel(`<div class="eyebrow">Case study</div><h2>🇳🇬 Nigeria</h2>
+  <p class="lede">${NG_LEDE()} It sits where West Africa's coast turns from east–west to north–south, and runs from mangrove creeks in the Niger Delta to the edge of the Sahel. The map shows its 36 states and the Federal Capital Territory, coloured by geopolitical zone: <b>tap any state for its profile</b>.</p>
+  ${NG_TILES_HTML()}
+  ${NG_TOGETHER_HTML()}
   <dl class="facts"><dt>Extent</dt><dd style="font-family:var(--mono);font-size:13px">${latStr(b[0][1])} to ${latStr(b[1][1])}<br>${lonStr(b[0][0])} to ${lonStr(b[1][0])}</dd>
-  <dt>Area</dt><dd>${fmt(f.a)} km²</dd><dt>Population</dt><dd>${fmt(f.pop)} <span class="src">(${f.w ? "UN projection for mid-2026; Nigeria has not held a census since 2006" : "estimate, " + f.popY}</span></dd>
+  <dt>Area</dt><dd>${fmt(f.a)} km², about ${(f.a / byKey.get(byC3.get("GBR")).a).toFixed(1)} times the United Kingdom</dd>
   <dt>Capital</dt><dd>Abuja, in the FCT, at the centre of the country. Lagos was the capital until 1991.</dd></dl>
 
   <h3>Neighbours</h3>
@@ -1074,8 +1108,7 @@ function nigeriaMode() {
   <li><b>Cameroon</b>: the longest border, running through the Mandara Mountains and highlands. The International Court of Justice ruled in 2002 that the Bakassi Peninsula belongs to Cameroon, and Nigeria completed the handover in 2008.</li></ul>
 
   <h3>The six geopolitical zones</h3>
-  <p>The zones are not in the constitution as units of government, but they are widely used for planning, politics and sharing federal positions.</p>
-  ${Object.entries(ZONES).map(([z, s]) => `<p><button class="chip" data-act="zone" data-z="${z}"><i style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(${ZCOL[z]});margin-right:6px"></i>${z}</button> ${s.map(stName).join(", ")}</p>`).join("")}
+  <p>The zones are not in the constitution as units of government, but they are widely used for planning, politics and sharing federal positions. Tap a zone below to light it up on the map.</p>
 
   ${NGPOV_HTML()}
   <h3>The Niger and the Benue</h3>
@@ -1096,15 +1129,6 @@ function nigeriaMode() {
   <div class="mm"><h4 style="margin-top:0">Mental-map summary</h4>
   <p>Benin to the west, Niger to the north, Chad across Lake Chad in the north-east, Cameroon to the east, the sea to the south. The Niger and Benue form a "Y" that meets at Lokoja and splits the country into three big parts: the north, the south-west and the south-east.</p></div>
   <p class="src"><span class="kind">Facts</span>States, rivers, shapes: Natural Earth. <span class="kind">Interpretation</span>The trade and community notes summarise widely reported patterns, not measured data.</p>`); }
-function statePanel(s) {
-  const z = zoneOf(s); G.states.selectAll("path.state").classed("on", d => d.properties.name === s);
-  const cs = D.cities.filter(c => c.c3 === "NGA" && c.a1 && norm(c.a1).startsWith(norm(s).slice(0, 5)));
-  const html = `<div class="eyebrow">Nigeria · ${esc(z)}</div><h2>${esc(stName(s))}</h2>
-  <p>One of the ${ZONES[z].length} states and territories in the ${esc(z)} zone: ${ZONES[z].map(stName).join(", ")}.</p>
-  ${cs.length ? `<p>Cities on this map: ${cs.map(c => esc(c.n)).join(", ")}.</p>` : ""}
-  <p class="note"><span class="kind">Not written yet</span>State profiles come in a later batch.</p>
-  <p><button class="btn" data-mode-go="nigeria"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to Nigeria</button></p>`;
-  setPanel(html); }
 ACT.zone = el => { const z = el.dataset.z; G.states.selectAll("path.state").classed("on", d => zoneOf(d.properties.name) === z).style("opacity", d => zoneOf(d.properties.name) === z ? 1 : .35);
   const fs = G.states.selectAll("path.state").data().filter(d => zoneOf(d.properties.name) === z); flyTo({type: "FeatureCollection", features: fs}, {pad: .85, maxk: 30}); };
 ACT.ngrivers = () => { G.states.selectAll("path.state").style("opacity", .35);
@@ -1467,12 +1491,15 @@ const GAMES = {
     const pool = gamePool(scope).filter(k => byKey.get(k).cap && byKey.get(k).cap.length), k = shuffle(pool)[0], f = byKey.get(k);
     const ds = pickDistractors(k, 3, pool, (a, b) => a.sub === b.sub);
     if (Math.random() < .5) { const opts = shuffle([k, ...ds]);
-      return {q: `What is the capital of <b>${esc(f.n)}</b>?`, opts: opts.map(x => byKey.get(x).cap[0]), a: opts.indexOf(k), why: `${f.cap[0]} is the capital of ${f.n}.`, show: k}; }
+      return {q: `What is the capital of <b>${esc(f.n)}</b>?`, opts: opts.map(x => byKey.get(x).cap[0]), a: opts.indexOf(k), why: `${f.cap[0]} is the capital of ${f.n}.`, show: k,
+        wrong: opts.map(x => `You chose ${byKey.get(x).cap[0]}, the capital of ${nameOf(x)}`)}; }
     const opts = shuffle([k, ...ds]);
-    return {q: `<b>${esc(f.cap[0])}</b> is the capital of…`, opts: opts.map(nameOf), a: opts.indexOf(k), why: `${f.cap[0]} is the capital of ${f.n}.`, show: k}; } },
+    return {q: `<b>${esc(f.cap[0])}</b> is the capital of…`, opts: opts.map(nameOf), a: opts.indexOf(k), why: `${f.cap[0]} is the capital of ${f.n}.`, show: k,
+      wrong: opts.map(x => `${nameOf(x)}'s capital is ${(byKey.get(x).cap || ["not listed"])[0]}`)}; } },
   flags: { name: "Flags", desc: "Name the country from its flag.", gen(scope) {
     const pool = gamePool(scope).filter(k => byKey.get(k).flag), k = shuffle(pool)[0], f = byKey.get(k), opts = shuffle([k, ...pickDistractors(k, 3, pool, (a, b) => a.sub === b.sub)]);
-    return {q: `Whose flag is this?<div class="bigflag">${f.flag}</div>`, opts: opts.map(nameOf), a: opts.indexOf(k), why: `That is the flag of ${f.n}.`, show: k}; } },
+    return {q: `Whose flag is this?<div class="bigflag">${f.flag}</div>`, opts: opts.map(nameOf), a: opts.indexOf(k), why: `That is the flag of ${f.n}.`, show: k,
+      wrong: opts.map(x => `${nameOf(x)}'s flag is ${byKey.get(x).flag}`)}; } },
   shapes: { name: "Shapes", desc: "Recognise a country from its outline alone.", gen(scope) {
     const pool = gamePool(scope, 20000).filter(k => !["RUS","USA","FJI","KIR","CAN","NZL"].includes(byKey.get(k).c3)), k = shuffle(pool)[0], opts = shuffle([k, ...pickDistractors(k, 3, pool, (a, b) => a.sub === b.sub)]);
     return {q: `Which country has this shape?${shapeSVG(k)}`, opts: opts.map(nameOf), a: opts.indexOf(k), why: `That is ${nameOf(k)}, in ${byKey.get(k).sub}.`, show: k}; } },
@@ -1499,7 +1526,7 @@ function mcGame(id, scope) {
       b.classList.add(ok ? "right" : "wrong"); panel.querySelector(`.opts [data-j="${r.a}"]`).classList.add("right");
       if (r.show) { S.sel = r.show; paint(); flyTo(featByKey.get(r.show), {pad: .5, maxk: 8}); }
       if (r.pins) { setPins(r.pins.map(c => ({c}))); flyTo({type: "MultiPoint", coordinates: r.pins}, {pad: .6, maxk: 6}); }
-      $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${esc(r.why)}</p><button class="btn primary" id="next">${i + 1 < N ? "Next" : "See score"}</button>`;
+      $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${!ok && r.wrong && r.wrong[+b.dataset.j] ? esc(r.wrong[+b.dataset.j]) + ". " : ""}${esc(r.why)}</p><button class="btn primary" id="next">${i + 1 < N ? "Next" : "See score"}</button>`;
       $("#next").onclick = () => { i++; if (i < N) ask(); else done(); }; }); };
   const done = () => { const key = id + ":" + scope; saved.best[key] = Math.max(saved.best[key] || 0, score); store.set(saved); S.sel = null; paint(); setPins([]);
     setPanel(`<div class="eyebrow">${esc(g.name)} · result</div><p class="score">${score} / ${N}</p><p>Longest streak: ${best}. Best ever: ${saved.best[key]} / ${N}.</p>
@@ -2577,7 +2604,7 @@ Object.assign(MODES, {borders: bordersMode, geo: geoMode, tools: toolsMode, hist
 /* ---------- batch 9: two new lessons built with Blainey (world history) and Ghosh (International Relations) as guides ---------- */
 /* All text is original. Dates follow mainstream current scholarship; where it has moved on since the books were written, the newer figure is used. */
 G.pinlab = root.append("g").attr("class", "labels pinlab");
-function clearMap() { S.color = null; S.sel = null; G.countries.selectAll("path").classed("dim", false); setRoutes([]); setPins([]); legend(null); paint(); }
+function clearMap() { if (G.cities) G.cities.selectAll("g").select("text").attr("display", null); S.color = null; S.sel = null; G.countries.selectAll("path").classed("dim", false); setRoutes([]); setPins([]); legend(null); paint(); }
 function colorGroups(groups, opts = {}) { // groups: [[c3 list, css colour], ...] — later groups win
   const m = new Map(); groups.forEach(([list, col]) => list.forEach(c => { const k = k3(c) || (featByKey.has(c) ? c : null); if (k) m.set(k, col); }));
   S.color = k => m.get(k) || null; S.sel = null; paint();
@@ -3302,7 +3329,7 @@ MODES.money = () => { clearMap(); resetView();
 
   <h3>6. Size versus living standards</h3>
   <p><b>GDP</b> (gross domestic product) is the value of everything an economy produces in a year. Total GDP measures size and weight in the world; GDP <b>per person</b> says more about living standards.</p>
-  <p><b>The exchange-rate trap.</b> Nigeria's 2025 rebasing raised its 2024 GDP by about 34% in naira, to ₦372.8 trillion, mainly by counting sectors such as services and real estate better. Yet in dollars it is about US$243 billion, far below the US$448 billion of 2019, because the naira lost most of its dollar value. The country did not produce less; the measuring stick shrank. That is why economists also use <b>purchasing power parity (PPP)</b>, which compares what money actually buys at home.</p>
+  <p><b>The exchange-rate trap.</b> Nigeria's 2025 rebasing raised its 2024 GDP by about 34% in naira, to ₦372.8 trillion, mainly by counting sectors such as services and real estate better. Yet in dollars it is about US$243 billion, far below the US$448 billion of 2019, because the naira lost most of its dollar value. The country did not produce less; the measuring stick shrank. That is why economists also use <b>purchasing power parity (PPP)</b>, which compares what money actually buys at home.${ival("gdp_usd_25", "NGA") != null ? ` The IMF's figure for 2025 is ${esc(itxt("gdp_usd_25", "NGA"))}, or ${esc(itxt("gdp_pc_25", "NGA"))} a person: <button class="lnk" data-act="ngtile" data-id="gdp_pc_25">compare it</button>.` : ""}</p>
 
   <h3>7. What an economy sells</h3>
   <p>After the rebasing, services make up 55.5% of Nigeria's GDP, agriculture 27.8% and industry 16.7%, and real estate now contributes more than oil and gas. But oil still earns most of Nigeria's export income and much of government revenue. Nigeria produced ${itxt("oil_out", "NGA")} in 2025, ${itxt("oil_share", "NGA")} of the world's output, far behind the United States (${itxt("oil_share", "USA")}), Saudi Arabia (${itxt("oil_share", "SAU")}) and Russia (${itxt("oil_share", "RUS")}). That combination, a big domestic economy but foreign currency from one commodity, is why oil prices move the naira, the budget and inflation all at once.</p>
@@ -3371,27 +3398,29 @@ const NOW = () => D.now || {};
 const pct = (v, d = 1) => v == null ? "—" : `${v > 0 ? "" : ""}${v.toFixed(d)}%`;
 /* Nigeria: poverty by state */
 const MPI_NAME = s => s === "Nassarawa" ? "Nasarawa" : s === "Federal Capital Territory" ? "FCT" : s;
-function ngPovertyMap() { const mp = NOW().mpi; if (!mp) return;
-  const st = ngStates(), ng = "566", nbSet = new Set(byKey.get(ng).b.map(c => byC3.get(c)));
-  S.sel = null; S.color = k => k === ng ? "transparent" : null; G.countries.selectAll("path").classed("dim", d => d.key !== ng && !nbSet.has(d.key)); paint();
-  const col = h => h < 40 ? "var(--d1)" : h < 60 ? "var(--d2)" : h < 75 ? "var(--nb)" : h < 85 ? "var(--sel)" : "var(--miss)";
-  G.states.selectAll("path").data(st).join("path").attr("class", "state").style("fill", d => { const r = mp[MPI_NAME(d.properties.name)]; return r ? col(r.h) : "var(--land)"; }).style("stroke-opacity", null)
-    .on("click", (ev, d) => { ev.stopPropagation(); const s = d.properties.name, r = mp[MPI_NAME(s)];
-      showPeekHTML(`<b class="pn">${esc(stName(s))}</b><span class="ps">${esc(zoneOf(s))} zone · 2022</span><p style="margin:8px 0 0"><b>${r.h}%</b> multidimensionally poor, about <b>${r.poor} million</b> people.${s === "Borno" ? " Borno's figure is less certain: the survey could not cover the whole state." : ""}</p><div class="pb" style="margin-top:8px"><button class="btn" data-statecmp="${esc(MPI_NAME(s))}">Compare</button></div>`); });
-  G.stateslabels.selectAll("text").data(st.map(f => ({c: d3.geoCentroid(f), n: (mp[MPI_NAME(f.properties.name)] || {}).h + "%"}))).join("text").text(d => d.n);
-  $("#L-labels").checked = false; applyLayers(); render();
-  const l = $("#legend"); l.innerHTML = `<div class="lgt">Nigeria: share of people multidimensionally poor, 2022</div>${[["--d1", "Under 40%"], ["--d2", "40–60%"], ["--nb", "60–75%"], ["--sel", "75–85%"], ["--miss", "85% and over"]].map(([c, t]) => `<div><i style="background:var(${c})"></i>${t}</div>`).join("")}<div class="lgn">Poor in health, education and living standards, not only income. National: 63% (133 million). NBS Nigeria MPI Survey 2022.</div>`; l.hidden = false;
-  flyTo(featByKey.get(ng), {pad: .92, maxk: 14}); }
-ACT.ngpov = () => ngPovertyMap();
-const NGPOV_HTML = () => { const mp = NOW().mpi; if (!mp) return "";
-  return `<h3>Poverty by state (2022)</h3>
-  <p>Nigeria's 2022 Multidimensional Poverty Index counts people as poor when they lack several basics at once: schooling, health care, clean water, sanitation, cooking fuel, housing, food security and work. By that measure <b>${itxt("mpi_nat", "NGA")} were poor</b>, compared with ${itxt("pov_money", "NGA")} under the 2018/19 money-based poverty line. They measure different things, so neither number is "the" poverty rate.</p>
-  <div class="btnrow"><button class="btn primary" data-act="ngpov">Map poverty by state</button></div>
-  <ul><li>The share ranges from <b>${itxt("mpi_h", "Ondo")} in Ondo</b> and ${itxt("mpi_h", "Lagos")} in Lagos to <b>${itxt("mpi_h", "Sokoto")} in Sokoto</b>.</li>
-  <li><b>Kano has the most poor people</b> (${itxt("mpi_poor", "Kano")}) even though its share (${itxt("mpi_h", "Kano")}) is lower than Sokoto's, because its population is so large.</li>
-  <li>The commonest deprivations are cooking fuel, sanitation, time to health care, food insecurity and housing. About 29% of school-age children were out of school.</li></ul>
-  <p><span class="kind">Interpretation</span>The north–south gap echoes the colonial era, when mission schools spread across the south far more than the north (lesson 5, part 5), and is worsened today by insecurity in the north-east and north-west. But geography is not the whole story: <b>Bayelsa</b>, an oil-producing Niger Delta state, is among the poorest at ${itxt("mpi_h", "Bayelsa")}, a reminder of the "resource curse" and Dutch disease (lesson 11) and of the Ogoni struggle (lesson 5, part 8).</p>
-  <p class="src">Source: National Bureau of Statistics, Nigeria Multidimensional Poverty Index Survey Results 2022 (with OPHI and UNICEF). Results are representative for every state except Borno.</p>`; };
+const NGPOV_HTML = () => { const mp = NOW().mpi, m = MPIS(); if (!mp || !m) return "";
+  const N = m.national, ru = m.area.Rural, ur = m.area.Urban, Z = m.zones;
+  const zs = Object.entries(Z).map(([z, r]) => ({z, ...r, poorShare: r.poor_m / N.poor_m * 100})).sort((a, b) => b.h - a.h);
+  const over = zs.slice().sort((a, b) => (b.poorShare - b.pop_share) - (a.poorShare - a.pop_share))[0], under = zs.slice().sort((a, b) => (a.poorShare - a.pop_share) - (b.poorShare - b.pop_share))[0];
+  const spread = Object.keys(ZONES).map(z => { const ks = ZONES[z].map(MPI_NAME).filter(k => mp[k]).sort((a, b) => mp[a].h - mp[b].h); return {z, lo: ks[0], hi: ks[ks.length - 1], gap: mp[ks[ks.length - 1]].h - mp[ks[0]].h}; }).sort((a, b) => b.gap - a.gap)[0];
+  const top = m.indicators.map(i => ({i, v: N.censored[i.key][0]})).sort((a, b) => b.v - a.v).slice(0, 5);
+  const mx = Math.max(...zs.map(z => z.h));
+  return `<h3>Many Nigerias</h3>
+  <p>National averages hide large differences. In the 2021/22 survey, <b>${pctS(ru.h)}</b> of people in rural areas were multidimensionally poor, against <b>${pctS(ur.h)}</b> in towns and cities; about ${Math.round(ru.pop_share)}% of people lived in areas the survey classed as rural.</p>
+  <div class="tablewrap"><table class="t zt"><thead><tr><th>Zone</th><th>Share poor</th><th class="n">Poor people</th><th class="n">Share of Nigeria's people / poor</th></tr></thead><tbody>
+  ${zs.map(z => `<tr class="click" data-act="zone" data-z="${esc(z.z)}"><td><i class="zsw" style="background:var(${ZCOL[z.z]})"></i>${esc(z.z)}</td><td><span class="zbar"><i style="width:${(z.h / mx * 100).toFixed(1)}%"></i></span> ${pctS(z.h)}</td><td class="n">${z.poor_m.toFixed(1)}m</td><td class="n">${pctS(z.pop_share)} / ${pctS(z.poorShare)}</td></tr>`).join("")}</tbody></table></div>
+  <p>The <b>${esc(over.z)}</b> is home to ${pctS(over.pop_share)} of Nigerians but ${pctS(over.poorShare)} of its multidimensionally poor; the <b>${esc(under.z)}</b>, ${pctS(under.pop_share)} of the people and ${pctS(under.poorShare)} of the poor. Zones are not uniform either: in the ${esc(spread.z)}, the share runs from ${pctS(mp[spread.lo].h)} in ${esc(stDisp(spread.lo))} to ${pctS(mp[spread.hi].h)} in ${esc(stDisp(spread.hi))}.</p>
+  <p class="src">Zone, rural and urban figures as published by the NBS; shares of people and of the poor calculated by the atlas from the published totals.</p>
+  <h3>Explore the states</h3>
+  <p>Every state and the FCT has a profile: what poverty is made of there, how it compares, and which states look most alike. Pick one, or tap it on the map.</p>
+  ${Object.keys(ZONES).map(z => `<div class="zrow"><button class="chip zc" data-act="zone" data-z="${esc(z)}"><i class="zsw" style="background:var(${ZCOL[z]})"></i>${esc(z)}</button><div class="chips">${ZONES[z].map(MPI_NAME).filter(k => mp[k]).map(k => `<button class="chip sc" data-act="stateopen" data-s="${esc(k)}">${esc(k === "FCT" ? "FCT" : k)}</button>`).join("")}</div></div>`).join("")}
+  <div class="btnrow"><button class="btn primary" data-act="ngpov" data-metric="h">Map the share poor</button><button class="btn" data-act="ngpov" data-metric="poor">Map the number of poor people</button><button class="btn" data-act="ngpov" data-metric="oos">Map children out of school</button></div>
+  <p class="src" style="margin-top:4px">Switching between the share and the number moves the map's centre of gravity: the share peaks in the far north-west and the Delta, while the number is largest where most people live.</p>
+  <h4>What "multidimensionally poor" means</h4>
+  <p>The index looks at ${m.indicators.length} things a household can lack, in four groups: health, education, living standards, and work and shocks. A person counts as poor if their household is deprived in at least 26% of the weighted list. By that measure <b>${pctS(N.h)} of Nigerians</b> (about ${Math.round(N.poor_m)} million) were poor in 2021/22, and the average poor person was deprived in ${pctS(N.a)} of it. Under the money-based poverty line of the 2018/19 Living Standards Survey the figure was ${itxt("pov_money", "NGA")}: a different measure, of a different year, so neither is "the" poverty rate.</p>
+  <p>The most common deprivations among the poor were ${top.map(t => `${esc(t.i.name.toLowerCase())} (${pctS(t.v)} of all people)`).join(", ")}. ${pctS(N.school.out_of_school_pct)} of school-age children were out of school.</p>
+  <p><span class="kind">Interpretation</span>Part of the north–south gap echoes the colonial era, when mission schools spread across the south far more than the north (lesson 5, part 5), and insecurity in the north-east and north-west adds to it today. But geography is not the whole story: <b>Bayelsa</b>, an oil-producing Niger Delta state, is among the poorest at ${itxt("mpi_h", "Bayelsa")}, a reminder of the "resource curse" and Dutch disease (lesson 11) and of the Ogoni struggle (lesson 5, part 8). These are proposed explanations; the survey itself cannot test them.</p>
+  <p class="src">${esc(NG_POV_NOTE)} <button class="lnk" data-ind="mpi_h">About the measure</button></p>`; };
 /* Today's world: more layers */
 function binTheme(t, src, val, bins, note, dim) { const g = bins.map(() => []);
   Object.values(D.facts).forEach(f => { const v = val(f); if (v == null || isNaN(v)) return; const i = bins.findIndex(b => v < b[0]); g[i < 0 ? bins.length - 1 : i].push(f.c3); });
@@ -3699,7 +3728,7 @@ function stateSheet(s) { S.cmpId = "mpi_h"; S.cmpC = null; S.cmpState = s; const
     ${stripSVG(set, s, new Set(zs.map(x => x.n)), nat, "Nigeria")}
     <p><b>${ord(pos)} highest</b> of 37 (36 states and the FCT), 2021/22. Higher means a larger share of people deprived in several basics at once.${s === "Borno" ? " Borno's figure is less certain: the survey could not cover the whole state." : " Borno's figure is less certain than the others."}</p>
     <div class="tablewrap"><table class="t"><thead><tr><th>Compared with</th><th class="n">Share poor</th><th class="n">${esc(MPI_DISPLAY(s))} is</th></tr></thead><tbody>
-      <tr><td>${esc(zone)} zone<br><span class="src">poor people ÷ people in the zone's states (calculated by the atlas from the survey's state figures)</span></td><td class="n">${zH.toFixed(1)}%</td><td class="n">${pp(r0.h, zH)}</td></tr>
+      ${(zp => `<tr><td>${esc(zone)} zone<br><span class="src">${zp ? "as published by the NBS" : "poor people ÷ people in the zone's states (calculated by the atlas from the survey's state figures)"}</span></td><td class="n">${(zp ? zp.h : zH).toFixed(1)}%</td><td class="n">${pp(r0.h, zp ? zp.h : zH)}</td></tr>`)(MPIS() && MPIS().zones[zone])}
       <tr><td>Nigeria<br><span class="src">as published by the NBS</span></td><td class="n">${nat}%</td><td class="n">${pp(r0.h, nat)}</td></tr>
       ${zs.filter(x => x.n !== s).sort((a, b) => b.h - a.h).map(x => `<tr><td>${esc(MPI_DISPLAY(x.n))}<br><span class="src">same zone</span></td><td class="n">${x.h}%</td><td class="n">${pp(r0.h, x.h)}</td></tr>`).join("")}
     </tbody></table></div>
@@ -3798,7 +3827,7 @@ function statusMix(id, codes) { const r = IND[id], n = {}; if (!r || !r.st) retu
 const indSheetBase = indSheet;
 indSheet = function (id) { indSheetBase(id); const r = IND[id], s = SOURCES[r.src], dl = $("#overlay dl.tips"); if (!dl || !s) return;
   let add = "";
-  if (r.st) add += `<dt>Each value</dt><dd>${esc(statusMix(id).text)}. The tag beside a country's figure says which it is.</dd>`;
+  if (r.st && !r.geo) add += `<dt>Each value</dt><dd>${esc(statusMix(id).text)}. The tag beside a country's figure says which it is.</dd>`;
   if (s.auto) add += `<dt>Edition</dt><dd>${esc(s.edition || "—")}${s.pub ? ", published " + esc(ymLabel(s.pub)) : ""}</dd>
     <dt>How it updates</dt><dd>Fetched from the source's API and checked before it reaches the atlas: definition and units, coverage, revisions and unusual jumps. Changes that need a person's judgement wait for review. Last confirmed current: ${esc(dayLabel(s.checked))}.</dd>`;
   dl.insertAdjacentHTML("beforeend", add); };
@@ -3846,6 +3875,260 @@ LINKS.push(
 THEME_OF.gdp_pc_25 = "gdppc";
 THEME_INFO.gdppc = () => indTheme("gdp_pc_25", [[1200, "--miss", "Under US$1,200"], [4500, "--sel", "US$1,200–4,500"], [14000, "--nb", "US$4,500–14,000"], [40000, "--d2", "US$14,000–40,000"], [Infinity, "--d4", "Over US$40,000"]],
   {note: `World ${itxt("gdp_pc_25", "WORLD")}, Nigeria ${itxt("gdp_pc_25", "NGA")}. US dollars at market exchange rates: cheap local prices mean money goes further in poorer countries than these numbers suggest. IMF figures; some 2025 values are IMF estimates.`});
+
+/* ---------- batch 20: Nigeria's 36 states and the FCT ----------
+   Everything here comes from one survey: the National Bureau of Statistics' Nigeria Multidimensional Poverty
+   Index 2022 (fieldwork Nov 2021 to Feb 2022), tables D1-D6, D12 and D49, read by build/extract_mpi_states.py
+   and checked there (each state's 15 deprivation figures recombine into its published MPI).
+   No state-level economic, population or price figures are invented or apportioned from national ones. */
+const MPIS = () => (NOW().mpis || null);
+const GEO_NAME = k => k === "Nasarawa" ? "Nassarawa" : k === "FCT" ? "Federal Capital Territory" : k;
+const ST_CAP = {Abia: "Umuahia", Adamawa: "Yola", "Akwa Ibom": "Uyo", Anambra: "Awka", Bauchi: "Bauchi", Bayelsa: "Yenagoa", Benue: "Makurdi", Borno: "Maiduguri",
+  "Cross River": "Calabar", Delta: "Asaba", Ebonyi: "Abakaliki", Edo: "Benin City", Ekiti: "Ado-Ekiti", Enugu: "Enugu", Gombe: "Gombe", Imo: "Owerri", Jigawa: "Dutse",
+  Kaduna: "Kaduna", Kano: "Kano", Katsina: "Katsina", Kebbi: "Birnin Kebbi", Kogi: "Lokoja", Kwara: "Ilorin", Lagos: "Ikeja", Nasarawa: "Lafia", Niger: "Minna",
+  Ogun: "Abeokuta", Ondo: "Akure", Osun: "Osogbo", Oyo: "Ibadan", Plateau: "Jos", Rivers: "Port Harcourt", Sokoto: "Sokoto", Taraba: "Jalingo", Yobe: "Damaturu",
+  Zamfara: "Gusau", FCT: "Abuja"};
+/* "x% of people are both poor and ..." */
+const DEP_PHRASE = {nutrition: "live with someone undernourished", food: "are severely food insecure", health_time: "live 30 minutes or more on foot from a health facility",
+  attendance: "have a school-age child out of school", schooling: "live where no adult has finished primary school", school_lag: "have a child two or more grades behind",
+  water: "lack safe drinking water", water_rel: "have unreliable water", sanitation: "lack an improved, unshared toilet", housing: "live in a home of natural or rudimentary materials",
+  cooking: "cook with wood, charcoal or dung", assets: "own fewer than two basic assets", unemployment: "live with someone unemployed and looking for work",
+  underemployment: "live with someone working under 40 hours who wants more", shock: "were hit by a security shock in the past year"};
+const stDisp = k => k === "FCT" ? "the FCT" : k;
+const stTitle = k => k === "FCT" ? "Federal Capital Territory" : k;
+const pctS = (v, d = 1) => (+v).toFixed(d).replace(/\.0$/, "") + "%";
+const ciRel = (ci, v) => ci[0] > v ? "above" : ci[1] < v ? "below" : "within";
+let ST_AREA = null;
+function stAreas() { if (ST_AREA) return ST_AREA; ST_AREA = {};
+  ngStates().forEach(f => { ST_AREA[MPI_NAME(f.properties.name)] = d3.geoArea(f) * 6371.0088 ** 2; }); return ST_AREA; }
+const round2 = v => { const p = 10 ** (Math.floor(Math.log10(v)) - 1); return Math.round(v / p) * p; };
+
+/* registry: the extra state figures, so "About this figure", comparisons and quizzes share one record */
+Object.assign(IND, {
+  mpi_a: {name: "Intensity of poverty", def: "Among people who are multidimensionally poor, the average share of the weighted indicators in which they are deprived. A state can have fewer poor people who are each deprived in more things.", unit: "%", kind: "survey", period: "2021/22", geo: "Nigerian states", src: "mpi", v: s => { const r = NOW().mpi && NOW().mpi[s]; return r ? r.a : null; }, f: v => v + "%"},
+  oos: {name: "Children out of school", def: "Share of school-age children (6 to 15) not attending school, from the same survey.", unit: "%", kind: "survey", period: "2021/22", geo: "Nigerian states", src: "mpi", v: s => { const d = MPIS() && MPIS().states[s]; return d && d.school ? d.school.out_of_school_pct : null; }, f: v => pctS(v)}
+});
+(() => { const m = MPIS(); if (!m) return; m.indicators.forEach(d => { IND["dep_" + d.key] = {name: `${d.name}: poor and deprived`,
+  def: `Share of people who are multidimensionally poor and deprived in ${d.name.toLowerCase()}: ${d.deprived_if}. Weight in the index: ${(d.weight * 100).toFixed(1)}%. It counts only people who are poor overall, so it is never above the share poor.`,
+  unit: "%", kind: "survey", period: "2021/22", geo: "Nigerian states", src: "mpi", v: s => { const r = MPIS() && MPIS().states[s]; return r ? r.censored[d.key][0] : null; }, f: v => pctS(v)}; }); })();
+const NG_POV_NOTE = "Nigeria Multidimensional Poverty Index 2022 (National Bureau of Statistics with OPHI and UNICEF). Survey fieldwork November 2021 to February 2022: it describes conditions then, not today. Borno's figures are less certain because insecurity kept the survey out of parts of the state.";
+
+/* ---- a state's profile ---- */
+function standouts(k) { const m = MPIS(), d = m.states[k], N = m.national.censored, up = [], down = [];
+  m.indicators.forEach(i => { const [v, lo, hi] = d.censored[i.key], n = N[i.key][0];
+    if (lo > n) up.push({i, v, n, gap: v - n}); else if (hi < n) down.push({i, v, n, gap: n - v}); });
+  return {up: up.sort((a, b) => b.gap - a.gap), down: down.sort((a, b) => b.gap - a.gap)}; }
+function similarStates(k, n = 3) { const S0 = MPIS().states, keys = MPIS().indicators.map(i => i.key), me = S0[k].censored;
+  return Object.keys(S0).filter(x => x !== k).map(x => ({x, d: Math.sqrt(keys.reduce((a, j) => a + (S0[x].censored[j][0] - me[j][0]) ** 2, 0))})).sort((a, b) => a.d - b.d).slice(0, n); }
+function depBarsHTML(k, other) { const m = MPIS(), d = m.states[k], N = other ? m.states[other] : m.national, max = 100;
+  let dim = "";
+  return `<div class="deps" role="table" aria-label="Deprivations in ${esc(stDisp(k))} compared with ${other ? esc(stDisp(other)) : "Nigeria"}">${m.indicators.map(i => {
+    const [v, lo, hi] = d.censored[i.key], n = (other ? N.censored[i.key] : N.censored[i.key])[0];
+    const head = i.dimension !== dim ? (dim = i.dimension, `<div class="dimh" role="row">${esc(i.dimension)}</div>`) : "";
+    return head + `<div class="dep" role="row"><span role="cell"><button class="lnk" data-ind="dep_${i.key}">${esc(i.name)}</button></span><span class="tr" role="cell" aria-label="${esc(stDisp(k))} ${v}%, ${other ? esc(stDisp(other)) : "Nigeria"} ${n}%"><i class="fl" style="width:${v / max * 100}%"></i>${lo != null ? `<i class="ci" style="left:${lo}%;width:${Math.max(.5, hi - lo)}%"></i>` : ""}<i class="nt" style="left:${n / max * 100}%"></i></span><span class="n" role="cell">${v}%</span></div>`; }).join("")}</div>
+    <p class="src" style="margin-top:4px"><i class="key fl"></i> ${esc(stDisp(k))} &nbsp;<i class="key nt"></i> ${other ? esc(stDisp(other)) : "Nigeria"} &nbsp;<i class="key ci"></i> margin of error (95%). Each bar counts people who are both poor and deprived in that item, so no bar is longer than the share poor. Tap a name for its definition.</p>`; }
+function stateProfileHTML(k) {
+  const mp = NOW().mpi, r = mp[k], m = MPIS(), d = m && m.states[k], N = m && m.national, z = zoneOf(GEO_NAME(k)), zr = m && m.zones[z];
+  const area = stAreas()[k], byArea = Object.entries(stAreas()).sort((a, b) => b[1] - a[1]).map(x => x[0]), aRank = byArea.indexOf(k) + 1;
+  const sizeTxt = aRank <= 5 ? `one of the five largest of the 37` : aRank > 32 ? `one of the five smallest of the 37` : `the ${ord(aRank)} largest of the 37`;
+  const rel = d ? ciRel(d.h_ci, N.h) : null;
+  const relTxt = rel === "above" ? "clearly above" : rel === "below" ? "clearly below" : "not clearly different from";
+  const so = d ? standouts(k) : {up: [], down: []}, sim = d ? similarStates(k) : [];
+  const zStates = ZONES[z].map(MPI_NAME).filter(x => mp[x]).sort((a, b) => mp[b].h - mp[a].h);
+  const cs = D.cities.filter(c => c.c3 === "NGA" && c.a1 && norm(c.a1).startsWith(norm(GEO_NAME(k)).slice(0, 5)) && c.n !== ST_CAP[k]);
+  const sharePoor = d ? r.poor / N.poor_m * 100 : null, popShare = d ? d.pop_share : null;
+  const outCount = d && d.school ? d.school.children_m * d.school.out_of_school_pct / 100 : null;
+  const line = s => `<li><b>${esc(s.i.name)}.</b> ${pctS(s.v)} of people are poor and ${esc(DEP_PHRASE[s.i.key])}, against ${pctS(s.n)} nationally.</li>`;
+  return `${backLink()}<div class="eyebrow">Nigeria · ${esc(z)} zone</div><h2>${esc(stTitle(k))}</h2>
+  <p class="lede">${k === "FCT" ? `Not a state: the Federal Capital Territory is run by the federal government through a minister, and is divided into six area councils rather than local government areas. Abuja has been Nigeria's capital since 1991.` : `Capital: <b>${esc(ST_CAP[k] || "")}</b>.`} Covering about ${fmt(round2(area))} km², it is ${sizeTxt}${k === "FCT" ? " states and territories" : ""}.${cs.length ? ` Other places on this map: ${cs.slice(0, 4).map(c => esc(c.n)).join(", ")}.` : ""}</p>
+  ${d ? `<div class="tiles">
+    <div class="tile"><small>Multidimensionally poor</small><b>${pctS(r.h)}</b><em>${pctS(d.h_ci[0])}–${pctS(d.h_ci[1])} with sampling error · Nigeria ${pctS(N.h)}</em></div>
+    <div class="tile"><small>People in poverty</small><b>${r.poor} million</b><em>${sharePoor.toFixed(1)}% of Nigeria's poor; ${popShare}% of its people</em></div>
+    <div class="tile"><small>Intensity</small><b>${pctS(r.a)}</b><em>of weighted deprivations, among the poor · Nigeria ${pctS(N.a)}</em></div>
+    <div class="tile"><small>Children out of school</small><b>${pctS(d.school.out_of_school_pct)}</b><em>aged 6–15, about ${outCount >= 1 ? outCount.toFixed(1) + " million" : Math.round(outCount * 1000) + " thousand"} · Nigeria ${pctS(N.school.out_of_school_pct)}</em></div></div>
+  <p class="src" style="margin-top:6px">All four from one survey, fieldwork Nov 2021 to Feb 2022. Shares of Nigeria's poor and of its people are calculated by the atlas from the survey's own totals.</p>
+  <h3>How ${esc(stDisp(k))} compares</h3>
+  <p>${esc(k === "FCT" ? "The FCT's" : k + "'s")} share of people in poverty is <b>${relTxt}</b> the national ${pctS(N.h)}${rel === "within" ? ": the survey's margin of error overlaps the national figure" : ""}. In the ${esc(z)} zone as a whole it is ${pctS(zr.h)} (published), but the zone is not uniform: from ${pctS(mp[zStates[zStates.length - 1]].h)} in ${esc(stDisp(zStates[zStates.length - 1]))} to ${pctS(mp[zStates[0]].h)} in ${esc(stDisp(zStates[0]))}.</p>
+  ${so.up.length ? `<h4>Where it is clearly worse than the national pattern</h4><ul>${so.up.slice(0, 3).map(line).join("")}</ul>` : `<p>No single deprivation is clearly worse here than across Nigeria as a whole, allowing for the survey's margin of error.</p>`}
+  ${so.down.length ? `<h4>Where it is clearly better</h4><ul>${so.down.slice(0, 2).map(line).join("")}</ul>` : ""}
+  <h3>What poverty is made of here</h3>
+  <p class="src" style="margin-top:0">The 2022 index counts 15 deprivations in four groups. Someone is poor if they are deprived in at least 26% of the weighted list.</p>
+  ${depBarsHTML(k)}
+  <h4>Most similar profiles</h4>
+  <p class="src" style="margin-top:0">States whose 15 deprivation figures are closest to ${esc(stDisp(k))}'s (calculated by the atlas). Similar figures, not necessarily similar places.</p>
+  <div class="chips">${sim.map(s => `<button class="chip" data-act="stateopen" data-s="${esc(s.x)}">${esc(stTitle(s.x))} <b>${pctS(mp[s.x].h)}</b></button>`).join("")}</div>` : `<p class="note">Poverty data for ${esc(stDisp(k))} did not load.</p>`}
+  <div class="btnrow"><button class="btn primary" data-act="stcompare" data-s="${esc(k)}">Compare with another state</button><button class="btn" data-act="ngpov" data-focus="${esc(k)}">See it on the poverty map</button><button class="btn" data-statecmp="${esc(k)}">Rank among all 37</button></div>
+  <h4>What the atlas does not have yet</h4>
+  <p class="src">No state-level figures for economic output, population, prices or migration: the atlas will not divide national figures between states to fake them. Promising sources: the National Bureau of Statistics' next Nigeria Living Standards Survey (state consumption poverty), the Nigeria Demographic and Health Survey (state health and schooling), and state GDP estimates where states publish them.</p>
+  <p class="src"><span class="kind">Source</span>${esc(NG_POV_NOTE)} <button class="lnk" data-ind="mpi_h">About the measure</button> · <button class="lnk" data-act="goles" data-m="ngstory" data-stop="4">Why north and south differ: a history</button></p>`; }
+function statePanel(s) { const k = MPI_NAME(s);
+  G.states.selectAll("path.state").classed("on", d => MPI_NAME(d.properties.name) === k);
+  if (!VIEW.length) pushPanel("");   // remember the page we came from, so Back returns to it
+  setPanel(stateProfileHTML(k)); S.state = k;
+  try { history.replaceState(history.state, "", "#s/" + encodeURIComponent(k)); } catch (e) {}
+  const f = ngStates().find(x => MPI_NAME(x.properties.name) === k); if (f && S.mode === "nigeria") flyTo(f, {pad: .55, maxk: 40}); }
+ACT.stateopen = el => statePanel(GEO_NAME(el.dataset.s));
+ACT.goles = el => { closeOverlay(); goLesson({m: el.dataset.m, stop: el.dataset.stop != null ? +el.dataset.stop : null, at: el.dataset.at}); };
+const popViewBase = popView;
+popView = function () { popViewBase(); if (/^#s\//.test(location.hash)) { try { history.replaceState(history.state, "", "#" + S.mode); } catch (e) {} } };
+const routeHashBase = routeHash;
+routeHash = function (initial) { let h = ""; try { h = decodeURIComponent((location.hash || "").slice(1)); } catch (e) {}
+  if (h.startsWith("s/") && NOW().mpi && NOW().mpi[h.slice(2)]) { const k = h.slice(2); routing = true; try { setMode("nigeria", true); } finally { routing = false; } setTimeout(() => statePanel(GEO_NAME(k)), 50); return; }
+  return routeHashBase(initial); };
+
+/* ---- compare two states ---- */
+function compareStatesHTML(a, b) { const mp = NOW().mpi, m = MPIS(), A = m.states[a], isNat = b === "NGA", B = isNat ? m.national : m.states[b];
+  const nA = stTitle(a), nB = isNat ? "Nigeria" : stTitle(b);
+  const opt = sel => `<option value="NGA"${sel === "NGA" ? " selected" : ""}>Nigeria (national)</option>` + Object.keys(mp).sort().map(x => `<option value="${esc(x)}"${x === sel ? " selected" : ""}>${esc(stTitle(x))}</option>`).join("");
+  const hB = isNat ? m.national.h : mp[b].h, poorB = isNat ? m.national.poor_m : mp[b].poor, aB = isNat ? m.national.a : mp[b].a;
+  const row = (lab, va, vb, ciA, ciB, unit = "%", ind) => { const diff = va - vb, overlap = ciA && ciB && !(ciA[0] > ciB[1] || ciB[0] > ciA[1]);
+    return `<tr><td>${ind ? `<button class="lnk" data-ind="${ind}">${esc(lab)}</button>` : esc(lab)}</td><td class="n">${unit === "%" ? pctS(va) : va}</td><td class="n">${unit === "%" ? pctS(vb) : vb}</td><td class="n">${unit === "%" ? (Math.abs(diff) < .05 ? "same" : (diff > 0 ? "+" : "−") + Math.abs(diff).toFixed(1) + " pts") : (diff > 0 ? "+" : "−") + Math.abs(diff).toFixed(2) + "m"}${overlap ? `<br><span class="src">within the margin of error</span>` : ""}</td></tr>`; };
+  const flip = (mp[a].h - hB) * (mp[a].poor - poorB) < 0;
+  const big = m.indicators.map(i => ({i, d: A.censored[i.key][0] - B.censored[i.key][0], ov: !(A.censored[i.key][1] > B.censored[i.key][2] || B.censored[i.key][1] > A.censored[i.key][2])})).filter(x => !x.ov).sort((x, y) => Math.abs(y.d) - Math.abs(x.d));
+  return `<div class="dialog cmp" role="dialog" aria-modal="true" aria-labelledby="cmpT"><div class="eyebrow">Nigeria · compare</div><h2 id="cmpT">${esc(nA)} and ${esc(nB)}</h2>
+    <div class="pick"><label>State <select data-cmpa>${opt(a).replace('<option value="NGA">Nigeria (national)</option>', "")}</select></label><label>with <select data-cmpb>${opt(b)}</select></label></div>
+    <div class="tablewrap"><table class="t"><thead><tr><th></th><th class="n">${esc(nA)}</th><th class="n">${esc(nB)}</th><th class="n">Difference</th></tr></thead><tbody>
+    ${row("Share multidimensionally poor", mp[a].h, hB, A.h_ci, isNat ? m.national.h_ci : B.h_ci, "%", "mpi_h")}
+    ${row("People in poverty (million)", mp[a].poor, poorB, null, null, "m", "mpi_poor")}
+    ${row("Intensity among the poor", mp[a].a, aB, A.a_ci, isNat ? null : B.a_ci, "%", "mpi_a")}
+    ${row("Children out of school", A.school.out_of_school_pct, B.school.out_of_school_pct, null, null, "%", "oos")}
+    </tbody></table></div>
+    ${flip ? `<p class="note"><b>Percentages and people point in different directions.</b> ${esc(mp[a].h > hB ? nA : nB)} has the higher share in poverty, but ${esc(mp[a].poor > poorB ? nA : nB)} has more poor people, because it has more people. Which matters depends on the question: the share says how likely a resident is to be poor; the number says where most poor people live.</p>` : ""}
+    <h4>The 15 deprivations</h4>
+    ${big.length ? `<p>Clearest differences, beyond the margin of error: ${big.slice(0, 3).map(x => `<b>${esc(x.i.name.toLowerCase())}</b> (${esc(x.d > 0 ? nA : nB)} higher by ${Math.abs(x.d).toFixed(1)} points)`).join("; ")}.</p>` : `<p>None of the 15 differ by more than the survey's margin of error.</p>`}
+    ${depBarsHTML(a, isNat ? null : b)}
+    <p class="src">Both columns come from the same survey and definitions, so they are comparable. One indicator says nothing about a state "doing better" overall, and the survey cannot say why the states differ: that would need evidence on history, conflict, public spending, farming and more.</p>
+    <div class="btnrow" style="margin:14px 0 0"><button class="btn" data-act="stateopen" data-s="${esc(a)}">Open ${esc(nA)}</button>${isNat ? "" : `<button class="btn" data-act="stateopen" data-s="${esc(b)}">Open ${esc(nB)}</button>`}<button class="btn primary" data-dlg="close">Close</button></div></div>`; }
+function compareStates(a, b) { const mp = NOW().mpi;
+  if (!b) { const sim = similarStates(a, 1)[0]; b = sim ? sim.x : "NGA"; }
+  $("#overlay").innerHTML = compareStatesHTML(a, b); $("#overlay").hidden = false; $("#overlay .dialog").scrollTop = 0;
+  $("#overlay").querySelectorAll("select[data-cmpa],select[data-cmpb]").forEach(s => s.addEventListener("change", () => compareStates($("#overlay select[data-cmpa]").value, $("#overlay select[data-cmpb]").value))); }
+ACT.stcompare = el => compareStates(el.dataset.s, el.dataset.b);
+document.addEventListener("click", e => { const b = e.target.closest("#overlay [data-act=stateopen]"); if (!b) return; e.preventDefault(); e.stopPropagation(); closeOverlay(); if (S.mode !== "nigeria") setMode("nigeria"); statePanel(GEO_NAME(b.dataset.s)); }, true);
+
+/* ---- the poverty map, by any of the survey's measures ---- */
+const NG_METRICS = () => { const m = MPIS(); const base = [["h", "Share multidimensionally poor"], ["poor", "Number of poor people"], ["a", "Intensity among the poor"], ["oos", "Children out of school"]];
+  return m ? base.concat(m.indicators.map(i => ["dep:" + i.key, i.name + " (poor and deprived)"])) : base.slice(0, 2); };
+function ngMetric(k, metric) { const mp = NOW().mpi, r = mp[k], d = MPIS() && MPIS().states[k];
+  if (metric === "h") return r.h; if (metric === "poor") return r.poor; if (metric === "a") return r.a;
+  if (metric === "oos") return d ? d.school.out_of_school_pct : null; if (metric.startsWith("dep:")) return d ? d.censored[metric.slice(4)][0] : null; return null; }
+function ngPovertyMap(metric = S.ngMetric || "h", focus) { const mp = NOW().mpi; if (!mp) return; S.ngMetric = metric;
+  const st = ngStates(), ng = "566", nbSet = new Set(byKey.get(ng).b.map(c => byC3.get(c))), m = MPIS(), meta = NG_METRICS().find(x => x[0] === metric) || ["h", ""];
+  S.sel = null; S.color = k => k === ng ? "transparent" : null; G.countries.selectAll("path").classed("dim", d => d.key !== ng && !nbSet.has(d.key)); paint();
+  const bins = metric === "h" ? [[40, "--d1", "Under 40%"], [60, "--d2", "40–60%"], [75, "--nb", "60–75%"], [85, "--sel", "75–85%"], [Infinity, "--miss", "85% and over"]]
+    : metric === "a" ? [[36, "--d1", "Under 36%"], [39, "--d2", "36–39%"], [42, "--nb", "39–42%"], [45, "--sel", "42–45%"], [Infinity, "--miss", "45% and over"]]
+    : [[10, "--d1", "Under 10%"], [20, "--d2", "10–20%"], [35, "--nb", "20–35%"], [50, "--sel", "35–50%"], [Infinity, "--miss", "50% and over"]];
+  const col = v => v == null ? "var(--land)" : `var(${bins.find(b => v < b[0])[1]})`;
+  const isPeople = metric === "poor";
+  G.states.selectAll("path.ngbubble").remove();
+  G.states.selectAll("path.state").data(st).join("path").attr("class", "state").classed("on", d => focus && MPI_NAME(d.properties.name) === focus)
+    .style("fill", d => isPeople ? "var(--tag)" : col(ngMetric(MPI_NAME(d.properties.name), metric))).style("opacity", null).style("stroke-opacity", null)
+    .on("click", (ev, d) => { ev.stopPropagation(); const k = MPI_NAME(d.properties.name), v = ngMetric(k, metric);
+      showPeekHTML(`<b class="pn">${esc(stTitle(k))}</b><span class="ps">${esc(zoneOf(d.properties.name))} zone · 2021/22 survey</span><p style="margin:8px 0 0">${esc(meta[1])}: <b>${v == null ? "no data" : isPeople ? v + " million" : pctS(v)}</b>${metric !== "h" ? ` <span class="src">(share poor ${pctS(mp[k].h)})</span>` : `, about <b>${mp[k].poor} million</b> people`}.${k === "Borno" ? " Borno's figures are less certain: the survey could not reach parts of the state." : ""}</p><div class="pb" style="margin-top:8px"><button class="btn primary" data-act="stateopen" data-s="${esc(k)}">Open profile</button><button class="btn" data-act="stcompare" data-s="${esc(k)}">Compare</button><button class="btn" data-statecmp="${esc(k)}">Rank</button></div>`); });
+  if (isPeople) { const mx = Math.max(...Object.values(mp).map(x => x.poor)), R = d3.scaleSqrt().domain([0, mx]).range([0, 26]);
+    const circles = st.map(f => Object.assign(d3.geoCircle().center(d3.geoCentroid(f)).radius(R(mp[MPI_NAME(f.properties.name)].poor) / 26 * .9)(), {properties: {name: f.properties.name}}));
+    G.states.selectAll("path.ngbubble").data(circles).join("path").attr("class", "ngbubble").attr("d", path); }
+  G.cities.selectAll("g").select("text").attr("display", d => d.c3 === "NGA" ? "none" : null);
+  G.stateslabels.selectAll("text").data(st.map(f => { const v = ngMetric(MPI_NAME(f.properties.name), metric); return {c: d3.geoCentroid(f), n: v == null ? "" : isPeople ? v.toFixed(1) + "m" : Math.round(v) + "%"}; })).join("text").text(d => d.n);
+  $("#L-labels").checked = false; applyLayers(); render();
+  const nat = metric === "h" ? pctS(m ? m.national.h : 62.9) : metric === "poor" ? (m ? m.national.poor_m.toFixed(0) : "133") + " million" : metric === "a" ? pctS(m.national.a) : metric === "oos" ? pctS(m.national.school.out_of_school_pct) : pctS(m.national.censored[metric.slice(4)][0]);
+  const l = $("#legend");
+  l.innerHTML = `<div class="lgt"><label class="vh" for="ngmetric">Map</label><select id="ngmetric">${NG_METRICS().map(([v, t]) => `<option value="${v}"${v === metric ? " selected" : ""}>${esc(t)}</option>`).join("")}</select></div>
+    ${isPeople ? `<div><i style="background:var(--sel);border-radius:50%"></i>Circle area = number of poor people</div>` : bins.map(([, c, t]) => `<div><i style="background:var(${c})"></i>${t}</div>`).join("")}
+    <div class="lgn">${isPeople ? "Big circles where many people live: Kano has the most poor people without the highest share." : metric.startsWith("dep:") ? "People who are poor and deprived in this item." : ""} Nigeria: ${nat}. Survey Nov 2021 to Feb 2022; Borno less certain. <button class="lnk" data-ind="${metric === "h" ? "mpi_h" : metric === "poor" ? "mpi_poor" : metric === "a" ? "mpi_a" : metric === "oos" ? "oos" : "dep_" + metric.slice(4)}">About this figure</button></div>`; l.hidden = false;
+  $("#ngmetric").addEventListener("change", e => ngPovertyMap(e.target.value));
+  flyTo(featByKey.get(ng), {pad: .92, maxk: 14}); }
+ACT.ngpov = el => ngPovertyMap(el && el.dataset.metric || S.ngMetric || "h", el && el.dataset.focus);
+
+
+/* ---- the national overview: headline figures from the registry, read together ---- */
+function NG_LEDE() { const w = D.wpp, sh = w && w.NGA && w.AFRICA ? w.NGA.p2026 / w.AFRICA.p2026 : null;
+  const nw = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][Math.round(1 / sh)] || Math.round(1 / sh);
+  return sh ? `Roughly one African in ${nw} is Nigerian: about ${shortNum(w.NGA.p2026)} people in 2026, by the UN's projection (there has been no census since 2006).` : "Nigeria is Africa's most populous country."; }
+const NG_TILES = [["pop", "People", v => shortNum(v)], ["median_age", "Median age", v => Math.round(v) + " years"], ["gdp_usd_25", "Economy (GDP)"], ["gdp_pc_25", "Income per person"],
+  ["mpi_nat", "Multidimensionally poor", v => v + "%"], ["oil_share", "Share of world oil output"]];
+function NG_TILES_HTML() {
+  return `<div class="tiles tiles3">${NG_TILES.filter(([id]) => IND[id] && ival(id, "NGA") != null).map(([id, lab, f]) => { const r = IND[id], k = (r.st && r.st("NGA")) || r.kind;
+    return `<button class="tile tb" data-act="ngtile" data-id="${id}" aria-label="${esc(lab)}: compare"><small>${esc(lab)}</small><b>${esc(f ? f(ival(id, "NGA")) : itxt(id, "NGA"))}</b><em>${esc(KIND[k] || k)} · ${esc(r.period || "")}</em></button>`; }).join("")}</div>
+  <p class="src" style="margin-top:4px">Tap a figure to compare Nigeria with its neighbours, the region and the world.</p>`; }
+function NG_TOGETHER_HTML() { const ma = ival("median_age", "NGA"), g = ival("gdp_growth_26", "NGA"), pc = ival("gdp_pc_25", "NGA"), pcw = ival("gdp_pc_25", "WORLD");
+  if (ma == null) return "";
+  return `<p>Read together: a very young country (half of Nigerians are under ${Math.round(ma)}), with an economy projected to grow ${g != null ? (+g).toFixed(1) + "%" : "steadily"} in 2026${pc != null && pcw != null ? `, but income per person about ${Math.round(pcw / pc)} times lower than the world average in dollar terms` : ""}, and, in 2021/22, nearly two in three people deprived in several basics at once. None of these figures explains the others on its own, and each hides big differences inside the country. <button class="lnk" data-act="ngjump">See how the states differ</button></p>`; }
+ACT.ngtile = el => { const id = el.dataset.id; if (CMP[id]) compareSheet(id, "NGA"); else indSheet(id); };
+ACT.ngstateshome = () => { setMode("nigeria"); setTimeout(() => { const t = [...panel.querySelectorAll("h3")].find(h => h.textContent === "Explore the states"); if (t) panel.scrollTo({top: t.offsetTop - 12}); }, 120); };
+ACT.ngjump = () => { const t = [...panel.querySelectorAll("h3")].find(h => h.textContent === "Many Nigerias"); if (t) panel.scrollTo({top: t.offsetTop - 12}); };
+
+
+/* ---- test your intuition: Nigeria's states (from the canonical survey records, so it changes if they do) ---- */
+GAMES.ngstates = { name: "Nigeria's states: trust your gut?", desc: "Two states, one question: which is higher? Built from the 2021/22 poverty survey, with only clear-cut pairs.", single: true, gen() {
+  const mp = NOW().mpi, m = MPIS(), keys = Object.keys(mp), cen = k => { const f = ngStates().find(x => MPI_NAME(x.properties.name) === k); return f ? d3.geoCentroid(f) : null; };
+  const kinds = [["h", "a larger <b>share</b> of people multidimensionally poor"], ["poor", "<b>more</b> multidimensionally poor <b>people</b>"], ["oos", "a larger share of <b>children out of school</b>"], ["dep:cooking", "more people who are poor <b>and cook with wood, charcoal or dung</b>"], ["dep:shock", "more people who are poor <b>and were hit by a security shock</b>"], ["dep:food", "more people who are poor <b>and severely food insecure</b>"]];
+  for (let t = 0; t < 400; t++) { const [kind, phrase] = kinds[Math.floor(Math.random() * kinds.length)], [a, b] = shuffle(keys);
+    const va = ngMetric(a, kind), vb = ngMetric(b, kind); if (va == null || vb == null) continue;
+    const clear = kind === "h" ? (m.states[a].h_ci[0] > m.states[b].h_ci[1] || m.states[b].h_ci[0] > m.states[a].h_ci[1])
+      : kind === "poor" ? Math.max(va, vb) / Math.min(va, vb) > 1.4
+      : kind === "oos" ? Math.abs(va - vb) > 10
+      : (c => c[a][0] > c[b][2] || c[b][0] > c[a][2])(Object.fromEntries([a, b].map(x => [x, m.states[x].censored[kind.slice(4)]])));
+    if (!clear) continue;
+    const hi = va > vb ? 0 : 1, f = v => kind === "poor" ? v + " million" : pctS(v);
+    let twist = "";
+    if (kind === "poor" && (mp[a].h - mp[b].h) * (va - vb) < 0) twist = ` Note the twist: ${stTitle(va > vb ? b : a)} has the higher share, but fewer people.`;
+    if (kind === "h" && (mp[a].poor - mp[b].poor) * (va - vb) < 0) twist = ` But ${stTitle(va > vb ? b : a)} has more poor people (${(va > vb ? mp[b] : mp[a]).poor} million), because more people live there.`;
+    return {q: `Which had ${phrase}?<br><span class="src">Nigeria poverty survey, 2021/22</span>`, opts: [stTitle(a), stTitle(b)], a: hi,
+      why: `${stTitle(a)}: ${f(va)}. ${stTitle(b)}: ${f(vb)}.${twist}`, pins: [cen(a), cen(b)].filter(Boolean)}; }
+  return {q: "Which is Nigeria's largest state by area?", opts: ["Niger", "Lagos"], a: 0, why: "Niger State is the largest; Lagos is the smallest."}; } };
+
+/* ---------- batch 21: Nigeria's monthly figures, kept current by the pipeline ----------
+   NBS (homepage dashboard): headline, core and food inflation, average fuel prices, quarterly GDP growth.
+   CBN (exchange-rate API): the official naira rate per US dollar.
+   Each value comes from data/atlas/pipeline.json with its own period. Without that file, the hand-entered
+   figures of October 2026 stay in place, labelled as before. */
+const PLP = id => { const r = PLI(id); if (!r || !r.v || !r.v.NGA || r.period == null) return null;
+  return Object.entries(r.v.NGA).sort((a, b) => a[0] < b[0] ? -1 : 1).map(([k, [v]]) => ({k, v})); };
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const periodLabel = k => /^\d{4}-\d{2}-\d{2}$/.test(k) ? dayLabel(k) : /^\d{4}-\d{2}$/.test(k) ? MONTHS[+k.slice(5) - 1] + " " + k.slice(0, 4) : /^\d{4}-Q\d$/.test(k) ? `Q${k.slice(6)} ${k.slice(0, 4)}` : k;
+const plLast = (id, n = 1) => { const s = PLP(id); return s ? s[s.length - n] || null : null; };
+function sparkSVG(id, label) { const s = PLP(id); if (!s || s.length < 4) return "";
+  const vs = s.map(x => x.v), lo = Math.min(...vs), hi = Math.max(...vs), W0 = 120, H0 = 28, X = i => 2 + i / (s.length - 1) * (W0 - 4), Y = v => 3 + (1 - (v - lo) / ((hi - lo) || 1)) * (H0 - 6);
+  return ` <svg class="spark" viewBox="0 0 ${W0} ${H0}" role="img" aria-label="${esc(label)}: ${esc(periodLabel(s[0].k))} ${trimV(vs[0])}, ${esc(periodLabel(s[s.length - 1].k))} ${trimV(vs[vs.length - 1])}"><polyline points="${s.map((x, i) => X(i).toFixed(1) + "," + Y(x.v).toFixed(1)).join(" ")}"/><circle cx="${X(s.length - 1)}" cy="${Y(vs[vs.length - 1])}" r="2.4"/></svg>`; }
+Object.assign(SOURCES, {
+  nbsdash: {name: "National Bureau of Statistics: headline figures", by: "National Bureau of Statistics, Nigeria", pub: "", got: "", next: null, auto: true, url: "https://nigerianstat.gov.ng/",
+    note: "Read from the dashboard on the NBS homepage, which carries the latest official figures with their periods. NBS publishes no data API."},
+  cbnapi: {name: "Official exchange rates", by: "Central Bank of Nigeria", pub: "", got: "", next: null, auto: true, url: "https://www.cbn.gov.ng/rates/ExchRateByCurrency.html",
+    note: "From the Central Bank's daily exchange-rate data. The parallel (street) rate is not published officially."}
+});
+const NG_LIVE = {
+  ng_cpi_core: ["Core inflation (year on year)", "Consumer prices excluding farm produce and energy, compared with the same month a year earlier. Less volatile than the headline figure."],
+  ng_cpi_food: ["Food inflation (year on year)", "Food and non-alcoholic drinks in the consumer price index, compared with the same month a year earlier."],
+  ng_petrol: ["Petrol (PMS), average price", "Average pump price of a litre of petrol across Nigeria, from NBS's monthly price survey."],
+  ng_diesel: ["Diesel (AGO), average price", "Average price of a litre of diesel across Nigeria."],
+  ng_kerosene: ["Kerosene, average price", "Average price of a litre of household kerosene across Nigeria."],
+  ng_lpg: ["Cooking gas, 5 kg refill", "Average price of refilling a 5 kg cylinder of liquefied petroleum gas."],
+  ng_gdp_q: ["Real GDP growth, latest quarter", "Growth of the economy's real output against the same quarter a year earlier."]
+};
+function ngLive() { if (!PLI("ng_cpi") && !PLI("ng_fx_usd")) return;
+  const live = (id, src, extra) => ({period: plLast(id) ? periodLabel(plLast(id).k) : "", src, st: c => c === "NGA" && plLast(id) ? "observed" : null, v: c => c === "NGA" && plLast(id) ? plLast(id).v : null, ...extra});
+  if (PLI("ng_cpi")) Object.assign(IND.cpi_yoy, live("ng_cpi", "nbsdash", {extra: c => { const p = plLast("ng_cpi", 2); return c === "NGA" && p ? `${(+p.v).toFixed(2)}% in ${MONTHS[+p.k.slice(5) - 1]}` : ""; }}));
+  if (PLI("ng_fx_usd")) Object.assign(IND.fx_ngn, live("ng_fx_usd", "cbnapi", {f: v => "₦" + fmt(Math.round(v * 100) / 100) + " per US dollar (official, selling)",
+    extra: c => c === "NGA" ? "Parallel market ₦1,365–1,380 on 21 October 2026 (press report; not updated automatically)" : ""}));
+  Object.entries(NG_LIVE).forEach(([id, [name, def]]) => { if (!PLI(id)) return; const lv = live(id, "nbsdash");
+    IND[id] = {name, def, unit: PLI(id).unit, kind: "observed", geo: "Nigeria only", ...lv,
+      f: id.startsWith("ng_cpi") || id === "ng_gdp_q" ? v => (+v).toFixed(2) + "%" : id === "ng_lpg" ? v => "₦" + fmt(Math.round(v)) + " per 5 kg" : v => "₦" + fmt(Math.round(v)) + " a litre"}; });
+  [["nbsdash", "ng_cpi"], ["cbnapi", "ng_fx_usd"]].forEach(([k, i]) => { const r = PLI(i), s = SOURCES[k]; if (!r) return;
+    Object.assign(s, {pub: (plLast(i) ? plLast(i).k : "").slice(0, 7), got: (r.retrieved || "").slice(0, 10), checked: (r.confirmed_current || "").slice(0, 10), held: !!r.newer_held, edition: r.edition_label || ""}); }); }
+const plApplyNG = plApply;
+plApply = function () { plApplyNG(); ngLive(); };
+/* Nigeria's page: everyday prices, and a 12-month line beside inflation */
+function ngEverydayHTML() { const ids = ["ng_petrol", "ng_diesel", "ng_kerosene", "ng_lpg"].filter(id => IND[id] && ival(id, "NGA") != null); if (!ids.length) return "";
+  return `<h4>Everyday prices</h4><dl class="facts data">${ids.map(id => drow(id, "NGA")).join("")}</dl>`; }
+const econHTMLBase = econHTML;
+econHTML = function (f) { let h = econHTMLBase(f); if (f.c3 !== "NGA") return h;
+  const rows = ids => ids.filter(id => IND[id] && ival(id, "NGA") != null).map(id => drow(id, "NGA", id !== "ng_gdp_q" ? {cmp: sparkSVG(id, IND[id].name)} : {})).join("");
+  const after = (label, html) => { const i = h.indexOf(`<dt>${label}`); if (i < 0 || !html) return; const j = h.indexOf("</dd>", i) + 5; h = h.slice(0, j) + html + h.slice(j); };
+  const sp = sparkSVG("ng_cpi", "Headline inflation, monthly");
+  if (sp) h = h.replace(/(<dt>Inflation, latest month \(year on year\)[\s\S]*?<dd>[\s\S]*?)(<br><span class="src">)/, `$1${sp}$2`);
+  after("Inflation, latest month", rows(["ng_cpi_core", "ng_cpi_food"])); after("Economic growth, 2026", rows(["ng_gdp_q"]));
+  return h + ngEverydayHTML(); };
 
 /* ---------- v9: navigation, course path, home, sharing, theme, phone layout ---------- */
 const COURSE = [
@@ -3934,11 +4217,12 @@ MODES.explore = () => { resetView();
     ${cp ? `<p style="margin:10px 0 6px">${cp.memo}</p>` : ""}<button class="btn go" data-go="${cd}">Open ${esc(cf.n)}</button></div>` : ""}
   <h4>Where to next</h4>
   <div class="cards">
+    <button class="cardbtn wide" data-act="ngstateshome"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg><b>Nigeria, state by state</b><span>Thirty-six states and the FCT, each with its own profile: what poverty is made of there, and which states look alike</span></button>
     <button class="cardbtn" data-mode-go="course"><svg class="ic" aria-hidden="true"><use href="#i-learn"/></svg><b>Take the course</b><span>${COURSE.length} short lessons, in order</span></button>
-    <button class="cardbtn" data-mode-go="quiz"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><b>Play a game</b><span>Quizzes on places, flags and shapes</span></button>
+    <button class="cardbtn" data-mode-go="quiz"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><b>Play a game</b><span>Places, flags, shapes, and a gut-check on Nigeria's states</span></button>
     <button class="cardbtn" data-mode-go="tools"><svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg><b>Measure the world</b><span>Distances and true sizes</span></button>
     <button class="cardbtn" data-act="random"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg><b>Surprise me</b><span>A country you have not opened yet</span></button>
-    <button class="cardbtn" data-act="themes"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><b>Today's world</b><span>Wars, minerals, ageing, growth and currencies on the map</span></button>
+    <button class="cardbtn" data-act="themes"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><b>Today's world</b><span>Income, growth, wars, minerals, ageing and currencies on the map</span></button>
     <button class="cardbtn" data-mode-go="about"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><b>What you'll gain</b><span>How to use the atlas in ten minutes a day</span></button>
   </div>
   <h4>A first walk across Africa</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>

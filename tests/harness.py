@@ -8,7 +8,9 @@ Loaded by every test with:  exec(open(os.path.join(os.path.dirname(__file__), ".
 import sys, threading, http.server, functools, os
 from playwright.sync_api import sync_playwright
 A=os.path.dirname(os.path.abspath(__file__))
-while not os.path.exists(os.path.join(A,"package.json")): A=os.path.dirname(A)   # repo root
+while not os.path.exists(os.path.join(A,"package.json")):   # repo root
+    if os.path.dirname(A) == A: raise SystemExit("tests/harness.py: run from inside the atlas repo (no package.json found above " + __file__ + ")")
+    A=os.path.dirname(A)
 OUT=os.path.join(A,"out","test"); os.makedirs(OUT,exist_ok=True)
 STANDALONE=os.path.join(A,"out","standalone","Mental-Map-Atlas.html")
 H=functools.partial(http.server.SimpleHTTPRequestHandler, directory=A+"/out/dist")

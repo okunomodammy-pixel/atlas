@@ -22,7 +22,12 @@ def real_transport(url, timeout, user_agent):
         return e.code, dict(e.headers or {}), e.read() if hasattr(e, "read") else b""
 
 
-def fetch_json(url, cfg, transport=None, sleep=time.sleep, log=None):
+def fetch_text(url, cfg, transport=None, sleep=time.sleep):
+    """Same retries and errors as fetch_json, for web pages (NBS publishes its headline figures on its homepage)."""
+    return fetch_json(url, cfg, transport, sleep, parse=lambda b: b.decode("utf-8", "replace"))
+
+
+def fetch_json(url, cfg, transport=None, sleep=time.sleep, log=None, parse=json.loads):
     """Return (parsed_json, raw_bytes, info). info records attempts for the update log."""
     transport = transport or (lambda u, t: real_transport(u, t, cfg["user_agent"]))
     timeouts, backoff = cfg["timeout"], cfg["backoff"]
@@ -41,7 +46,7 @@ def fetch_json(url, cfg, transport=None, sleep=time.sleep, log=None):
             attempts.append(f"HTTP {status} in {time.time() - t0:.1f}s")
         if status == 200:
             try:
-                return json.loads(body), body, {"url": url, "attempts": attempts}
+                return parse(body), body, {"url": url, "attempts": attempts}
             except ValueError:
                 raise FetchError(f"{url}: response is not JSON ({len(body)} bytes)")
         if status is not None and 400 <= status < 500 and status != 429:
