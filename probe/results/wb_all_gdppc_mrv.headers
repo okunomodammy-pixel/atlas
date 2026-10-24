@@ -1,0 +1,18 @@
+HTTP/2 200 
+date: Sat, 24 Oct 2026 09:39:13 GMT
+content-type: application/json;charset=utf-8
+set-cookie: __cf_bm=eC_cdTwkgzGVyk.z4I1uSgDq466ae.lpa6Y7Z2NIf94-1792834753.4392009-1.0.1.1-R5Ps3z1JcBTfMUYLpYy93o.oviYiDwAoJwywKHeKvZSYH8EJEty8GEBWwPo9Xdr0habaaN2TMR_xJd3rtbxHLGQsgqCFWYVlXO_S1wabyqxQJeiPKO9OliDSGy4Hc.Eu; HttpOnly; SameSite=None; Secure; Path=/; Domain=worldbank.org; Expires=Sat, 24 Oct 2026 10:09:13 GMT
+set-cookie: _cfuvid=vl0Bs5du7OVcUg4b2VrZv4SPaiTivxcbuTrQHQ9TZGY-1792834753.4392009-1.0.1.1-VruXMYNenM3D4xx_PTDUb75P71tF.M7DIYplWPxXivg; HttpOnly; SameSite=None; Secure; Path=/; Domain=worldbank.org
+cf-ray: a4f80358f89375da-SEA
+cf-cache-status: MISS
+access-control-allow-origin: *
+cache-control: public, max-age=86221
+expires: Sun, 25 Oct 2026 09:36:14 GMT
+last-modified: Sat, 24 Oct 2026 09:36:14 GMT
+server: cloudflare
+vary: accept-encoding
+access-control-allow-headers: X-Requested-With
+access-control-allow-methods: GET
+request-context: appId=cid-v1:da002513-bd8b-4441-9f30-737944134422
+x-powered-by: ASP.NET
+

@@ -1,0 +1,15 @@
+HTTP/2 200 
+content-type: application/json
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-xss-protection: 1; mode=block
+content-security-policy: upgrade-insecure-requests
+content-length: 48417
+date: Sat, 24 Oct 2026 09:40:18 GMT
+set-cookie: cookie_persistence=!vtYORSJCDayywnzji22btZVTK8cvxREPi9kCL0dB6i+vEeRFzX43Bw+UL0mKR0lQT9m4he+5/lNoUg==; path=/; Httponly; Secure
+set-cookie: TS01e41fe4=01250698b2536e967106903df5ee864ecf2bbad077011c43f7b45f3141ddef1e15d5a0d2178708f50e8d0832e41061e98ed96d872cf4a4ab42327eba6b9793a3a5bc7dbbdd; Path=/; Domain=.www.imf.org; Secure; HttpOnly
+alt-svc: h3=":443"; ma=93600
+strict-transport-security: max-age=31536000
+akamai-grn: 0.4a532217.1792834818.66d6ebe3
+
