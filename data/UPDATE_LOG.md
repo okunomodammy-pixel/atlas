@@ -2,6 +2,23 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-10-26 11:09 UTC · **gdp_usd** (imf NGDPD) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **gdp_pc** (imf NGDPDPC) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **gdp_growth** (imf NGDP_RPCH) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **cpi_avg** (imf PCPIPCH) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **ca** (imf BCA_NGDPD) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **unemp** (imf LUR) · not due: last checked 2026-10-24; checked every 13 days
+- 2026-10-26 11:09 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **income_group** (worldbank_country incomeLevel) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_cpi** (nbs cpi:All-Items) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_cpi_core** (nbs cpi:Core) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_cpi_food** (nbs cpi:Food) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_petrol** (nbs fuel:PMS) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_diesel** (nbs fuel:AGO) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_kerosene** (nbs fuel:NHK) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_lpg** (nbs fuel:LPG) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_gdp_q** (nbs gdp:real_yoy) · not due: last checked 2026-10-24; checked every 6 days
+- 2026-10-26 11:09 UTC · **ng_fx_usd** (cbn US DOLLAR:sellingrate) · not due: last checked 2026-10-24; checked every 6 days
 - 2026-10-24 16:00 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
 - 2026-10-24 16:00 UTC · **gdp_pc** (imf NGDPDPC, 2026-10) · no change
 - 2026-10-24 16:00 UTC · **gdp_growth** (imf NGDP_RPCH, 2026-10) · no change
