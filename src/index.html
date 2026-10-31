@@ -226,6 +226,9 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 .side { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--panel); border-left: 1px solid var(--line); position: relative; }
 .panel { flex: 1; overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding: 20px max(20px, env(safe-area-inset-right, 0px)) 48px 20px; outline: none; }
 .grip { display: none; }
+.viewcontrols { display: none; }
+.save-warning { position: fixed; z-index: 46; bottom: calc(12px + var(--navh)); left: 12px; right: 12px; max-width: 560px; margin: auto; padding: 12px 16px; border: 2px solid var(--miss); border-radius: 12px; background: var(--panel); color: var(--ink); box-shadow: var(--shadow-lg); }
+.save-warning button { margin-left: 8px; }
 .panel { position: relative; }
 .toc { position: relative; border-bottom: 1px solid var(--line); background: var(--panel); z-index: 2; }
 .tocbtn { width: 100%; display: flex; align-items: center; gap: 8px; border: 0; background: none; color: var(--ink); padding: 8px 14px; cursor: pointer; text-align: left; min-height: 38px; }
@@ -336,6 +339,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
 /* phones and small tablets */
 @media (max-width: 860px) {
   :root { --navh: calc(62px + env(safe-area-inset-bottom, 0px)); }
+  :root[data-reading="true"] { --mh: clamp(150px, 27dvh, 230px); }
   .app { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 52px minmax(0, 1fr) var(--navh); grid-template-areas: "brand act" "main main" "nav nav"; }
   .brand { font-size: 17px; padding-right: 8px; }
   nav.primary { border-bottom: 0; border-top: 1px solid var(--line); justify-content: space-around; padding: 4px max(6px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(6px, env(safe-area-inset-left, 0px)); gap: 0; }
@@ -347,6 +351,9 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
   .side { border-left: 0; border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; margin-top: -14px; z-index: 3; box-shadow: 0 -6px 18px rgb(0 0 0 / .08); }
   .grip { display: flex; justify-content: center; align-items: center; height: 22px; flex: none; border: 0; background: none; cursor: ns-resize; touch-action: none; }
   .grip i { width: 40px; height: 5px; border-radius: 9px; background: var(--line); }
+  .viewcontrols { display: flex; flex: none; justify-content: flex-end; gap: 6px; padding: 0 12px 4px; }
+  .viewcontrols button { font: 500 12px var(--sans); min-height: 32px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); cursor: pointer; }
+  .viewcontrols button[aria-pressed="true"] { background: var(--tag); border-color: var(--accent); color: var(--accent); }
   .crumb { border-top: 0; }
   .panel { padding: 6px 16px 32px; }
   .panel h2 { font-size: 23px; }
@@ -354,10 +361,11 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
   .search { max-width: none; }
   .slash { display: none; }
   .mapopt span { display: none; } .mapopt { padding: 0 12px; }
-  .layers { top: 60px; right: 10px; left: 10px; width: auto; grid-template-columns: 1fr 1fr; column-gap: 10px; font-size: 13px; }
+  .layers { position: fixed; z-index: 10; top: 112px; right: 10px; left: 10px; width: auto; max-height: calc(100dvh - 190px); overflow-y: auto; grid-template-columns: 1fr 1fr; column-gap: 10px; font-size: 13px; }
   .layers .lh, .layers select { grid-column: 1 / -1; }
   .layers label { min-height: 38px; align-items: center; }
-  .zoom { right: 10px; bottom: 24px; }
+  .zoom { right: 10px; bottom: 24px; grid-auto-flow: column; }
+  .zoom button + button { border-top: 0; border-left: 1px solid var(--line); }
   .coords { display: none; }
   .legend { left: 10px; bottom: 24px; max-width: 62%; }
   .legend .lgn { display: none; }
@@ -368,7 +376,7 @@ nav.primary button[aria-current="page"] { color: var(--accent); background: colo
   .bar { grid-template-columns: 96px 1fr 48px; }
 }
 @media (max-width: 860px) and (max-height: 520px) { :root { --mh: 58dvh; } }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 
 .trend { width: 100%; max-width: 360px; height: auto; display: block; margin: 4px 0; overflow: visible; }
 .trend .tm { stroke: var(--sel); stroke-width: 2.2; stroke-linecap: round; }
@@ -520,6 +528,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
     </div>
     <aside class="side" id="side">
       <button class="grip" id="grip" aria-label="Resize map and reading panel"><i></i></button>
+      <div class="viewcontrols" role="group" aria-label="Screen space"><button id="readingbtn" aria-pressed="false" aria-controls="main">More reading</button><button id="mapbtn" aria-pressed="false" aria-controls="main">More map</button></div>
       <div class="crumb" id="crumb" hidden></div>
       <div class="toc" id="toc" hidden><button class="tocbtn" id="tocbtn" aria-expanded="false" aria-controls="toclist"><span class="tl">On this page</span><b id="toccur"></b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button><div class="toclist" id="toclist" hidden></div></div>
       <div class="panel" id="panel" tabindex="-1"></div>
@@ -527,6 +536,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
   </div>
   <div class="overlay" id="overlay" hidden></div>
   <div class="toast" id="toast" role="status" hidden></div>
+  <div class="save-warning" id="save-warning" role="status" hidden><span id="save-message"></span><button class="btn" id="save-retry">Retry saving</button></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
@@ -548,15 +558,31 @@ const COMPASS = ["N","NE","E","SE","S","SW","W","NW"];
 const COMPASS_W = {N:"north",NE:"north-east",E:"east",SE:"south-east",S:"south",SW:"south-west",W:"west",NW:"north-west"};
 const compass = b => COMPASS[Math.round(b / 45) % 8];
 const store = {
-  get() { try { return JSON.parse(localStorage.getItem("mma.v1")) || {}; } catch (e) { return {}; } },
-  set(v) { try { localStorage.setItem("mma.v1", JSON.stringify(v)); } catch (e) {} }
+  unreadable: false,
+  notice(message) { $("#save-message").textContent = message; $("#save-warning").hidden = false; },
+  get() { try { const raw = localStorage.getItem("mma.v1"), value = raw ? JSON.parse(raw) : {};
+      if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid progress");
+      return value;
+    } catch (e) { this.unreadable = true; this.notice("Saved progress could not be read. Your original save has been left untouched; progress in this session may be lost when you leave."); return {}; } },
+  set(v) { if (this.unreadable) return false;
+    try { localStorage.setItem("mma.v1", JSON.stringify(v)); $("#save-warning").hidden = true; return true; }
+    catch (e) { this.notice("Progress could not be saved on this device. Keep this page open and retry before leaving."); return false; } }
 };
 let saved = store.get(); saved.seen = saved.seen || []; saved.best = saved.best || {};
+$("#save-retry").addEventListener("click", () => {
+  if (store.unreadable) { store.notice("Reload when storage is available to recover your original progress. This session has not replaced it."); return; }
+  if (store.set(saved)) toast("Progress saved");
+});
 function markSeen(k) { if (!saved.seen.includes(k)) { saved.seen.push(k); store.set(saved); } }
 
 /* ---------- state ---------- */
 const S = { mode: "explore", proj: "equal", sel: null, k: 1, t: d3.zoomIdentity, rot: [-10, -10, 0], gscale: 1,
   layers: { labels: true, lines: true, rivers: true, seas: true, phys: false, cities: false }, color: null, quiz: null };
+function stopQuiz() { const round = S.quiz; S.quiz = null; if (!round) return;
+  clearTimeout(round.timer); if (round.stop) round.stop(); }
+function quizLater(next, ms) { const round = S.quiz; clearTimeout(round.timer);
+  round.timer = setTimeout(() => { if (S.quiz === round) next(); }, ms); }
+const motionTime = ms => matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : ms;
 let W = 800, H = 500, projection, path, baseScale = 1;
 let D = {}; // data
 const byKey = new Map(), byC3 = new Map(), featByKey = new Map(), centroid = new Map();
@@ -603,7 +629,7 @@ function makeProjection(name) {
   else p.fitExtent([[6, 6], [W - 6, H - 6]], {type: "Sphere"});
   baseScale = p.scale(); return p; }
 
-function sizeMap() { const r = $("#mapwrap").getBoundingClientRect(); W = Math.max(300, r.width); H = Math.max(260, r.height);
+function sizeMap() { const r = $("#mapwrap").getBoundingClientRect(); W = Math.max(300, r.width); H = Math.max(120, r.height);
   svg.attr("viewBox", `0 0 ${W} ${H}`); }
 
 function setProjection(name, keepView) {
@@ -759,7 +785,7 @@ const cssv = v => `var(${v})`;
 
 /* ---------- navigation ---------- */
 function flyTo(feature, opts = {}) {
-  const dur = opts.duration ?? 900, pad = opts.pad ?? 0.82, maxk = opts.maxk ?? 24;
+  const dur = motionTime(opts.duration ?? 900), pad = opts.pad ?? 0.82, maxk = opts.maxk ?? 24;
   if (S.proj === "globe") {
     const c = d3.geoCentroid(feature), r0 = projection.rotate(), r1 = [-c[0], -c[1], 0];
     const b = d3.geoBounds(feature); let span = Math.max(Math.abs(b[1][0] - b[0][0]) % 360, Math.abs(b[1][1] - b[0][1]));
@@ -776,9 +802,9 @@ function flyTo(feature, opts = {}) {
   svg.transition().duration(dur).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k)); }
 function flyToPoint(c, k = 6) {
   if (S.proj === "globe") return flyTo({type: "Point", coordinates: c}, {maxk: k});
-  const p = projection(c); svg.transition().duration(800).call(zoom.transform, d3.zoomIdentity.translate(W / 2 - k * p[0], H / 2 - k * p[1]).scale(k)); }
+  const p = projection(c); svg.transition().duration(motionTime(800)).call(zoom.transform, d3.zoomIdentity.translate(W / 2 - k * p[0], H / 2 - k * p[1]).scale(k)); }
 function flyToKeys(keys, opts) { const fs = keys.map(k => featByKey.get(k)).filter(Boolean); if (fs.length) flyTo({type: "FeatureCollection", features: fs}, opts); }
-function resetView() { if (S.proj === "globe") { S.k = 1; projection.scale(baseScale); svg.call(zoom.transform, d3.zoomIdentity); render(); } else svg.transition().duration(700).call(zoom.transform, d3.zoomIdentity); }
+function resetView() { if (S.proj === "globe") { S.k = 1; projection.scale(baseScale); svg.call(zoom.transform, d3.zoomIdentity); render(); } else svg.transition().duration(motionTime(700)).call(zoom.transform, d3.zoomIdentity); }
 
 function setPins(list) { G.pins.selectAll("circle").data(list).join("circle").attr("class", "pin"); if (G.pinlab) { const lab = list.filter(d => d.t); G.pinlab.selectAll("text").data(lab).join("text").attr("dx", ".7em").text(d => d.t); G.countrylabels.style("opacity", lab.length > 3 ? .35 : null); } render(); }
 function setRoutes(list) { G.routes.selectAll("path").data(list).join("path").attr("class", d => "route" + (d.thin ? " thin" : "")); render(); }
@@ -814,7 +840,9 @@ function pickResult(i) { const e = resList[i]; if (!e) return; $("#results").hid
 
 /* ---------- panels ---------- */
 const panel = $("#panel");
-function setPanel(html) { panel.innerHTML = html; panel.scrollTop = 0; }
+function focusPanel() { if (!$("#overlay").hidden) return; const target = panel.querySelector("h2, .q") || panel;
+  target.tabIndex = -1; target.focus({preventScroll: true}); }
+function setPanel(html) { panel.innerHTML = html; panel.scrollTop = 0; focusPanel(); }
 
 function relPos(k) {
   const f = byKey.get(k), c = centroid.get(k);
@@ -933,8 +961,9 @@ panel.addEventListener("click", e => {
 /* ---------- modes ---------- */
 function setMode(m, silent) {
   VIEW.length = 0; hidePeek(); if (S.theme) { S.theme = null; $("#themesel").value = ""; }
-  if (S.quiz && S.quiz.stop) S.quiz.stop();
-  S.quiz = null; S.mode = m; S.color = null; S.sel = null; S.tool = null; S.ghost = null; banner(null); legend(null);
+  stopQuiz();
+  S.mode = m; S.color = null; S.sel = null; S.tool = null; S.ghost = null; banner(null); legend(null);
+  readingLayout(m);
   if (G.ghost) G.ghost.selectAll("*").remove();
   if (G.hist) { G.hist.selectAll("*").remove(); G.histlabels.selectAll("*").remove(); G.countrylabels.attr("display", null); G.seas.attr("display", null); G.phys.attr("display", null); }
   $("#q").value = ""; $("#results").hidden = true;
@@ -1177,6 +1206,7 @@ function quizHome() {
   ${saved.best.loc != null ? `<p class="src">Best location score: ${saved.best.loc}/10</p>` : ""}`); }
 function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 ACT.qloc = el => {
+  stopQuiz();
   const scope = el.dataset.scope;
   const pool = [...featByKey.keys()].filter(k => { const f = byKey.get(k); return f && (f.un || f.obs) && f.a > (scope === "World" ? 200000 : 10000) && (scope === "World" || f.reg === "Africa"); });
   const qs = shuffle(pool).slice(0, 10); let i = 0, score = 0, locked = false;
@@ -1189,13 +1219,14 @@ ACT.qloc = el => {
   S.quiz = { onClick(k) { if (locked) return; locked = true; const ok = k === qs[i]; if (ok) score++;
       G.countries.selectAll("path").classed("hit", d => d.key === qs[i]).classed("miss", d => !ok && d.key === k);
       banner(ok ? `Correct: ${nameOf(qs[i])}` : `That was ${nameOf(k)}. ${nameOf(qs[i])} is shown in green.`);
-      i++; setTimeout(() => { if (i < 10) ask(); else finish(); }, ok ? 900 : 2200); },
+      i++; quizLater(() => { if (i < 10) ask(); else finish(); }, ok ? 900 : 2200); },
     onSea() {}, stop() { svg.classed("picking", false); banner(null); $("#L-labels").checked = true; applyLayers(); G.countries.selectAll("path").classed("hit miss pick", false); } };
-  const finish = () => { S.quiz.stop(); S.quiz = null; saved.best.loc = Math.max(saved.best.loc || 0, score); store.set(saved);
+  const finish = () => { stopQuiz(); saved.best.loc = Math.max(saved.best.loc || 0, score); store.set(saved);
     setPanel(`<div class="eyebrow">Result</div><p class="score">${score} / 10</p><p>${score >= 8 ? "Strong. Try the other scope next." : score >= 5 ? "Good base. Explore the ones you missed, then try again." : "Spend a few minutes in Explore and Africa, then come back."}</p><div class="btnrow"><button class="btn primary" data-act="qloc" data-scope="${scope}">Play again</button><button class="btn" data-mode-go="quiz">All quizzes</button></div>`); };
   ask(); };
 ACT.qstop = () => setMode("quiz");
 ACT.qnb = () => {
+  stopQuiz();
   const pool = [...featByKey.keys()].filter(k => { const f = byKey.get(k); return f && f.un && f.b.length >= 2 && f.b.length <= 6 && f.a > 50000; });
   const k = Math.random() < .3 ? "566" : shuffle(pool)[0], truth = new Set(byKey.get(k).b.map(c => byC3.get(c)).filter(Boolean)), picked = new Set();
   S.sel = k; paint(); flyTo(featByKey.get(k), {pad: .45, maxk: 8}); svg.classed("picking", true); $("#L-labels").checked = false; applyLayers();
@@ -1220,7 +1251,7 @@ const MCQ = [
   ["Lagos is in which hemispheres?", ["Northern and Eastern", "Southern and Eastern", "Northern and Western", "Southern and Western"], 0, "Lagos is about 6.5° N and 3.4° E: just north of the Equator and just east of the Prime Meridian."]];
 ACT.qmc = () => { const qs = shuffle(MCQ); let i = 0, score = 0;
   const ask = () => { const [q, opts, a, why] = qs[i], order = shuffle(opts.map((o, j) => j));
-    setPanel(`<div class="eyebrow">Reading the map</div><div class="progress"><i style="width:${i / qs.length * 100}%"></i></div><p class="q">${esc(q)}</p><div class="opts">${order.map(j => `<button data-j="${j}">${esc(opts[j])}</button>`).join("")}</div><div id="why"></div>`);
+    setPanel(`<div class="eyebrow">Reading the map</div><div class="progress"><i style="width:${i / qs.length * 100}%"></i></div><p class="q">${esc(q)}</p><div class="opts">${order.map(j => `<button data-j="${j}">${esc(opts[j])}</button>`).join("")}</div><div id="why" role="status" aria-live="polite"></div>`);
     panel.querySelectorAll(".opts button").forEach(b => b.onclick = () => { if (panel.querySelector(".opts .right")) return; const j = +b.dataset.j, ok = j === a; if (ok) score++;
       b.classList.add(ok ? "right" : "wrong"); panel.querySelector(`.opts [data-j="${a}"]`).classList.add("right");
       $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${esc(why)}</p><button class="btn primary" id="next">${i + 1 < qs.length ? "Next" : "See score"}</button>`;
@@ -1229,7 +1260,7 @@ ACT.qmc = () => { const qs = shuffle(MCQ); let i = 0, score = 0;
 
 /* ---------- sources ---------- */
 function aboutPanel() {
-  const n = Object.values(D.facts).filter(f => f.un || f.obs).length, qs = QB.length, passed = COURSE.filter(([id]) => saved.mastered[id]).length;
+  const n = Object.values(D.facts).filter(f => f.un || f.obs).length, qs = QB.length, passed = COURSE.filter(([id]) => saved.checks[id] != null).length;
   setPanel(`<h2>About this atlas</h2>
   <p>Geography is usually taught as lists: capitals, rivers, and a map that draws Africa too small. The news then talks about Hormuz, the Sahel, BRICS or the naira as if everyone already knew where they are and why they matter. This atlas fills that gap. The aim is a map of the world you can picture without looking, and the habit of asking what a place means today.</p>
 
@@ -1540,11 +1571,12 @@ const GAMES = {
     return {q: `Which capital is further <b>north</b>?`, opts: [lab(a), lab(b)], a: n, why: `${a.n} is at ${latStr(a.y)}; ${b.n} is at ${latStr(b.y)}.`, pins: [[a.x, a.y], [b.x, b.y]]}; } }
 };
 function mcGame(id, scope) {
+  stopQuiz();
   const g = GAMES[id], N = 10; let i = 0, score = 0, streak = 0, best = 0;
   if (scope === "Africa") flyToKeys(Object.keys(D.facts).filter(k => D.facts[k].reg === "Africa" && D.facts[k].un), {pad: .95, maxk: 4}); else resetView();
   const ask = () => { const r = g.gen(scope); S.sel = null; paint(); setPins([]);
     setPanel(`<div class="eyebrow">${esc(g.name)}, ${scope === "Africa" ? "Africa" : "the world"}</div><div class="progress"><i style="width:${i / N * 100}%"></i></div>
-      <div class="q">${r.q}</div><div class="opts">${r.opts.map((o, j) => `<button data-j="${j}">${esc(o)}</button>`).join("")}</div><div id="why"></div>
+      <div class="q">${r.q}</div><div class="opts">${r.opts.map((o, j) => `<button data-j="${j}">${esc(o)}</button>`).join("")}</div><div id="why" role="status" aria-live="polite"></div>
       <p class="src">Score ${score} / ${i}${streak > 1 ? ` · streak ${streak}` : ""}</p>`);
     panel.querySelectorAll(".opts button").forEach(b => b.onclick = () => { if (panel.querySelector(".opts .right")) return;
       const ok = +b.dataset.j === r.a; if (ok) { score++; streak++; best = Math.max(best, streak); } else streak = 0;
@@ -1561,6 +1593,7 @@ ACT.game = el => mcGame(el.dataset.g, el.dataset.scope);
 
 /* Nigeria states: tap the state on the map */
 ACT.qstates = () => {
+  stopQuiz();
   const st = topojson.feature(D.ng.states, Object.values(D.ng.states.objects)[0]).features;
   const nbSet = new Set(byKey.get("566").b.map(c => byC3.get(c)));
   G.countries.selectAll("path").classed("dim", d => d.key !== "566" && !nbSet.has(d.key));
@@ -1574,7 +1607,7 @@ ACT.qstates = () => {
     onState(s) { if (locked) return; locked = true; const ok = s === qs[i]; if (ok) score++;
       G.states.selectAll("path").style("fill", d => d.properties.name === qs[i] ? "var(--hit)" : (!ok && d.properties.name === s) ? "var(--miss)" : "var(--land)");
       banner(ok ? `Correct: ${stName(qs[i])} (${zoneOf(qs[i])})` : `That was ${stName(s)}. ${stName(qs[i])} is in green, in the ${zoneOf(qs[i])}.`);
-      i++; setTimeout(() => { if (i < 10) ask(); else { S.quiz.stop(); S.quiz = null; saved.best.states = Math.max(saved.best.states || 0, score); store.set(saved);
+      i++; quizLater(() => { if (i < 10) ask(); else { stopQuiz(); saved.best.states = Math.max(saved.best.states || 0, score); store.set(saved);
         setPanel(`<div class="eyebrow">Result</div><p class="score">${score} / 10</p><div class="btnrow"><button class="btn primary" data-act="qstates">Play again</button><button class="btn" data-mode-go="nigeria">Study the zones</button><button class="btn" data-mode-go="quiz">All games</button></div>`); } }, ok ? 900 : 2200); },
     stop() { svg.classed("picking", false); banner(null); $("#L-labels").checked = true; applyLayers(); G.states.selectAll("*").remove(); } };
   ask(); };
@@ -3141,8 +3174,8 @@ function popView() { const v = VIEW.pop(); VIEW.length = 0; if (!v) return; hide
   if (v.mode !== S.mode) return;
   S.sel = null; paint(); setPins(v.pins); setRoutes(v.routes);
   const l = $("#legend"); l.innerHTML = v.legend.html; l.hidden = v.legend.hidden;
-  panel.innerHTML = v.html; const cc = $("#checkcard"); if (cc) cc.outerHTML = checkCard(S.mode); panel.scrollTop = v.scroll;
-  if (v.t) svg.transition().duration(700).call(zoom.transform, v.t);
+  panel.innerHTML = v.html; const cc = $("#checkcard"); if (cc) cc.outerHTML = checkCard(S.mode); panel.scrollTop = v.scroll; focusPanel();
+  if (v.t) svg.transition().duration(motionTime(700)).call(zoom.transform, v.t);
   else if (v.rot) { projection.rotate(v.rot); S.k = v.k; projection.scale(baseScale * v.k); render(); } }
 ACT.popview = () => { const v = VIEW[0]; if (v && v.pushed) { try { history.back(); return; } catch (e) {} } popView(); };
 
@@ -3234,32 +3267,46 @@ const QB = [
 const QBY = id => QB.find(x => x.id === id);
 const DAY = () => Math.floor((Date.now() - new Date().getTimezoneOffset() * 6e4) / 864e5);
 const BOX_DAYS = [1, 3, 7, 21, 60];
-saved.srs = saved.srs || {}; saved.mastered = saved.mastered || {};
-function grade(id, ok) { const r = saved.srs[id] || {b: -1, d: 0, w: 0};
-  if (ok) { r.b = Math.min(r.b + 1, BOX_DAYS.length - 1); r.d = DAY() + BOX_DAYS[r.b]; } else { r.b = -1; r.d = DAY() + 1; r.w++; }
-  saved.srs[id] = r; store.set(saved); return r; }
+saved.srs = saved.srs || {};
+// The original "mastered" field meant a three-question check was passed. Preserve it as
+// historical data, migrate those passes, and require fresh delayed recall for memory status.
+saved.checks = saved.checks || {};
+if (saved.schemaVersion !== 2) {
+  Object.entries(saved.mastered || {}).forEach(([id, day]) => { if (saved.checks[id] == null) saved.checks[id] = day; });
+  saved.schemaVersion = 2;
+}
+function grade(id, ok) { const today = DAY(), previous = saved.srs[id], r = previous || {b: -1, d: 0, w: 0};
+  const advanced = ok && (!previous || (r.d <= today && r.lastDay !== today));
+  if (advanced) { r.recalled = r.b >= 0; r.b = Math.min(r.b + 1, BOX_DAYS.length - 1); r.d = today + BOX_DAYS[r.b]; }
+  else if (!ok) { r.b = -1; r.d = today + 1; r.w++; r.recalled = false; }
+  r.lastDay = today; r.lastCorrect = ok; saved.srs[id] = r; store.set(saved); return {...r, advanced}; }
 const dueItems = () => QB.filter(q => saved.srs[q.id] && saved.srs[q.id].d <= DAY());
 const dueCount = () => dueItems().length;
 function nextDue() { const ds = Object.values(saved.srs).map(r => r.d).filter(d => d > DAY()); return ds.length ? Math.min(...ds) : null; }
 const whenTxt = d => { const n = d - DAY(); return n <= 0 ? "today" : n === 1 ? "tomorrow" : `in ${n} days`; };
+function remembered(l) { const qs = QB.filter(q => q.l === l);
+  return qs.length > 0 && qs.every(q => { const r = saved.srs[q.id]; return r && r.recalled && r.b >= 1; }); }
 function lessonStatus(l) { const qs = QB.filter(q => q.l === l); if (!qs.length) return null;
   const due = qs.filter(q => saved.srs[q.id] && saved.srs[q.id].d <= DAY()).length;
-  if (saved.mastered[l]) return due ? {k: "due", t: `Passed · ${due} to review`} : {k: "ok", t: "Passed"};
-  if (qs.some(q => saved.srs[q.id])) return {k: "try", t: "Check not passed yet"};
+  const covered = qs.filter(q => saved.srs[q.id]).length;
+  if (remembered(l)) return {k: due ? "due" : "ok", t: `Remembered later${due ? ` · ${due} to review` : ""}`};
+  if (saved.checks[l] != null) return {k: due ? "due" : "ok", t: `Check passed · ${covered}/${qs.length} questions practised${due ? ` · ${due} to review` : ""}`};
+  if (covered) return {k: "try", t: `Practised ${covered}/${qs.length} · check not passed yet`};
   return {k: "new", t: "Check not taken"}; }
 function pickCheck(l) { // missed and unseen questions first, then the rest
-  const qs = QB.filter(q => q.l === l), rank = q => { const r = saved.srs[q.id]; return !r ? 1 : r.b < 0 ? 0 : 2 + r.b; };
+  const qs = QB.filter(q => q.l === l), rank = q => { const r = saved.srs[q.id];
+    return !r ? 1 : r.lastCorrect === false || (r.lastCorrect == null && r.b < 0) ? 0 : 2 + Math.max(0, r.b); };
   return shuffle(qs).sort((a, b) => rank(a) - rank(b)).slice(0, 3); }
 /* runner */
 function runQs(items, ctx) { let i = 0, score = 0; const res = [];
   const ask = () => { const q = items[i], ord = shuffle(q.o.map((_, j) => j));
     setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>${esc(ctx.backLabel)}</button><div class="eyebrow">${esc(ctx.title)}</div>
       <div class="progress"><i style="width:${i / items.length * 100}%"></i></div><p class="src" style="margin-top:-6px">Question ${i + 1} of ${items.length}${ctx.mixed ? " · from " + esc(NAV_LABEL[q.l]) : ""}</p>
-      <div class="q">${esc(q.q)}</div><div class="opts">${ord.map(j => `<button data-j="${j}">${esc(q.o[j])}</button>`).join("")}</div><div id="why"></div>`);
+      <div class="q">${esc(q.q)}</div><div class="opts">${ord.map(j => `<button data-j="${j}">${esc(q.o[j])}</button>`).join("")}</div><div id="why" role="status" aria-live="polite"></div>`);
     panel.querySelectorAll(".opts button").forEach(b => b.onclick = () => { if (panel.querySelector(".opts .right")) return;
       const ok = +b.dataset.j === q.a; if (ok) score++; const r = grade(q.id, ok); res.push({q, ok, r});
       b.classList.add(ok ? "right" : "wrong"); panel.querySelector(`.opts [data-j="${q.a}"]`).classList.add("right");
-      $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${esc(q.why)}</p><p class="src">${ok ? `Scheduled: you'll see this again ${whenTxt(r.d)}.` : "Scheduled: this comes back tomorrow."}</p>
+      $("#why").innerHTML = `<p>${ok ? "<b>Right.</b>" : "<b>Not quite.</b>"} ${esc(q.why)}</p><p class="src">${ok ? `${r.advanced ? "Scheduled" : "Practice saved; review unchanged"}: you'll see this again ${whenTxt(r.d)}.` : "Scheduled: this comes back tomorrow."}</p>
         <button class="btn primary" id="nextq">${i + 1 < items.length ? "Next" : "See result"}</button>`;
       $("#nextq").onclick = () => { i++; i < items.length ? ask() : ctx.done(score, res); }; }); };
   ask(); }
@@ -3267,15 +3314,16 @@ function whereBtn(q) { return `<button class="btn" data-act="goto" data-id="${q.
 function pushPanel(html) { if (!VIEW.length) { const s = snapshot(); try { history.pushState({mmaView: 1}, "", location.href); s.pushed = true; } catch (e) {} VIEW.push(s); } setPanel(html); }
 ACT.check = el => { const l = el.dataset.l, items = pickCheck(l), title = `Check: ${NAV_LABEL[l]}`;
   pushPanel(""); runQs(items, {title, backLabel: "Back to the lesson", done(score, res) {
-    const pass = score === items.length; if (pass) { saved.mastered[l] = DAY(); store.set(saved); }
+    const pass = score === items.length; if (pass) { saved.checks[l] = DAY(); store.set(saved); }
     const missed = res.filter(r => !r.ok), left = QB.filter(q => q.l === l && !items.includes(q)).length;
     setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back to the lesson</button><div class="eyebrow">${esc(title)}</div><p class="score">${score} / ${items.length}</p>
-    ${pass ? `<p><b>Passed.</b> These questions will come back in your daily review, spaced further apart each time you get them right (1, 3, 7, 21 and 60 days). Spacing reviews out over time is one of the best-supported ways to remember.</p>
+    ${pass ? `<p><b>Check passed.</b> This is a quick check, not the whole lesson bank. Keep practising to cover every question. “Remembered later” means you have answered every question correctly again in a later scheduled review.</p>
+      <p>Reviews return after 1, 3, 7, 21 and 60 days. Extra practice is welcome; only a correct answer when due advances the interval, at most once a day.</p>
       <div class="btnrow"><button class="btn primary" data-act="popview">Back to the lesson</button>${COURSE_IDS.indexOf(l) + 1 < COURSE.length ? `<button class="btn" data-mode-go="${COURSE_IDS[COURSE_IDS.indexOf(l) + 1]}">Next lesson</button>` : ""}</div>`
     : `<p><b>Not yet.</b> Passing needs ${items.length} out of ${items.length}. What to do next:</p>
       <ol><li><b>Re-read</b> the part that covers what you missed (below).</li>
       <li><b>Try again now.</b> You'll get the questions you have not answered correctly yet first, then fresh ones${left ? "" : " (this lesson's bank is small, so some repeat with the options shuffled)"}.</li>
-      <li><b>Tomorrow</b>, what you missed comes back in your daily review, mixed with other lessons. Getting it right then moves it to 3 days, then 7, 21 and 60.</li></ol>
+      <li><b>Tomorrow</b>, what you missed comes back in your daily review, mixed with other lessons. A correct answer starts a one-day interval, then later correct reviews move it to 3, 7, 21 and 60 days.</li></ol>
       <h4>What you missed</h4>${missed.map(m => `<div class="note"><b>${esc(m.q.q)}</b><br>Answer: ${esc(m.q.o[m.q.a])}. ${esc(m.q.why)}<div class="btnrow" style="margin:8px 0 0">${whereBtn(m.q)}</div></div>`).join("")}
       <div class="btnrow"><button class="btn primary" data-act="check" data-l="${l}">Try again now</button><button class="btn" data-act="popview">Back to the lesson</button></div>`}`); }}); };
 ACT.review = () => { const items = shuffle(dueItems()).slice(0, 10);
@@ -3283,7 +3331,7 @@ ACT.review = () => { const items = shuffle(dueItems()).slice(0, 10);
   pushPanel(""); runQs(items, {title: "Daily review", mixed: true, backLabel: "Back", done(score, res) {
     const wrong = res.filter(r => !r.ok), nd = nextDue();
     setPanel(`<button class="back" data-act="popview"><svg class="bk" aria-hidden="true"><use href="#i-back"/></svg>Back</button><div class="eyebrow">Daily review</div><p class="score">${score} / ${items.length}</p>
-    <p>${score === items.length ? "All correct: each question moved up a box and will return later than last time." : `${items.length - score} to see again tomorrow. The rest moved up a box.`}${dueCount() ? ` ${dueCount()} more are due today.` : ""}${nd ? ` Next review: ${whenTxt(nd)}.` : ""}</p>
+    <p>${score === items.length ? "All correct. Your next reviews are scheduled below." : `${items.length - score} to see again tomorrow. Correct answers keep their scheduled reviews.`} Review intervals grow only for correct answers when due, at most once a day.${dueCount() ? ` ${dueCount()} more are due today.` : ""}${nd ? ` Next review: ${whenTxt(nd)}.` : ""}</p>
     ${wrong.map(m => `<div class="note"><b>${esc(m.q.q)}</b><br>Answer: ${esc(m.q.o[m.q.a])}. ${esc(m.q.why)}<div class="btnrow" style="margin:8px 0 0">${whereBtn(m.q)}</div></div>`).join("")}
     <div class="btnrow">${dueCount() ? `<button class="btn primary" data-act="review">Continue reviewing</button>` : ""}<button class="btn" data-act="popview">Done</button></div>`); }}); };
 ACT.goto = el => { const q = QBY(el.dataset.id); VIEW.length = 0; setMode(q.l);
@@ -3555,7 +3603,7 @@ function indSheet(id) { const r = IND[id], s = SOURCES[r.src], fr = freshness(r.
     <dt>Source</dt><dd>${esc(s.name)}, ${esc(s.by)}. Published ${esc(ymLabel(s.pub))}; added to the atlas ${esc(ymLabel(s.got.slice(0, 7)))}.</dd>
     <dt>Status</dt><dd><span class="fr fr-${fr.k}">${esc(fr.t)}</span></dd>${s.note || r.derived ? `<dt>Caveats</dt><dd>${esc([r.derived, s.note].filter(Boolean).join(" "))}</dd>` : ""}</dl>
     <div class="btnrow" style="justify-content:space-between;margin:0"><a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener">Open the source</a><button class="btn primary" data-dlg="close">Close</button></div></div>`;
-  $("#overlay").hidden = false; setTimeout(() => $("#overlay [data-dlg=close]").focus(), 30); }
+  openOverlay("[data-dlg=close]"); }
 document.addEventListener("click", e => { const b = e.target.closest("[data-ind]"); if (!b) return; e.preventDefault(); e.stopPropagation(); indSheet(b.dataset.ind); }, true);
 /* data catalogue (About page) */
 function catalogueHTML() { const bySrc = {}; Object.entries(IND).forEach(([id, r]) => (bySrc[r.src] = bySrc[r.src] || []).push(id));
@@ -3739,7 +3787,7 @@ function compareSheet(id, c) { const r = IND[id], cm = CMP[id], f = byKey.get(k3
     ${links.length ? `<h4>Connections</h4>${links.map(L => linkHTML(L, c)).join("")}` : ""}
     ${learnHTML(id)}
     <div class="btnrow" style="margin:14px 0 0">${THEME_OF[id] ? `<button class="btn" data-cmpmap="${THEME_OF[id]}">Show on the map</button>` : ""}<button class="btn" data-ind="${id}">About this figure</button><button class="btn primary" data-dlg="close">Close</button></div></div>`;
-  $("#overlay").hidden = false; $("#overlay .dialog").scrollTop = 0; }
+  openOverlay(); $("#overlay .dialog").scrollTop = 0; }
 const ord = n => n + (n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th");
 /* subnational: Nigerian states */
 const MPI_DISPLAY = s => s === "FCT" ? "FCT (Abuja)" : s;
@@ -3764,7 +3812,7 @@ function stateSheet(s) { S.cmpId = "mpi_h"; S.cmpC = null; S.cmpState = s; const
     <div class="lk"><span class="lt lt-description">Descriptive comparison</span><b>Oil-producing states differ widely</b><p>Among the main oil-producing states, Bayelsa is ${mp.Bayelsa.h}%, Akwa Ibom ${mp["Akwa Ibom"].h}%, Rivers ${mp.Rivers.h}% and Delta ${mp.Delta.h}%. Oil output alone does not predict poverty within Nigeria; how revenue is shared and spent matters, which is the core of the resource-curse debate.</p><p class="src"><b>What would test this:</b> oil output and federal allocations by state over time.</p></div>
     ${learnHTML("mpi_h")}
     <div class="btnrow" style="margin:14px 0 0"><button class="btn" data-ind="mpi_h">About this figure</button><button class="btn primary" data-dlg="close">Close</button></div></div>`;
-  $("#overlay").hidden = false; }
+  openOverlay(); }
 /* navigation from the sheet, keeping your place */
 function sheetOrigin() { if (S.cmpState) return {state: S.cmpState, mode: S.mode, scroll: panel.scrollTop, id: "mpi_h", theme: S.theme};
   return {k: S.sel || (S.cmpC && k3(S.cmpC)), mode: S.mode, scroll: panel.scrollTop, id: S.cmpId}; }
@@ -4027,7 +4075,7 @@ function compareStatesHTML(a, b) { const mp = NOW().mpi, m = MPIS(), A = m.state
     <div class="btnrow" style="margin:14px 0 0"><button class="btn" data-act="stateopen" data-s="${esc(a)}">Open ${esc(nA)}</button>${isNat ? "" : `<button class="btn" data-act="stateopen" data-s="${esc(b)}">Open ${esc(nB)}</button>`}<button class="btn primary" data-dlg="close">Close</button></div></div>`; }
 function compareStates(a, b) { const mp = NOW().mpi;
   if (!b) { const sim = similarStates(a, 1)[0]; b = sim ? sim.x : "NGA"; }
-  $("#overlay").innerHTML = compareStatesHTML(a, b); $("#overlay").hidden = false; $("#overlay .dialog").scrollTop = 0;
+  $("#overlay").innerHTML = compareStatesHTML(a, b); openOverlay(); $("#overlay .dialog").scrollTop = 0;
   $("#overlay").querySelectorAll("select[data-cmpa],select[data-cmpb]").forEach(s => s.addEventListener("change", () => compareStates($("#overlay select[data-cmpa]").value, $("#overlay select[data-cmpb]").value))); }
 ACT.stcompare = el => compareStates(el.dataset.s, el.dataset.b);
 document.addEventListener("click", e => { const b = e.target.closest("#overlay [data-act=stateopen]"); if (!b) return; e.preventDefault(); e.stopPropagation(); closeOverlay(); if (S.mode !== "nigeria") setMode("nigeria"); statePanel(GEO_NAME(b.dataset.s)); }, true);
@@ -4303,7 +4351,7 @@ function compareCountriesHTML(a, b) { const A = byKey.get(vsKey(a)), B = byKey.g
     <p class="src">The line under each row runs from the lowest country in the world to the highest, so you can see whether a gap is large by world standards. Where the two values are of different kinds, the row says so. Figures show how the countries differ, not why: that takes history, geography and policy, which the profiles cover.</p>
     <div class="btnrow" style="margin:14px 0 0"><button class="btn" data-vsopen="${esc(vsKey(A.c3))}">Open ${esc(A.n)}</button><button class="btn" data-vsopen="${esc(vsKey(B.c3))}">Open ${esc(B.n)}</button><button class="btn" data-vsshare>Share</button><button class="btn primary" data-dlg="close">Close</button></div></div>`; }
 function compareCountries(a, b) { if (!vsKey(a)) return; if (!b || !vsKey(b) || b === a) b = vsPartner(a);
-  $("#overlay").innerHTML = compareCountriesHTML(a, b); $("#overlay").hidden = false; $("#overlay .dialog").scrollTop = 0; S.lastSheet = () => compareCountries(a, b);
+  $("#overlay").innerHTML = compareCountriesHTML(a, b); openOverlay(); $("#overlay .dialog").scrollTop = 0; S.lastSheet = () => compareCountries(a, b);
   const o = $("#overlay"), go = () => compareCountries(o.querySelector("select[data-vsa]").value, o.querySelector("select[data-vsb]").value);
   o.querySelectorAll("select[data-vsa],select[data-vsb]").forEach(s => s.addEventListener("change", go));
   o.querySelector("[data-vsswap]").addEventListener("click", e => { e.stopPropagation(); compareCountries(b, a); });
@@ -4441,13 +4489,13 @@ MODES.explore = () => { resetView();
 
 /* course hub */
 MODES.course = () => { resetView();
-  const next = COURSE.find(([id]) => !saved.mastered[id]), done = COURSE.filter(([id]) => saved.lessons[id]).length, passed = COURSE.filter(([id]) => saved.mastered[id]).length;
+  const next = COURSE.find(([id]) => saved.checks[id] == null), done = COURSE.filter(([id]) => saved.lessons[id]).length, passed = COURSE.filter(([id]) => saved.checks[id] != null).length;
   const go = next ? next[0] : saved.lastLesson || COURSE_IDS[0];
   setPanel(`<h2>The course</h2>
   <p>Eleven short lessons. Each one changes the map beside you as you read, so the picture builds in your head. Each ends with a three-question check; what you miss comes back in a daily review until it sticks.</p>
   ${reviewCard()}
-  <div class="progress"><i style="width:${passed / COURSE.length * 100}%"></i></div><p class="src" style="margin-top:-8px">${passed} of ${COURSE.length} checks passed · ${done} lessons opened</p>
-  <ol class="lessons">${COURSE.map(([id, n, d], i) => { const s = lessonStatus(id), m = saved.mastered[id];
+  <div class="progress"><i style="width:${passed / COURSE.length * 100}%"></i></div><p class="src" style="margin-top:-8px">${passed} of ${COURSE.length} checks passed · ${done} lessons opened · ${COURSE.filter(([id]) => remembered(id)).length} remembered later</p>
+  <ol class="lessons">${COURSE.map(([id, n, d], i) => { const s = lessonStatus(id), m = saved.checks[id] != null;
     return `<li class="${m ? "done" : saved.lessons[id] ? "seen" : ""}"><button data-mode-go="${id}"><span class="num">${m ? '<svg class="ck" aria-hidden="true"><use href="#i-check"/></svg>' : i + 1}</span><span><b>${esc(n)}</b><span>${esc(d)}</span>${s && saved.lessons[id] ? `<span class="stat ${s.k}">${esc(s.t)}</span>` : ""}</span><span class="arr"><svg class="cv" aria-hidden="true"><use href="#i-next"/></svg></span></button></li>`; }).join("")}</ol>
   <div class="btnrow"><button class="btn primary" data-mode-go="${go}">${done === 0 ? "Start lesson 1" : next ? "Continue with lesson " + (COURSE_IDS.indexOf(next[0]) + 1) : "Review the last lesson"}</button><button class="btn" data-mode-go="quiz">Games</button></div>`); };
 
@@ -4458,8 +4506,31 @@ function applyTheme(t) { if (t === "auto") delete document.documentElement.datas
 applyTheme(saved.theme || "auto");
 $("#themebtn").addEventListener("click", () => { const t = THEMES[(THEMES.indexOf(saved.theme || "auto") + 1) % 3]; saved.theme = t; store.set(saved); applyTheme(t); toast("Theme: " + THEME_TXT[t]); });
 
+/* All welcome, comparison and source dialogs share focus containment and restoration. */
+let overlayReturn = null;
+const overlayInert = new Map();
+function openOverlay(selector) { const o = $("#overlay");
+  if (o.hidden) { overlayReturn = document.activeElement;
+    [...$(".app").children].filter(el => el !== o && el.id !== "toast").forEach(el => { overlayInert.set(el, el.inert); el.inert = true; }); }
+  o.hidden = false;
+  const target = (selector && o.querySelector(selector)) || o.querySelector("h2") || o.querySelector(".dialog");
+  if (target) { if (!target.matches("button, input, select, a[href]")) target.tabIndex = -1; target.focus({preventScroll: true}); } }
+function closeOverlay() { const o = $("#overlay"); if (o.hidden) return; o.hidden = true; o.innerHTML = "";
+  overlayInert.forEach((inert, el) => { el.inert = inert; }); overlayInert.clear();
+  if (overlayReturn && overlayReturn.isConnected && overlayReturn.getClientRects().length) overlayReturn.focus({preventScroll: true});
+  else focusPanel();
+  overlayReturn = null;
+  if (!saved.welcomed) { saved.welcomed = 1; store.set(saved); } }
+document.addEventListener("keydown", e => { const o = $("#overlay"); if (o.hidden || e.key !== "Tab") return;
+  const items = [...o.querySelectorAll('button, a[href], input, select, textarea, [tabindex="0"]')].filter(el => !el.disabled && el.getClientRects().length);
+  const first = items[0], last = items[items.length - 1], active = document.activeElement;
+  if (!first) { e.preventDefault(); return; }
+  if (e.shiftKey && (active === first || !items.includes(active))) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && (active === last || !o.contains(active))) { e.preventDefault(); first.focus(); }
+}, true);
+document.addEventListener("focusin", e => { const o = $("#overlay");
+  if (!o.hidden && !o.contains(e.target)) { const target = o.querySelector("h2, .dialog"); if (target) { target.tabIndex = -1; target.focus({preventScroll: true}); } } });
 /* welcome and help */
-function closeOverlay() { const o = $("#overlay"); if (o.hidden) return; o.hidden = true; o.innerHTML = ""; if (!saved.welcomed) { saved.welcomed = 1; store.set(saved); } }
 function showWelcome(isHelp) {
   const o = $("#overlay");
   o.innerHTML = `<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT">
@@ -4480,20 +4551,35 @@ function showWelcome(isHelp) {
       <dt>Back</dt><dd>Your Back button works, and every country has a shareable link.</dd>
     </dl>
     <div class="btnrow" style="justify-content:flex-end;margin:0"><button class="btn primary" data-dlg="close">${isHelp ? "Got it" : "Start exploring"}</button></div></div>`;
-  o.hidden = false; setTimeout(() => o.querySelector("[data-dlg=close]").focus(), 30); }
+  openOverlay("[data-dlg=close]"); }
 $("#overlay").addEventListener("click", e => { const b = e.target.closest("[data-dlg]");
   if (b) { const v = b.dataset.dlg; closeOverlay(); if (v !== "close") setMode(v); return; }
   if (e.target.id === "overlay") closeOverlay(); });
 $("#helpbtn").addEventListener("click", () => showWelcome(true));
 
-/* phone: drag or tap the handle to share the screen between map and reading */
+/* Phone: lessons start with room to read; explicit controls also work with a keyboard. */
+function readingLayout(mode) { const root = document.documentElement;
+  const reading = COURSE_IDS.includes(mode) || mode === "course" || mode === "about";
+  const changed = root.dataset.reading !== String(reading) || root.style.getPropertyValue("--mh");
+  const main = $("#main"), transition = main.style.transition; main.style.transition = "none";
+  root.dataset.reading = String(reading); root.style.removeProperty("--mh");
+  $("#readingbtn").setAttribute("aria-pressed", String(reading)); $("#mapbtn").setAttribute("aria-pressed", "false");
+  if (changed && matchMedia("(max-width: 860px)").matches) refit(true);
+  main.style.transition = transition; }
+function setMapHeight(px) { const vh = window.innerHeight, cl = Math.max(vh * .2, Math.min(vh * .76, px));
+  document.documentElement.style.setProperty("--mh", cl + "px");
+  $("#readingbtn").setAttribute("aria-pressed", String(cl <= vh * .32)); $("#mapbtn").setAttribute("aria-pressed", String(cl >= vh * .5)); }
+$("#readingbtn").addEventListener("click", () => { setMapHeight(innerHeight * .25); setTimeout(() => refit(true), motionTime(280)); });
+$("#mapbtn").addEventListener("click", () => { setMapHeight(innerHeight * .58); setTimeout(() => refit(true), motionTime(280)); });
+/* Drag or tap the original handle as well. */
 (() => { const g = $("#grip"); let y0 = null, h0 = 0, moved = 0;
-  const setH = px => { const vh = window.innerHeight, cl = Math.max(vh * .2, Math.min(vh * .76, px)); document.documentElement.style.setProperty("--mh", cl + "px"); };
-  const done = () => setTimeout(() => refit(true), 280);
+  const done = () => setTimeout(() => refit(true), motionTime(280));
   g.addEventListener("pointerdown", e => { y0 = e.clientY; h0 = $("#mapwrap").getBoundingClientRect().height; moved = 0; g.setPointerCapture(e.pointerId); $("#main").style.transition = "none"; });
-  g.addEventListener("pointermove", e => { if (y0 == null) return; moved = Math.max(moved, Math.abs(e.clientY - y0)); if (moved > 4) setH(h0 + e.clientY - y0); });
+  g.addEventListener("pointermove", e => { if (y0 == null) return; moved = Math.max(moved, Math.abs(e.clientY - y0)); if (moved > 4) setMapHeight(h0 + e.clientY - y0); });
   g.addEventListener("pointerup", () => { $("#main").style.transition = ""; if (y0 == null) return; y0 = null;
-    if (moved <= 4) { const big = h0 > window.innerHeight * .5; setH(window.innerHeight * (big ? .3 : .66)); } done(); }); })();
+    if (moved <= 4) { const big = h0 > window.innerHeight * .5; setMapHeight(window.innerHeight * (big ? .25 : .58)); } done(); });
+  g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setMapHeight(innerHeight * ($("#mapwrap").getBoundingClientRect().height > innerHeight * .5 ? .25 : .58)); done(); } });
+  g.addEventListener("pointercancel", () => { y0 = null; $("#main").style.transition = ""; }); })();
 
 /* installable on GitHub Pages: works offline after the first visit */
 if (/github\.io$/.test(location.hostname)) {
@@ -4518,7 +4604,7 @@ async function boot() {
   Object.entries(D.facts).forEach(([k, f]) => { byKey.set(k, f); byC3.set(f.c3, k); }); applyWPP(); plApply();
   buildMap(); render(); $("#loading").hidden = true; IDX = searchIndex();
   lastSize = [$("#mapwrap").getBoundingClientRect().width, $("#mapwrap").getBoundingClientRect().height];
-  routeHash(true);
+  routeHash(true); store.set(saved);
   if (!saved.welcomed) showWelcome(); }
 
 document.querySelectorAll("nav.primary button").forEach(b => b.addEventListener("click", () => navGo(b.dataset.nav)));
@@ -4527,8 +4613,8 @@ $("#layersbtn").addEventListener("click", e => { e.stopPropagation(); toggleLaye
 function toggleLayers(force) { const l = $("#layers"), open = force ?? l.hidden; l.hidden = !open; $("#layersbtn").setAttribute("aria-expanded", open); }
 document.addEventListener("click", e => { if (!$("#layers").hidden && !e.target.closest("#layers, #layersbtn")) toggleLayers(false); }, true);
 document.querySelectorAll("#layers input").forEach(i => i.addEventListener("change", () => { applyLayers(); render(); }));
-$("#zin").addEventListener("click", () => svg.transition().duration(300).call(zoom.scaleBy, 1.8));
-$("#zout").addEventListener("click", () => svg.transition().duration(300).call(zoom.scaleBy, 1 / 1.8));
+$("#zin").addEventListener("click", () => svg.transition().duration(motionTime(300)).call(zoom.scaleBy, 1.8));
+$("#zout").addEventListener("click", () => svg.transition().duration(motionTime(300)).call(zoom.scaleBy, 1 / 1.8));
 $("#zreset").addEventListener("click", resetView);
 const q = $("#q");
 q.addEventListener("input", () => doSearch(q.value));
@@ -4539,7 +4625,7 @@ $("#results").addEventListener("click", e => { const b = e.target.closest("butto
 document.addEventListener("click", e => { if (!e.target.closest(".search")) $("#results").hidden = true; }, true);
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { toggleLayers(false); $("#results").hidden = true; closeOverlay(); hidePeek(); tocOpen(false); }
-  if (e.key === "/" && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
+  if (e.key === "/" && $("#overlay").hidden && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
 let rz, lastSize = [0, 0]; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(refit, 200); });
 var refit = function (force) { if (force) lastSize = [0, 0]; const r = $("#mapwrap").getBoundingClientRect();
   if (Math.abs(r.width - lastSize[0]) < 2 && Math.abs(r.height - lastSize[1]) < 90) return; // phone URL bar showing/hiding: keep the view

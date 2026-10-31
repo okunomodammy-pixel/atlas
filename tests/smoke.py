@@ -88,7 +88,7 @@ with sync_playwright() as pw:
                 if not p.query_selector("#panel .q"): break
                 a = p.evaluate("(()=>{const t=document.querySelector('#panel .q').textContent;return QB.find(x=>x.q===t).a})()")
                 p.click(f'.opts [data-j="{a}"]'); p.wait_for_timeout(80); p.click("#nextq"); p.wait_for_timeout(120)
-            check("desktop: passing a lesson check marks it mastered", p.evaluate("!!saved.mastered.politics"))
+            check("desktop: passing a lesson check records a pass without claiming delayed recall", p.evaluate("saved.checks.politics != null && !remembered('politics')"))
             bad_at = []
             for q in p.evaluate("QB.filter(q => typeof q.at === 'string').map(q => ({id: q.id, l: q.l, at: q.at}))"):
                 p.evaluate(f"setMode('{q['l']}')"); p.wait_for_timeout(60)

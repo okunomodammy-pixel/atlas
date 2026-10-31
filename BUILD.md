@@ -36,6 +36,7 @@ tests/test_pipeline.py    pipeline checks against recorded live responses (tests
 npm ci
 python3 build/dist.py              # writes out/
 python3 tests/smoke.py             # needs: pip install playwright (and its Chromium)
+python3 tests/test_learning_foundations.py   # quiz exits, old saves, delayed recall, focus, phone controls
 python3 tests/test_atlas_pipeline.py   # the atlas with pipeline figures, fallbacks, stale data, offline
 python3 build/verify.py            # optional: proves the build and data are reproducible
 ```
@@ -45,6 +46,9 @@ python3 build/verify.py            # optional: proves the build and data are rep
 to its `geojson` folder.
 
 ## Publishing
+
+The release gate also runs `tests/test_learning_foundations.py`, so quiz-exit, progress migration,
+delayed-recall, saving, modal-focus and small-phone regressions stop publication.
 
 Automatic, from `.github/workflows/atlas.yml` (see pipeline/README.md): a push to `main` that changes the
 app, a weekly data check, a manual run, or an approval comment. Each run builds, runs the site tests and
