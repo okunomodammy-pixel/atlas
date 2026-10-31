@@ -94,11 +94,17 @@ Address audit priorities 1–3: add the five-stop Nigeria journey, short stories
 
 Done when the entire journey can be finished offline, resumed after reopening, and reviewed later; every stop has traceable sources; every task gives useful feedback; and the owner and nieces/nephews can finish without navigation explanations.
 
-### Stage 3 — Shared devices and reliable offline use
+### Stage 3 — Richer content, shared devices and reliable offline use
 
-Address audit priorities 5–6: separate local explorer profiles, export/import with validation, visible offline readiness, bounded cache/update behaviour, and graceful storage errors. Offer optional read-aloud only after checking its device support; it must not block the release.
+The owner added content upgrades to this stage on 31 October 2026. Treat editorial quality and enjoyment as a defined workstream alongside the device and storage improvements.
 
-Done when two people keep independent progress, an exported profile restores correctly, a downloaded journey reopens in airplane mode, a failed media download does not break the core, and an app update preserves profiles and progress. Confirm on an actual inexpensive Android phone, not just browser emulation.
+**Content and learning:** deepen the five Nigeria stops with specific, well-sourced details about everyday life, culture, landscapes and how places connect. Food, music, craft, architecture, history and nature are possible entry points; choose what fits each place rather than forcing the same checklist onto every story. Keep the voice suitable for curious adults and young adults, with optional depth and space for personal memories. Review existing country profiles and lessons for accuracy, readability and balance; upgrade the highest-priority material first and record the remaining work, rather than promising a full rewrite of every country in one stage.
+
+Broaden the questions and hints to practise spatial reasoning, comparison and explanation as well as recognition. Preserve stable task IDs and existing progress; when a factual correction changes what a question assesses, version that question and handle its review history explicitly. Add dated source/editorial notes and distinguish fact, interpretation and uncertainty. Resolve unsupported claims before using them as scored answers. Verify media rights and credits before adding an optional photo pack; retain the 4 MB core and 1 MB optional-media budgets.
+
+**Shared devices and offline reliability:** separate local explorer profiles, export/import with validation, visible offline readiness, bounded cache/update behaviour, and graceful storage errors. Offer optional read-aloud only after checking its device support; it must not block the release.
+
+Done when the upgraded Nigeria journey has traceable support for its substantive claims, more varied useful practice, and an editorial changelog; the owner and nieces/nephews can review its tone, interest and difficulty; two people keep independent progress; an exported profile restores correctly; a downloaded journey reopens in airplane mode; a failed media download does not break the core; and an app update preserves profiles and progress. Confirm on an actual inexpensive Android phone, not just browser emulation. Content review and device testing are part of readiness for the wider launch; the Stage 2 family pilot can happen sooner.
 
 ### Stage 4 — Refine from family use, then expand
 
