@@ -11,6 +11,7 @@
 Exit code 1 means a test failed; index.html, sw.js and _site/ were not touched.
 """
 import hashlib, json, os, re, shutil, subprocess, sys
+from build.site_version import make_worker
 
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_FILES = ["index.html", "sw.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "og.png"]
@@ -25,7 +26,7 @@ def main(argv):
     report = {"tests": "skipped" if "--no-tests" in argv else None, "changed": False}
     if run("build/dist.py"): raise SystemExit("build failed")
     if "--no-tests" not in argv:
-        failed = [t for t in ("tests/smoke.py", "tests/test_learning_foundations.py", "tests/test_journeys.py", "tests/test_atlas_pipeline.py", "tests/test_nigeria.py") if run(t)]
+        failed = [t for t in ("tests/test_site_version.py", "tests/smoke.py", "tests/test_learning_foundations.py", "tests/test_journeys.py", "tests/test_explorers.py", "tests/test_offline_updates.py", "tests/test_atlas_pipeline.py", "tests/test_nigeria.py") if run(t)]
         report["tests"] = "failed: " + ", ".join(failed) if failed else "passed"
         if failed:
             json.dump(report, open(os.path.join(R, "out", "release.json"), "w"), indent=1)
@@ -35,14 +36,13 @@ def main(argv):
     cur_p = os.path.join(R, "index.html")
     if not os.path.exists(cur_p) or open(cur_p, "rb").read() != built:
         open(cur_p + ".tmp", "wb").write(built); os.replace(cur_p + ".tmp", cur_p); report["changed"] = True
-    h = hashlib.sha256(built).hexdigest()[:10]
     sw_p = os.path.join(R, "sw.js"); sw = open(sw_p).read()
-    sw2 = re.sub(r'const C = "mma-[^"]*";', f'const C = "mma-{h}";', sw, count=1)
-    if sw2 == sw and f'"mma-{h}"' not in sw: raise SystemExit("sw.js: cache name line not found")
+    bundle=make_worker(built,sw,{f:open(os.path.join(R,f),"rb").read() for f in SITE_FILES if f not in ("index.html","sw.js")})
+    sw2 = bundle["worker"]
     if sw2 != sw: open(sw_p, "w").write(sw2); report["changed"] = True
     site = os.path.join(R, "_site"); shutil.rmtree(site, ignore_errors=True); os.makedirs(site)
     for f in SITE_FILES: shutil.copy(os.path.join(R, f), site)
-    report.update(page_sha=h, cache=f"mma-{h}", bytes=len(built), site_files=SITE_FILES)
+    report.update(page_sha=bundle["page_sha"], cache=bundle["cache"], bytes=len(built), site_files=SITE_FILES)
     json.dump(report, open(os.path.join(R, "out", "release.json"), "w"), indent=1)
     print(json.dumps(report))
 

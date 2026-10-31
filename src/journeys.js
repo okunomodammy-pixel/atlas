@@ -10,6 +10,23 @@ function journeyRecord() {
   r.visited = r.visited || {}; r.tasks = r.tasks || {}; r.notes = r.notes || {};
   r.cursor = r.cursor || {view: "story", stop: 0};
   if (!journeyData().stops[r.cursor.stop || 0]) r.cursor = {view: "story", stop: 0};
+  r.appliedRevisions=r.appliedRevisions || [];
+  for(const revision of journeyData().revisions || []) {
+    if(r.appliedRevisions.includes(revision.to))continue;
+    const old=`journey:${id}:${revision.from}`,fresh=`journey:${id}:${revision.to}`;
+    if(saved.srs[old] && !saved.srs[fresh])saved.srs[fresh]={b:-1,d:DAY()+1,w:0,recalled:false,lastCorrect:null};
+    const reviewing=r.cursor.view==="review" && r.review?.queue?.[r.review.index]===revision.from;
+    if(r.cursor.view==="review" && r.review?.queue) {
+      r.review.queue=r.review.queue.map(q=>q===revision.from?revision.to:q);
+      if(r.review.answers && Object.hasOwn(r.review.answers,revision.from)) {
+        r.review.archivedAnswers={...(r.review.archivedAnswers || {}),[revision.from]:r.review.answers[revision.from]};delete r.review.answers[revision.from];
+      }
+    }
+    if(reviewing || (r.cursor.view==="task" && journeyData().stops[r.cursor.stop].id===revision.stop && r.cursor.task===revision.task)) {
+      delete r.cursor.answer;delete r.cursor.order;delete r.cursor.selected;r.cursor.hint=false;
+    }
+    r.appliedRevisions.push(revision.to);
+  }
   return r;
 }
 const journeyDue = () => journeyTasks().filter(task => { const r = saved.srs[journeyTaskKey(task)]; return r && r.d <= DAY(); });
@@ -17,9 +34,9 @@ function journeyNextDue() { const days = journeyTasks().map(t => saved.srs[journ
 function journeyHomeCard() {
   if (!journeyData()) return "";
   const j = journeyData(), r = journeyRecord(), visited = Object.keys(r.visited).length;
-  return `<section class="journey-hero" aria-label="Featured journey"><div class="eyebrow">A journey through home</div><h2>${esc(j.title)}</h2>
+  return `<section class="journey-hero" aria-label="Featured journey"><div class="eyebrow">Journey · ${esc(activeExplorer()?.name || "My explorer")}</div><h2>${esc(j.title)}</h2>
     <p>${visited ? `${visited} of ${j.stops.length} places explored. Pick up your field notes.` : esc(j.subtitle)}</p>
-    <div class="btnrow"><button class="btn primary" data-act="jresume">${visited ? "Continue journey" : "Begin the journey"}</button><button class="btn" data-mode-go="journeys">All stops</button></div></section>`;
+    <div class="btnrow"><button class="btn primary" data-act="jresume">${visited ? "Continue journey" : "Begin the journey"}</button><button class="btn" data-mode-go="journeys">All stops</button></div><div class="offline-label" id="offline-inline">${location.protocol==="file:"?"Standalone · available offline":"Progress stays with this explorer"}</div></section>`;
 }
 function journeyReviewCard() {
   if (!journeyData()) return "";
@@ -29,7 +46,7 @@ function journeyReviewCard() {
 function journeySources(stop) {
   const j = journeyData();
   return `<details class="journey-detail journey-sources"><summary>Sources & map notes</summary><p>Illustrations are original sketches, not photographs. Pins are approximate; the Obudu pin marks the plateau area.</p>
-    ${stop.sources.map(id => { const s = j.sources[id]; return `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)} ↗</a>${s.note ? `<p>${esc(s.note)}</p>` : ""}`; }).join("")}</details>`;
+    ${stop.sources.map(id => { const s = j.sources[id]; return `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)} ↗</a>${s.note ? `<p>${esc(s.note)}</p>` : ""}`; }).join("")}<p>Content edition ${j.version} · editorial pass ${esc(stop.editorialDate || "2026-10-31")}. Geographic facts, illustrative examples and personal reflections serve different purposes.</p></details>`;
 }
 function journeyScene(stop) {
   const shapes = {
@@ -100,7 +117,7 @@ function journeyMap(task, cursor) {
     else if (!task) visitJourneyStop(d.index);
   };
   const markers = G.journey.selectAll("g").data(journeyMarkerData, d=>d.stop.id).join("g").attr("class", d => `journey-marker${!task && d.index === (cursor.stop || 0) ? " active" : ""}${!task && !cursor.overview && d.index !== (cursor.stop || 0) ? " quiet" : ""}${task && cursor.answer && d.stop.id === task.stop.id ? " correct" : ""}${task && cursor.answer && !cursor.answer.ok && d.stop.id === cursor.answer.choice ? " incorrect" : ""}`)
-    .attr("tabindex", task && cursor.answer ? -1 : 0).attr("role", "button").attr("aria-label", d => task ? `Choose marker ${d.letter}` : `Visit ${d.stop.name}`)
+    .attr("tabindex", task && (cursor.answer || task.type!=="location") ? -1 : 0).attr("role", task && task.type!=="location" ? "img" : "button").attr("aria-label", d => task ? task.type==="location" ? `Choose marker ${d.letter}` : d.stop.name : `Visit ${d.stop.name}`)
     .on("click", (e,d) => {e.stopPropagation();click(d);}).on("keydown", (e,d)=>{if(e.key === "Enter" || e.key === " "){e.preventDefault();e.stopPropagation();click(d);}});
   markers.selectAll("*").remove();
   markers.append("line"); markers.append("circle").attr("class","anchor"); markers.append("circle").attr("class","hit-area").attr("fill","transparent");
@@ -139,8 +156,9 @@ function showJourneyCursor() {
   journeyLayout(false); journeyMap(null,c);
   setPanel(`${journeyNavigation(c.stop)}<div class="eyebrow">${esc(stop.name)} · ${esc(stop.region)}</div><h2>${esc(stop.title)}</h2>
     <p class="lede">${esc(stop.story)}</p>
-    <div class="btnrow"><button class="btn primary" data-act="jchallenge">Try two challenges</button><button class="btn" data-act="jnextstop">${c.stop < 4 ? "Read on to the next stop" : "Rebuild the journey"}</button></div>
+    <div class="btnrow"><button class="btn primary" data-act="jchallenge">Try ${stop.tasks.length} challenges</button><button class="btn" data-act="jnextstop">${c.stop < 4 ? "Read on to the next stop" : "Rebuild the journey"}</button></div>
     ${journeyScene(stop)}<div class="field-note"><b>Look at the map</b><p>${esc(stop.notice)}</p><button class="btn" data-act="jmap">Show the five stops</button></div>
+    ${stop.connection ? `<section class="story-connection"><h4>${esc(stop.connection.title)}</h4><p>${esc(stop.connection.text)}</p></section>` : ""}
     <details class="journey-detail"><summary>A little deeper</summary>${stop.deeper.map(p=>`<p>${esc(p)}</p>`).join("")}</details>
     <div class="mm"><h4>Carry this with you</h4><p>${esc(stop.memory)}</p></div>
     <label for="journey-note"><b>Your field note</b><br>${esc(stop.reflection)}</label><textarea class="journey-note" id="journey-note" data-jnote="${stop.id}" maxlength="600" placeholder="A thought, a memory, or somewhere you would like to go…">${esc(r.notes[stop.id] || "")}</textarea>
@@ -157,7 +175,8 @@ function currentJourneyTask() {
     const stopId = r.recap.order[r.recap.index];
     return journeyTasks().find(t=>t.stop.id === stopId && t.type === "location");
   }
-  return journeyTasks().find(t=>t.stopIndex === c.stop && t.id === journeyData().stops[c.stop].tasks[c.task || 0].id);
+  const local=journeyData().stops[c.stop]?.tasks[c.task || 0];
+  return local ? journeyTasks().find(t=>t.stopIndex===c.stop && t.id===local.id) : null;
 }
 function journeyQuestion() {
   const r = journeyRecord(), c = r.cursor, task = currentJourneyTask();
@@ -167,8 +186,10 @@ function journeyQuestion() {
   c.order = c.order || shuffle(task.options ? task.options.map((_,i)=>i) : []); store.set(saved);
   const recap = c.view === "recap", review = c.view === "review";
   const title = recap ? "Put the places back" : review ? "Journey review" : `Try it · ${task.stop.name}`;
-  const progress = recap ? `${r.recap.index+1} of 5 places` : review ? `${r.review.index+1} of ${r.review.queue.length}` : `Challenge ${(c.task || 0)+1} of 2`;
+  const progress = recap ? `${r.recap.index+1} of 5 places` : review ? `${r.review.index+1} of ${r.review.queue.length}` : `Challenge ${(c.task || 0)+1} of ${task.stop.tasks.length}`;
+  const pickClass=i=>!c.answer?"":task.type==="order"?((c.selected || []).indexOf(i)===task.answer.indexOf(i)?"right":"wrong"):task.answer.includes(i)?"right":(c.selected || []).includes(i)?"wrong":"";
   const choices = task.type === "location" ? `<p>Choose a marker on the map, or its letter below. Leader lines point to each place.</p><div class="journey-choices">${c.choices.map((id,i)=>`<button data-janswer="${id}" ${c.answer ? "disabled" : ""} class="${c.answer && id === task.stop.id ? "right" : c.answer && id === c.answer.choice && !c.answer.ok ? "wrong" : ""}" aria-label="Choose marker ${String.fromCharCode(65+i)}">${String.fromCharCode(65+i)}</button>`).join("")}</div>` :
+    Array.isArray(task.answer) ? `<p>${task.type==="order"?"Tap the items in order. Tap a selected item to remove it.":"Choose all the matching answers, then check."}</p><div class="opts journey-picks">${c.order.map(i=>`<button data-jtoggle="${i}" aria-pressed="${(c.selected || []).includes(i)}" ${c.answer?"disabled":""} class="${pickClass(i)}">${esc(task.options[i])}${task.type==="order" && (c.selected || []).includes(i)?`<span class="pick-order">${c.selected.indexOf(i)+1}</span>`:""}</button>`).join("")}</div>${!c.answer?`<button class="btn primary" data-act="jcheck" ${!c.selected?.length?"disabled":""}>Check answer</button>`:""}` :
     `<div class="opts">${c.order.map(i=>`<button data-janswer="${i}" ${c.answer ? "disabled" : ""} class="${c.answer && i === task.answer ? "right" : c.answer && String(i) === c.answer.choice && !c.answer.ok ? "wrong" : ""}">${esc(task.options[i])}</button>`).join("")}</div>`;
   setPanel(`<div class="journey-task"><div class="journey-top"><button class="back" data-mode-go="journeys">← Journey overview</button><span>${progress}</span></div>
     <div class="eyebrow">${esc(title)}</div><h2 class="q">${esc(task.question)}</h2>${choices}
@@ -181,9 +202,10 @@ function journeyAnswer(choice) {
   const r = journeyRecord(), c = r.cursor;
   if (!["task","recap","review"].includes(c.view) || c.answer) return;
   const task = currentJourneyTask(); if (!task) return;
-  const valid = task.type === "location" ? journeyData().stops.some(s=>s.id === choice) : task.options.some((_,i)=>String(i) === String(choice));
+  const picked=Array.isArray(task.answer) && String(choice).length ? String(choice).split(",").map(Number) : [];
+  const valid = task.type === "location" ? journeyData().stops.some(s=>s.id === choice) : Array.isArray(task.answer) ? picked.length>0 && new Set(picked).size===picked.length && picked.every(i=>Number.isInteger(i) && task.options[i]!=null) : task.options.some((_,i)=>String(i) === String(choice));
   if (!valid) return;
-  const ok = task.type === "location" ? choice === task.stop.id : Number(choice) === task.answer;
+  const ok = task.type === "location" ? choice === task.stop.id : Array.isArray(task.answer) ? JSON.stringify(task.type==="order"?picked:[...picked].sort((a,b)=>a-b))===JSON.stringify(task.type==="order"?task.answer:[...task.answer].sort((a,b)=>a-b)) : Number(choice) === task.answer;
   c.answer = {choice:String(choice),ok};
   const record = r.tasks[task.id] = r.tasks[task.id] || {attempts:0,correct:0,assisted:0};
   record.attempts++; record.correct += ok ? 1 : 0; record.assisted += c.hint ? 1 : 0;
@@ -227,7 +249,7 @@ function nextJourneyQuestion() {
     if (r.review.index >= r.review.queue.length) { r.cursor = {view:"review-result",stop:0}; store.set(saved); return showJourneyCursor(); }
     return prepareJourneyQuestion("review",0,0);
   }
-  if ((c.task || 0) === 0) prepareJourneyQuestion("task",c.stop,1); else nextJourneyStop();
+  if ((c.task || 0)+1 < journeyData().stops[c.stop].tasks.length) prepareJourneyQuestion("task",c.stop,(c.task || 0)+1); else nextJourneyStop();
 }
 function startJourneyReview(practice=false) {
   const tasks = practice ? journeyTasks() : journeyDue();
@@ -247,7 +269,7 @@ function journeyJournal() {
   const practised = journeyTasks().filter(t=>(r.tasks[t.id]?.attempts || 0) > 0).length;
   const recalled = journeyTasks().filter(t=>{const q=saved.srs[journeyTaskKey(t)];return q && q.recalled && q.b>=1;}).length;
   setPanel(`<div class="eyebrow">Your field journal</div><h2>${esc(j.title)}</h2>${r.completedDay != null ? '<div class="journal-stamp">NIGERIA · JOURNEY EXPLORED</div>' : ""}
-    <p>${visited.length} of 5 places explored · ${practised} of 10 stop challenges tried.</p><p class="src">${recalled} of 10 skills recalled in later scheduled reviews.</p>
+    <p>${visited.length} of 5 places explored · ${practised} of ${journeyTasks().length} stop challenges tried.</p><p class="src">${recalled} of ${journeyTasks().length} skills recalled in later scheduled reviews.</p><p class="editor-note">Edition ${j.version}: ${esc(j.editorial?.summary || "Original field notes")}</p>
     ${r.recap ? `<p>Last map reconstruction: ${Object.values(r.recap.answers).filter(Boolean).length} places found without hints, from ${Object.keys(r.recap.answers).length} attempted. This records practice, not lasting mastery.</p>` : ""}
     ${journeyReviewCard()}${visited.length ? visited.map(s=>`<article class="journal-entry"><div class="eyebrow">${esc(s.theme)}</div><h3>${esc(s.name)}</h3><p>${esc(s.memory)}</p>${r.notes[s.id] ? `<blockquote>${esc(r.notes[s.id])}</blockquote>` : '<p class="src">Your own field note can start with a question.</p>'}<button class="btn" data-jvisit="${j.stops.indexOf(s)}">Revisit & add a note</button></article>`).join("") : '<p>Your first entry starts in Lagos. Choose a stop and notice something new.</p>'}
     <div class="btnrow"><button class="btn primary" data-jvisit="0">${visited.length ? "Explore the stops again" : "Start in Lagos"}</button>${visited.length === 5 ? '<button class="btn" data-act="jrecap">Rebuild the map again</button>' : ""}<button class="btn" data-act="jpractice">Practise all skills</button></div>
@@ -258,6 +280,7 @@ ACT.jresume = () => { if (!journeyData()) return; if (S.mode !== "journeys") set
 ACT.jjournal = () => { if (S.mode !== "journeys") setMode("journeys",true); journeyRecord().cursor = {view:"journal",stop:0}; showJourneyCursor(); };
 ACT.jchallenge = () => prepareJourneyQuestion("task",journeyRecord().cursor.stop,0);
 ACT.jhint = () => { const c = journeyRecord().cursor; if (c.answer) return; c.hint = true; store.set(saved); journeyQuestion(); };
+ACT.jcheck = () => journeyAnswer((journeyRecord().cursor.selected || []).join(","));
 ACT.jnextstop = nextJourneyStop;
 ACT.jnextquestion = nextJourneyQuestion;
 ACT.jrecap = beginJourneyRecap;
@@ -269,6 +292,14 @@ ACT.jmap = () => { if (matchMedia("(max-width: 860px)").matches) { setMapHeight(
 panel.addEventListener("click", e=>{
   const visit = e.target.closest("[data-jvisit]"); if (visit) visitJourneyStop(Number(visit.dataset.jvisit));
   const answer = e.target.closest("[data-janswer]"); if (answer && !answer.disabled) journeyAnswer(answer.dataset.janswer);
+  const toggle=e.target.closest("[data-jtoggle]");if(toggle && !toggle.disabled) {
+    const c=journeyRecord().cursor,i=Number(toggle.dataset.jtoggle);c.selected=c.selected || [];
+    c.selected=c.selected.includes(i)?c.selected.filter(n=>n!==i):[...c.selected,i];store.set(saved);
+    const task=currentJourneyTask();panel.querySelectorAll("[data-jtoggle]").forEach(b=>{
+      const n=Number(b.dataset.jtoggle);b.setAttribute("aria-pressed",String(c.selected.includes(n)));b.querySelector(".pick-order")?.remove();
+      if(task.type==="order" && c.selected.includes(n)){const span=document.createElement("span");span.className="pick-order";span.textContent=c.selected.indexOf(n)+1;b.appendChild(span);}
+    });const check=panel.querySelector("[data-act=jcheck]");if(check)check.disabled=!c.selected.length;
+  }
 });
 panel.addEventListener("input", e=>{ if (!e.target.matches("[data-jnote]")) return;
   journeyRecord().notes[e.target.dataset.jnote] = e.target.value.slice(0,600); store.set(saved);

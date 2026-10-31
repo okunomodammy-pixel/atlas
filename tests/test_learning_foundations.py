@@ -38,7 +38,7 @@ with sync_playwright() as pw:
               "lastLesson": "learn", "theme": "dark", "welcomed": 1, "mastered": {"learn": 20000},
               "srs": {"learn1": {"b": 3, "d": 99999, "w": 2}}, "custom": "keep me"}
     ctx, p, errors = open_app(b, legacy)
-    state = p.evaluate("JSON.parse(localStorage.getItem('mma.v1'))")
+    state = p.evaluate("JSON.parse(localStorage.getItem(store.key))")
     check("old progress migrates without losing scores, passes, review dates or extra fields",
           all(state[k] == v for k, v in legacy.items()) and state["checks"] == legacy["mastered"] and state["schemaVersion"] == 2)
     check("an old three-question pass is not reclassified as delayed recall", not p.evaluate("remembered('learn')"))
@@ -145,7 +145,7 @@ with sync_playwright() as pw:
     init = """window.failSaves = true;
     const originalSet = Storage.prototype.setItem;
     Storage.prototype.setItem = function(k, v) {
-      if (k === 'mma.v1' && window.failSaves) throw new DOMException('full', 'QuotaExceededError');
+      if (k === 'mma.explorers.v1' && window.failSaves) throw new DOMException('full', 'QuotaExceededError');
       return originalSet.call(this, k, v);
     };"""
     ctx, p, errors = open_app(b, legacy, init)
@@ -153,7 +153,7 @@ with sync_playwright() as pw:
     p.evaluate("markSeen('392'); window.failSaves = false")
     p.click("#save-retry")
     check("retry writes current progress and clears the warning",
-          not p.is_visible("#save-warning") and p.evaluate("JSON.parse(localStorage.getItem('mma.v1')).seen.includes('392')"))
+          not p.is_visible("#save-warning") and p.evaluate("JSON.parse(localStorage.getItem(store.key)).seen.includes('392')"))
     ctx.close()
     ctx, p, errors = open_app(b, init="localStorage.setItem('mma.v1', '{broken original');")
     p.evaluate("markSeen('566')")
