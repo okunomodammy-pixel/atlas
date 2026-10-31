@@ -7,8 +7,9 @@ inside it, so it works offline. Everything needed to rebuild that file is in thi
 
 ```
 index.html, sw.js, manifest.webmanifest, icon-*.png, og.png   the deployed site (unchanged)
-src/index.html            the app source: markup, styles and all scripts
-src/data/*.json           the nine data files embedded into the build
+src/index.html            app markup, shared map styles and core scripts
+src/journeys.js, journeys.css   guided journey interface, map tasks and field journal
+src/data/*.json           map and learning data embedded into the build
 build/dist.py             src/ -> out/dist/index.html and out/standalone/Mental-Map-Atlas.html
 build/build_data.py       rebuilds world, facts, physical, cities, nigeria, hist .json
 build/build_econ.py       rebuilds econ.json (currencies)
@@ -37,6 +38,7 @@ npm ci
 python3 build/dist.py              # writes out/
 python3 tests/smoke.py             # needs: pip install playwright (and its Chromium)
 python3 tests/test_learning_foundations.py   # quiz exits, old saves, delayed recall, focus, phone controls
+python3 tests/test_journeys.py      # full journey, map input, notes, resuming, hints, later review, offline
 python3 tests/test_atlas_pipeline.py   # the atlas with pipeline figures, fallbacks, stale data, offline
 python3 build/verify.py            # optional: proves the build and data are reproducible
 ```
@@ -88,5 +90,3 @@ same locally: build, test, refresh `index.html` and the offline cache name in `s
 - **Eight early test scripts** (tests/legacy: t1, t2, t4 to t9) click a top tab bar that was replaced
   in the v9 redesign. They stop at the same point on the build from before the move, so this is not
   new breakage. `tests/smoke.py` covers the same ground with the current controls.
-- The README and the page description still say "seven-lesson course"; the course has 11 lessons.
-  Left as is in this phase.

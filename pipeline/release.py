@@ -25,7 +25,7 @@ def main(argv):
     report = {"tests": "skipped" if "--no-tests" in argv else None, "changed": False}
     if run("build/dist.py"): raise SystemExit("build failed")
     if "--no-tests" not in argv:
-        failed = [t for t in ("tests/smoke.py", "tests/test_learning_foundations.py", "tests/test_atlas_pipeline.py", "tests/test_nigeria.py") if run(t)]
+        failed = [t for t in ("tests/smoke.py", "tests/test_learning_foundations.py", "tests/test_journeys.py", "tests/test_atlas_pipeline.py", "tests/test_nigeria.py") if run(t)]
         report["tests"] = "failed: " + ", ".join(failed) if failed else "passed"
         if failed:
             json.dump(report, open(os.path.join(R, "out", "release.json"), "w"), indent=1)
