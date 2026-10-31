@@ -440,6 +440,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
 
 @media (max-width: 520px) { .legend { font-size: 11px; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 2px; max-width: 72%; }
   .legend .lgt, .legend .lgn, .legend .lgd, .legend .lgk, .legend .lgb { grid-column: 1 / -1; } }
+/* __JOURNEYS_CSS__ */
 </style>
 
 <div class="app" id="app">
@@ -661,6 +662,7 @@ function updateLabelScale() {
   [["countrylabels", 11.5], ["tzlabels", 12], ["histlabels", 11], ["seas", 11], ["phys", 10], ["cities", 11], ["stateslabels", 11], ["pinlab", 12]].forEach(([g, b]) => G[g] && G[g].style("font-size", (b / k) + "px"));
   G.pins.selectAll("circle").attr("r", 5 / k); G.cities.selectAll("circle").attr("r", d => (d.cap ? 2.6 : 2) / k);
   G.tiny.selectAll("circle").attr("r", 4 / k);
+  if (typeof drawJourneyMarkers === "function") drawJourneyMarkers();
   const level = Math.floor(Math.log2(S.k * (S.proj === "globe" ? 1.4 : 1)));
   if (level !== lastLevel) { lastLevel = level; labelVisibility(); } }
 
@@ -3275,14 +3277,14 @@ if (saved.schemaVersion !== 2) {
   Object.entries(saved.mastered || {}).forEach(([id, day]) => { if (saved.checks[id] == null) saved.checks[id] = day; });
   saved.schemaVersion = 2;
 }
-function grade(id, ok) { const today = DAY(), previous = saved.srs[id], r = previous || {b: -1, d: 0, w: 0};
-  const advanced = ok && (!previous || (r.d <= today && r.lastDay !== today));
+function grade(id, ok, opts = {}) { const today = DAY(), previous = saved.srs[id], r = previous || {b: -1, d: 0, w: 0};
+  const advanced = ok && !opts.assisted && (!previous || (r.d <= today && r.lastDay !== today));
   if (advanced) { r.recalled = r.b >= 0; r.b = Math.min(r.b + 1, BOX_DAYS.length - 1); r.d = today + BOX_DAYS[r.b]; }
-  else if (!ok) { r.b = -1; r.d = today + 1; r.w++; r.recalled = false; }
+  else if (!ok || opts.assisted) { r.b = -1; r.d = today + 1; r.w += ok ? 0 : 1; r.recalled = false; }
   r.lastDay = today; r.lastCorrect = ok; saved.srs[id] = r; store.set(saved); return {...r, advanced}; }
 const dueItems = () => QB.filter(q => saved.srs[q.id] && saved.srs[q.id].d <= DAY());
 const dueCount = () => dueItems().length;
-function nextDue() { const ds = Object.values(saved.srs).map(r => r.d).filter(d => d > DAY()); return ds.length ? Math.min(...ds) : null; }
+function nextDue() { const ds = QB.map(q => saved.srs[q.id]).filter(Boolean).map(r => r.d).filter(d => d > DAY()); return ds.length ? Math.min(...ds) : null; }
 const whenTxt = d => { const n = d - DAY(); return n <= 0 ? "today" : n === 1 ? "tomorrow" : `in ${n} days`; };
 function remembered(l) { const qs = QB.filter(q => q.l === l);
   return qs.length > 0 && qs.every(q => { const r = saved.srs[q.id]; return r && r.recalled && r.b >= 1; }); }
@@ -4402,10 +4404,10 @@ const COURSE = [
   ["politics", "World politics on the map", "Sovereignty, power, geopolitics, blocs and the theories behind them"],
   ["money", "Money and economies on the map", "Currencies, the CFA franc and the Eco, the naira, GDP and what economies sell"]];
 const COURSE_IDS = COURSE.map(c => c[0]);
-const NAV_LABEL = {explore: "Explore", course: "the course", quiz: "Play", tools: "Tools", about: "About"};
+const NAV_LABEL = {explore: "Explore", journeys: "Journeys", course: "the course", quiz: "Play", tools: "Tools", about: "About"};
 COURSE.forEach(([id, n]) => NAV_LABEL[id] = n);
 saved.lessons = saved.lessons || {};
-const groupOf = m => COURSE_IDS.includes(m) || m === "course" ? "learn" : m;
+const groupOf = m => COURSE_IDS.includes(m) || m === "course" ? "learn" : m === "journeys" ? "explore" : m;
 const shortNum = n => n >= 1e9 ? (n / 1e9).toFixed(n >= 1e10 ? 0 : 2) + " billion" : n >= 1e6 ? (n / 1e6).toFixed(n >= 1e8 ? 0 : 1) + " million" : fmt(n);
 const UNKEYS = () => Object.keys(D.facts).filter(k => D.facts[k].un || D.facts[k].obs);
 
@@ -4467,7 +4469,7 @@ MODES.explore = () => { resetView();
   const cd = countryOfDay(), cf = cd && byKey.get(cd), cp = cf && PROFILES[cf.c3];
   const li = saved.lastLesson ? COURSE_IDS.indexOf(saved.lastLesson) : -1;
   const games = Object.keys(saved.best).length;
-  setPanel(`<h2>Explore the map</h2>
+  setPanel(`${journeyHomeCard()}<h2>Explore the map</h2>
   <p>Tap any country on the map, or search above. Every country opens a page with its neighbours, so you can walk across the world one border at a time.</p>
   ${reviewCard()}
   ${li >= 0 ? `<div class="card accent"><h4>Continue the course</h4><p style="margin:0">Lesson ${li + 1} of ${COURSE.length}: <b>${esc(COURSE[li][1])}</b></p><button class="btn primary go" data-mode-go="${COURSE[li][0]}">Continue</button></div>` : ""}
@@ -4537,6 +4539,7 @@ function showWelcome(isHelp) {
     <h2 id="dlgT">${isHelp ? "How to use the atlas" : "Welcome to the Mental Map Atlas"}</h2>
     <p>The goal is a map of the world you can see with your eyes closed: where each country sits, what borders it, and why that matters.</p>
     <div class="cards">
+      <button class="cardbtn wide" data-dlg="journeys"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg><b>Meet Nigeria again</b><span>Five places, stories and map challenges. Begin a journey through home.</span></button>
       <button class="cardbtn" data-dlg="explore"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg><b>Explore</b><span>Tap countries and walk across borders</span></button>
       <button class="cardbtn" data-dlg="course"><svg class="ic" aria-hidden="true"><use href="#i-learn"/></svg><b>Learn</b><span>${COURSE.length} lessons that build the picture</span></button>
       <button class="cardbtn" data-dlg="quiz"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><b>Play</b><span>Test what has stuck</span></button>
@@ -4559,7 +4562,7 @@ $("#helpbtn").addEventListener("click", () => showWelcome(true));
 
 /* Phone: lessons start with room to read; explicit controls also work with a keyboard. */
 function readingLayout(mode) { const root = document.documentElement;
-  const reading = COURSE_IDS.includes(mode) || mode === "course" || mode === "about";
+  const reading = COURSE_IDS.includes(mode) || mode === "course" || mode === "about" || mode === "journeys";
   const changed = root.dataset.reading !== String(reading) || root.style.getPropertyValue("--mh");
   const main = $("#main"), transition = main.style.transition; main.style.transition = "none";
   root.dataset.reading = String(reading); root.style.removeProperty("--mh");
@@ -4600,6 +4603,7 @@ async function boot() {
     try { D.econ = await get("econ"); } catch (e) { D.econ = null; }
     try { D.now = await get("now"); } catch (e) { D.now = null; }
     try { D.pl = await get("pipeline"); } catch (e) { D.pl = null; }
+    try { D.journeys = await get("journeys"); } catch (e) { D.journeys = null; }
   } catch (e) { $("#loading").textContent = "The map data did not load. Reload the page to try again."; return; }
   Object.entries(D.facts).forEach(([k, f]) => { byKey.set(k, f); byC3.set(f.c3, k); }); applyWPP(); plApply();
   buildMap(); render(); $("#loading").hidden = true; IDX = searchIndex();
@@ -4629,6 +4633,9 @@ document.addEventListener("keydown", e => {
 let rz, lastSize = [0, 0]; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(refit, 200); });
 var refit = function (force) { if (force) lastSize = [0, 0]; const r = $("#mapwrap").getBoundingClientRect();
   if (Math.abs(r.width - lastSize[0]) < 2 && Math.abs(r.height - lastSize[1]) < 90) return; // phone URL bar showing/hiding: keep the view
-  lastSize = [r.width, r.height]; const keep = S.proj; sizeMap(); setProjection(keep); paint(); if (S.sel && featByKey.has(S.sel)) flyTo(featByKey.get(S.sel), {duration: 0}); }
+  lastSize = [r.width, r.height]; const keep = S.proj; sizeMap(); setProjection(keep); paint();
+  if (S.mode === "journeys" && typeof fitJourneyMap === "function") fitJourneyMap();
+  else if (S.sel && featByKey.has(S.sel)) flyTo(featByKey.get(S.sel), {duration: 0}); }
+/* __JOURNEYS_JS__ */
 boot();
 </script>

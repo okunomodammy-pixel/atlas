@@ -1,0 +1,92 @@
+{
+  "id": "nigeria-again",
+  "version": 1,
+  "title": "Meet Nigeria again",
+  "subtitle": "Five places. Five different ways to see home.",
+  "intro": "Follow water, city streets, cloth and high ground. Notice how places connect, then try putting them back on the map yourself. Take your time: every stop has a short story and an optional deeper look.",
+  "routeNote": "The dashed line connects our stops. It is a learning journey, not a road itinerary.",
+  "sources": {
+    "natural-earth": {"name": "Natural Earth: populated places, rivers and state boundaries", "url": "https://www.naturalearthdata.com/downloads/", "note": "The atlas's existing map datasets. City pins are approximate centres; the Obudu pin indicates the plateau area rather than Obudu town."},
+    "lagos": {"name": "Lagos Lagoon — geographic background", "url": "https://en.wikipedia.org/wiki/Lagos_Lagoon"},
+    "ibadan": {"name": "Ibadan — city and historical background", "url": "https://en.wikipedia.org/wiki/Ibadan"},
+    "oyo": {"name": "Oyo State Government — state background", "url": "https://oyostate.gov.ng/about-oyo-3/"},
+    "lokoja": {"name": "Kogi State Government — the confluence state", "url": "https://kogistate.gov.ng/"},
+    "kano": {"name": "Kofar Mata Dye Pits — craft background", "url": "https://en.wikipedia.org/wiki/Kofar_Mata_Dye_Pits"},
+    "kano-history": {"name": "Kano — trade and historical background", "url": "https://en.wikipedia.org/wiki/Kano"},
+    "obudu": {"name": "Obudu Plateau — geographic background", "url": "https://en.wikipedia.org/wiki/Obudu_Plateau"},
+    "cross-river": {"name": "Cross River State Government", "url": "https://crossriverstate.gov.ng/"},
+    "altitude": {"name": "UCAR Center for Science Education — the troposphere", "url": "https://scied.ucar.edu/learning-zone/atmosphere/troposphere"}
+  },
+  "stops": [
+    {
+      "id": "lagos", "name": "Lagos", "region": "Lagos State · south-west", "coordinate": [3.39, 6.45], "offset": [-22, 20], "scene": "lagoon", "theme": "Water & movement",
+      "title": "A city with water between its neighbourhoods",
+      "story": "Before you picture traffic, picture water. Lagos grew around islands, a lagoon and the Atlantic coast. A bridge or a boat journey is a reminder that the blue parts of a map can shape a city's daily life just as much as its streets.",
+      "notice": "Find the sea south of Lagos. Then follow the coast with your eyes: this is the edge of a much larger West African coastline.",
+      "deeper": ["A lagoon is a coastal body of water partly separated from the open sea. On a small world map its channels and islands can disappear. Zooming in changes the questions you can ask about a place.", "Lagos is on Nigeria's south-western coast, near Benin. It is not Nigeria's capital: Abuja is inland. Keep both places in your mental map rather than letting the best-known city stand for the whole country."],
+      "memory": "Lagos: lagoon and Atlantic coast, in the south-west.",
+      "reflection": "What journey across water would you like to make here?",
+      "sources": ["natural-earth", "lagos"],
+      "tasks": [
+        {"id": "lagos-locate", "type": "location", "skill": "location", "question": "Find Lagos among the five marked places.", "hint": "Look for the south-western stop nearest the Atlantic coast. Ibadan is a little farther inland.", "explanation": "Lagos is the coastal stop in the south-west. Ibadan lies farther north and inland."},
+        {"id": "lagos-water", "type": "choice", "skill": "landscape", "question": "Which pair belongs in your first mental picture of Lagos?", "options": ["Lagoon and Atlantic coast", "Desert dunes and an inland oasis", "A high plateau beside Cameroon"], "answer": 0, "hint": "Start with the water around the city, rather than its traffic.", "explanation": "Lagos sits around a lagoon and the Atlantic coast. This helps explain why islands, bridges and water routes matter."}
+      ]
+    },
+    {
+      "id": "ibadan", "name": "Ibadan", "region": "Oyo State · south-west", "coordinate": [3.928, 7.382], "offset": [-14, -24], "scene": "roofs", "theme": "City & connections",
+      "title": "The coast is only the beginning",
+      "story": "Move inland from Lagos to Ibadan. You are still in the south-west, but the lagoon is no longer the city's organising feature. Picture a city spreading across hills: homes, markets and places of learning connected to a wider region. Nigeria's urban story has many centres.",
+      "notice": "Compare the two south-western pins. Ibadan is north and a little east of Lagos. A small movement on a national map can take you into a different city landscape.",
+      "deeper": ["Ibadan is the capital of Oyo State. Its rise during the nineteenth-century Yoruba conflicts is part of the history behind today's settlement pattern; cities do not arrive on maps fully formed.", "A national map helps you place the city. A street map would help you ask different questions: where people meet, how neighbourhoods connect, or which hill offers a view. Neither scale tells the whole story."],
+      "memory": "Ibadan: inland and north of Lagos, in Oyo State.",
+      "reflection": "Which part of a city helps you feel you know it: a market, a view, a campus, or a neighbourhood?",
+      "sources": ["natural-earth", "ibadan", "oyo"],
+      "tasks": [
+        {"id": "ibadan-locate", "type": "location", "skill": "location", "question": "Find Ibadan, the inland south-western stop.", "hint": "Find Lagos first, then move a little north and east. The two close pins have leader lines to their exact map positions.", "explanation": "Ibadan is the inland stop just north-east of Lagos. Both are in the south-west; their relationship is a useful anchor."},
+        {"id": "ibadan-direction", "type": "choice", "skill": "direction", "question": "From Lagos, which direction takes you towards Ibadan?", "options": ["North-east, inland", "South, out into the Atlantic", "North-west, across Benin"], "answer": 0, "hint": "Read the two pins: Ibadan is higher on the map and slightly to the right.", "explanation": "Ibadan lies north and a little east of Lagos. The map shows their positions, not a recommended road route."}
+      ]
+    },
+    {
+      "id": "lokoja", "name": "Lokoja", "region": "Kogi State · north-central", "coordinate": [6.74, 7.8], "offset": [0, 0], "scene": "rivers", "theme": "Rivers & meeting places",
+      "title": "Two rivers, one meeting",
+      "story": "At Lokoja, the Niger and Benue meet. Trace each river upstream and the town becomes part of a much larger picture: water arriving from different directions, then continuing south through one connected system. A river junction can be a powerful way to remember a place.",
+      "notice": "Follow the Niger towards the north-west and the Benue towards the east. Their meeting makes the familiar Y in Nigeria's river map.",
+      "deeper": ["The Niger enters Nigeria from Niger Republic. The Benue arrives from Cameroon. Below their confluence, the combined flow continues towards the Niger Delta and the Gulf of Guinea.", "A river basin links places that may look separate on a political map. Water, farming and flooding connect communities upstream and downstream. The map's state boundaries are only one way to divide the landscape."],
+      "memory": "Lokoja: the meeting of the Niger and Benue.",
+      "reflection": "What might two communities on the same river share, even if a state boundary separates them?",
+      "sources": ["natural-earth", "lokoja"],
+      "tasks": [
+        {"id": "lokoja-locate", "type": "location", "skill": "location", "question": "Find Lokoja, near the meeting of the two great rivers.", "hint": "Look near the middle of our five-stop map, east of Ibadan and south of Kano. Follow the rivers towards their meeting.", "explanation": "Lokoja is the central stop where the Niger and Benue meet. The river junction is a stronger clue than remembering a dot alone."},
+        {"id": "lokoja-rivers", "type": "choice", "skill": "river-systems", "question": "Which two rivers meet at Lokoja?", "options": ["Niger and Benue", "Nile and Congo", "Niger and Senegal"], "answer": 0, "hint": "One gives Nigeria its name; the other enters the country from Cameroon.", "explanation": "The Niger and Benue meet at Lokoja. Their combined flow continues south towards the Niger Delta."}
+      ]
+    },
+    {
+      "id": "kano", "name": "Kano", "region": "Kano State · north-west", "coordinate": [8.52, 12.0], "offset": [0, 0], "scene": "cloth", "theme": "Trade & craft",
+      "title": "Cloth can carry a city's history",
+      "story": "A piece of dyed cloth offers another way into Kano. Its long history of trade and textile work connects a northern city to skills, materials and routes beyond its walls. The Kofar Mata dye pits are one place to begin that story. Geography is also what people make and exchange.",
+      "notice": "Kano is the northernmost stop in this journey. Look back towards the coast: a country's connections run across its interior as well as along its edges.",
+      "deeper": ["Kano was one of the Hausa city-states and a trading centre connected to Saharan routes. Craft and commerce belong in its history alongside kingdoms and political boundaries.", "Indigo dyeing is associated with the Kofar Mata dye pits. A short field note cannot represent every maker or neighbourhood. Let the map introduce the place, then seek out the people who can tell their own stories."],
+      "memory": "Kano: the northern stop, with a long story of trade and textile craft.",
+      "reflection": "Which craft from your own home tells a story about the people and places connected to it?",
+      "sources": ["natural-earth", "kano", "kano-history"],
+      "tasks": [
+        {"id": "kano-locate", "type": "location", "skill": "location", "question": "Find Kano, the northernmost of our five stops.", "hint": "Go furthest north among the five markers. Kano is well inland, north of Lokoja.", "explanation": "Kano is the northernmost stop in this journey. It is inland, far from Lagos's coastal setting."},
+        {"id": "kano-craft", "type": "choice", "skill": "culture-place", "question": "Which craft connection did we meet in Kano?", "options": ["Indigo dyeing and textile work", "Lagoon boat-building as our central example", "The meeting of the Niger and Benue"], "answer": 0, "hint": "Think of cloth, colour and the Kofar Mata dye pits.", "explanation": "Kano's textile and indigo-dyeing history connects the city to making and trade. Lokoja supplied our river-junction story."}
+      ]
+    },
+    {
+      "id": "obudu", "name": "Obudu highlands", "region": "Cross River State · south-south", "coordinate": [9.375, 6.4], "offset": [0, 0], "scene": "highlands", "theme": "Height & perspective",
+      "title": "Nigeria rises here",
+      "story": "Turn south-east towards the highlands of Cross River State, near Cameroon. The Obudu Plateau offers a different first picture of Nigeria: ridges, slopes and high ground. Distance from the Equator is not the only influence on a place's climate. Height matters too.",
+      "notice": "Our pin marks the plateau area, not Obudu town. Compare it with Lagos: both are in southern Nigeria, but one is coastal and the other is high ground near the eastern border.",
+      "deeper": ["A plateau is an elevated area of land. The Obudu highlands are in Cross River State near Cameroon; the surrounding terrain is not represented by a single town-centre pin.", "In the lower atmosphere, temperature generally decreases with height. This is a broad pattern, not a weather forecast: season, rainfall, wind and local conditions still matter. A map of relief can explain things a map of states cannot."],
+      "memory": "Obudu highlands: elevated country in Cross River, near Cameroon.",
+      "reflection": "Which Nigerian landscape would surprise someone who pictured the whole country as one kind of place?",
+      "sources": ["natural-earth", "obudu", "cross-river", "altitude"],
+      "tasks": [
+        {"id": "obudu-locate", "type": "location", "skill": "location", "question": "Find the Obudu highlands, near Cameroon in the south-east of our map.", "hint": "Choose the easternmost of our five stops, near the border with Cameroon. This is the plateau-area pin, not Obudu town.", "explanation": "The Obudu highlands stop lies in Cross River State near Cameroon. Its pin represents the plateau area rather than the town."},
+        {"id": "obudu-height", "type": "choice", "skill": "relief-climate", "question": "Why might high ground feel cooler than nearby lowlands?", "options": ["Temperature generally decreases with height in the lower atmosphere", "Every place near Cameroon has the same weather", "Southern Nigeria is outside the tropics"], "answer": 0, "hint": "Think about altitude, not just latitude.", "explanation": "Temperature generally decreases with altitude in the lower atmosphere. Local weather still varies; this is a geographic pattern, not a forecast."}
+      ]
+    }
+  ]
+}

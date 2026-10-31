@@ -1,6 +1,6 @@
 # Atlas: practical improvement plan
 
-31 October 2026 — approved by the owner in ChatGPT. Stage 1 is being prepared for review; later stages follow the sequence below.
+31 October 2026 — approved by the owner in ChatGPT. Stage 1 is merged; Stage 2 is prepared for review. Later stages follow the sequence below.
 
 ## Product direction
 
