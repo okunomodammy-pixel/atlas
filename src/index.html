@@ -441,6 +441,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
 @media (max-width: 520px) { .legend { font-size: 11px; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 2px; max-width: 72%; }
   .legend .lgt, .legend .lgn, .legend .lgd, .legend .lgk, .legend .lgb { grid-column: 1 / -1; } }
 /* __JOURNEYS_CSS__ */
+/* __FAMILY_CSS__ */
 </style>
 
 <div class="app" id="app">
@@ -471,6 +472,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
     <button data-nav="about"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg><span>About</span></button>
   </nav>
   <div class="actions">
+    <button class="iconbtn" id="explorersbtn" aria-label="Explorers and backups" title="Explorers and backups"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/></svg></button>
     <button class="iconbtn" id="helpbtn" aria-label="How to use the atlas" title="How to use"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7v.5M12 17v.3"/></svg></button>
     <button class="iconbtn" id="themebtn" aria-label="Colour theme" title="Theme: automatic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
   </div>
@@ -537,7 +539,7 @@ button.tile.tb:hover, button.tile.tb:focus-visible { border-color: var(--accent)
   </div>
   <div class="overlay" id="overlay" hidden></div>
   <div class="toast" id="toast" role="status" hidden></div>
-  <div class="save-warning" id="save-warning" role="status" hidden><span id="save-message"></span><button class="btn" id="save-retry">Retry saving</button></div>
+  <div class="save-warning" id="save-warning" role="status" hidden><span id="save-message"></span><button class="btn" id="save-retry">Retry saving</button><button class="btn" id="save-backup">Download session backup</button><button class="btn" id="save-reload">Reload latest save</button></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
@@ -558,22 +560,27 @@ function bearing(a, b) { const r = Math.PI / 180, [l1, p1] = [a[0]*r, a[1]*r], [
 const COMPASS = ["N","NE","E","SE","S","SW","W","NW"];
 const COMPASS_W = {N:"north",NE:"north-east",E:"east",SE:"south-east",S:"south",SW:"south-west",W:"west",NW:"north-west"};
 const compass = b => COMPASS[Math.round(b / 45) % 8];
+/* __EXPLORERS_JS__ */
 const store = {
+  key: "mma.explorers.v1",
   unreadable: false,
-  notice(message) { $("#save-message").textContent = message; $("#save-warning").hidden = false; },
-  get() { try { const raw = localStorage.getItem("mma.v1"), value = raw ? JSON.parse(raw) : {};
+  conflict: false,
+  lastRaw: null,
+  notice(message) { $("#save-message").textContent = message; $("#save-warning").hidden = false; const result=$("#explorer-result");if(result)result.textContent=message; },
+  get() { try { const current = localStorage.getItem(this.key), raw = current == null ? localStorage.getItem("mma.v1") : current, value = raw ? JSON.parse(raw) : {}; this.lastRaw=current;
       if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid progress");
-      return value;
+      if(current!=null && !Object.hasOwn(value,"_explorers"))throw new Error("Invalid explorer collection");
+      return readExplorerProgress(value);
     } catch (e) { this.unreadable = true; this.notice("Saved progress could not be read. Your original save has been left untouched; progress in this session may be lost when you leave."); return {}; } },
-  set(v) { if (this.unreadable) return false;
-    try { localStorage.setItem("mma.v1", JSON.stringify(v)); $("#save-warning").hidden = true; return true; }
-    catch (e) { this.notice("Progress could not be saved on this device. Keep this page open and retry before leaving."); return false; } }
+  set(v) { return writeExplorerBook(explorerBook,v); }
 };
 let saved = store.get(); saved.seen = saved.seen || []; saved.best = saved.best || {};
 $("#save-retry").addEventListener("click", () => {
   if (store.unreadable) { store.notice("Reload when storage is available to recover your original progress. This session has not replaced it."); return; }
   if (store.set(saved)) toast("Progress saved");
 });
+$("#save-backup").addEventListener("click",()=>downloadExplorerBackup(false));
+$("#save-reload").addEventListener("click",()=>location.reload());
 function markSeen(k) { if (!saved.seen.includes(k)) { saved.seen.push(k); store.set(saved); } }
 
 /* ---------- state ---------- */
@@ -604,7 +611,7 @@ const STATUS = {
   ESH: "A disputed territory. Morocco controls most of it and claims all of it; the Sahrawi Arab Democratic Republic, backed by the Polisario Front, also claims it and is a member of the African Union. The UN lists it as a non-self-governing territory.",
   PSE: "A UN non-member observer state since 2012. Many UN member states recognise it, but it is not a UN member, and the territory's borders and control are disputed.",
   UNK: "Kosovo declared independence from Serbia in 2008. Many UN member states recognise it; Serbia and a number of others do not. It is not a UN member.",
-  VAT: "Vatican City is a UN non-member observer state.",
+  VAT: "The Holy See holds UN non-member observer-state status. Vatican City State is the territory mapped here; the two names do not describe exactly the same institution.",
   "Somaliland": "Somaliland declared independence from Somalia in 1991 and runs its own government, but has very limited international recognition. Most of the world treats it as part of Somalia.",
   "N. Cyprus": "Declared in 1983 in the north of Cyprus and recognised only by Türkiye. The rest of the world regards the area as part of the Republic of Cyprus.",
   "Siachen Glacier": "A high-altitude glacier area in the Karakoram claimed by both India and Pakistan; India has controlled it since 1984. Natural Earth draws it separately because of the dispute.",
@@ -986,7 +993,7 @@ const MODES = {
     <p>Change the projection above the map to see how flat maps bend the world, or switch to the globe and drag it.</p>
     <h4>Suggested first walk</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>
     <h4>Your progress</h4><p>${saved.seen.length} of ${Object.values(D.facts).filter(f => f.un || f.obs).length} countries opened${saved.best.loc != null ? ` · best location quiz ${saved.best.loc}/10` : ""}.</p>
-    <p class="src">Counting convention: 193 UN member states plus 2 UN observer states (Vatican City and Palestine) = 195. Territories and places with limited recognition are shown, and labelled as such.</p>`); },
+    <p class="src">Counting convention: 193 UN member states plus 2 UN observer states (Holy See (mapped as Vatican City) and Palestine) = 195. Territories and places with limited recognition are shown, and labelled as such.</p>`); },
   learn() { resetView(); lessonPanel(); },
   regions() { regionsOverview(); },
   africa() { africaMode(); },
@@ -1296,7 +1303,7 @@ function aboutPanel() {
   <li><b>Today's world layers:</b> the list of ongoing armed conflicts as compiled in October 2026 (built on UCDP and ACLED data); the US Geological Survey's Mineral Commodity Summaries 2026; the IMF World Economic Outlook (October 2026) for growth, inflation, current accounts and unemployment; the Energy Institute Statistical Review of World Energy 2026; UN DESA International Migrant Stock 2024; the ND-GAIN Country Index (2026 release).</li>
   <li><b>Nigeria by state:</b> National Bureau of Statistics, Nigeria Multidimensional Poverty Index Survey 2022.</li>
   <li><b>Lessons</b> are written for this atlas, using as guides Blainey's <i>A Very Short History of the World</i>, Ghosh's <i>International Relations</i>, Falola and Heaton's <i>A History of Nigeria</i> and Soyinka's <i>The Open Sore of a Continent</i>, updated with newer research and news to October 2026. Slave-trade figures: the SlaveVoyages database. Nigerian economic figures: CBN and NBS as reported.</li></ul>
-  <p class="src">Counting convention: 193 UN members plus 2 observer states (Vatican City and Palestine). Taiwan, Kosovo, Western Sahara, Somaliland and Northern Cyprus are shown with notes on their status. Some boundaries are drawn as controlled on the ground, which is not a judgement on any claim.</p>
+  <p class="src">Counting convention: 193 UN members plus 2 observer states (Holy See (mapped as Vatican City) and Palestine). Taiwan, Kosovo, Western Sahara, Somaliland and Northern Cyprus are shown with notes on their status. Some boundaries are drawn as controlled on the ground, which is not a judgement on any claim.</p>
 
   ${catalogueHTML()}
   <h3>What is coming, in order of usefulness</h3>
@@ -4487,7 +4494,7 @@ MODES.explore = () => { resetView();
   </div>
   <h4>A first walk across Africa</h4><div class="chips">${["566","204","562","148","120","288","710","818","231"].map(k => `<button class="chip" data-go="${k}">${esc(nameOf(k))}</button>`).join("")}</div>
   <h4>Your progress</h4>${progressBars()}
-  <p class="src">${games ? `Games with a saved best score: ${games}. ` : ""}Progress is saved in this browser only. Counting convention: 193 UN member states plus 2 UN observer states (Vatican City and Palestine) = 195.</p>`); };
+  <p class="src">${games ? `Games with a saved best score: ${games}. ` : ""}Progress is saved in this browser only. Counting convention: 193 UN member states plus 2 UN observer states (Holy See (mapped as Vatican City) and Palestine) = 195.</p>`); };
 
 /* course hub */
 MODES.course = () => { resetView();
@@ -4559,6 +4566,7 @@ $("#overlay").addEventListener("click", e => { const b = e.target.closest("[data
   if (b) { const v = b.dataset.dlg; closeOverlay(); if (v !== "close") setMode(v); return; }
   if (e.target.id === "overlay") closeOverlay(); });
 $("#helpbtn").addEventListener("click", () => showWelcome(true));
+$("#explorersbtn").addEventListener("click", () => explorerSheet());
 
 /* Phone: lessons start with room to read; explicit controls also work with a keyboard. */
 function readingLayout(mode) { const root = document.documentElement;
@@ -4584,12 +4592,6 @@ $("#mapbtn").addEventListener("click", () => { setMapHeight(innerHeight * .58); 
   g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setMapHeight(innerHeight * ($("#mapwrap").getBoundingClientRect().height > innerHeight * .5 ? .25 : .58)); done(); } });
   g.addEventListener("pointercancel", () => { y0 = null; $("#main").style.transition = ""; }); })();
 
-/* installable on GitHub Pages: works offline after the first visit */
-if (/github\.io$/.test(location.hostname)) {
-  try { const l = document.createElement("link"); l.rel = "manifest"; l.href = "manifest.webmanifest"; document.head.appendChild(l);
-    const a = document.createElement("link"); a.rel = "apple-touch-icon"; a.href = "icon-192.png"; document.head.appendChild(a);
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) {} }
-
 /* ---------- boot ---------- */
 async function boot() {
   sizeMap(); projection = makeProjection("equal"); path = d3.geoPath(projection);
@@ -4608,7 +4610,7 @@ async function boot() {
   Object.entries(D.facts).forEach(([k, f]) => { byKey.set(k, f); byC3.set(f.c3, k); }); applyWPP(); plApply();
   buildMap(); render(); $("#loading").hidden = true; IDX = searchIndex();
   lastSize = [$("#mapwrap").getBoundingClientRect().width, $("#mapwrap").getBoundingClientRect().height];
-  routeHash(true); store.set(saved);
+  routeHash(true); store.set(saved); updateExplorerButton(); startOfflineSupport();
   if (!saved.welcomed) showWelcome(); }
 
 document.querySelectorAll("nav.primary button").forEach(b => b.addEventListener("click", () => navGo(b.dataset.nav)));
@@ -4637,5 +4639,7 @@ var refit = function (force) { if (force) lastSize = [0, 0]; const r = $("#mapwr
   if (S.mode === "journeys" && typeof fitJourneyMap === "function") fitJourneyMap();
   else if (S.sel && featByKey.has(S.sel)) flyTo(featByKey.get(S.sel), {duration: 0}); }
 /* __JOURNEYS_JS__ */
+/* __OFFLINE_JS__ */
+/* __CONTENT_JS__ */
 boot();
 </script>

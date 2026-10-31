@@ -1,0 +1,37 @@
+.brand span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+/* A pocket atlas: warm paper, sea glass and little passport stamps. */
+:root { --paper: #F7F3EB; --sea: #D8EAE7; --land: #F0EAD9; --tag: #EDF1E7; --line: #DADDD1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #121C20; --sea: #122F37; --land: #33413B; --tag: #26383B; --line: #38484A; } }
+:root[data-theme="dark"] { --paper: #121C20; --sea: #122F37; --land: #33413B; --tag: #26383B; --line: #38484A; }
+.btn { border-radius: 14px; }
+.btn.primary { box-shadow: 0 3px 0 color-mix(in srgb, var(--accent) 65%, black); }
+.btn.primary:active { transform: translateY(1px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 65%, black); }
+.cardbtn, .explorer-choice { transition: border-color .15s, box-shadow .15s; }
+.cardbtn:hover, .explorer-choice:hover { box-shadow: 0 3px 12px rgb(16 30 36 / .08); }
+.journey-hero { border: 1px solid var(--line); border-radius: 22px 22px 22px 6px; background: radial-gradient(circle at 100% 0, color-mix(in srgb, var(--sel) 17%, transparent), transparent 65%), linear-gradient(135deg, var(--tag), var(--panel)); box-shadow: 0 5px 20px rgb(16 30 36 / .06); }
+.journey-hero .eyebrow { display: inline-block; border: 1px dashed var(--accent); border-radius: 7px; padding: 3px 7px; }
+.story-connection { border-left: 3px solid var(--accent); }
+.journal-entry { border-radius: 18px 18px 18px 5px; }
+.journal-stamp { border-style: dashed; }
+.journey-stops button { border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) { .cardbtn, .explorer-choice { transition: none; } }
+.explorer-list { display: grid; gap: 8px; margin: 16px 0; }
+.explorer-choice { display: flex; align-items: center; gap: 12px; padding: 12px; min-height: 64px; text-align: left; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; font: 14px var(--sans); cursor: pointer; }
+.explorer-choice[aria-current] { border: 2px solid var(--accent); background: var(--tag); }
+.explorer-choice small { display: block; margin-top: 6px; color: var(--muted); line-height: 1.4; }
+.explorer-icon { font-size: 24px; }
+.explorer-form { display: flex; gap: 8px; margin: 8px 0 16px; }
+#overlay input:not([type=file]), #overlay select { max-width: 100%; box-sizing: border-box; font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--panel); }
+.explorer-form input { flex: 1; min-width: 0; }
+#explorer-create { display: grid; gap: 10px; margin-top: 12px; }
+#explorer-import { display: block; width: 100%; margin: 10px 0; font: inherit; }
+.offline-state { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 20px; }
+.offline-state strong { color: var(--accent); }
+.offline-label { font: 11px var(--sans); color: var(--muted); margin-top: 10px; }
+.journey-picks button[aria-pressed=true] { border: 2px solid var(--accent); background: var(--tag); }
+.journey-picks .pick-order { float: right; font: 600 13px var(--mono); color: var(--accent); }
+.story-connection { margin: 14px 0; padding: 12px 14px; background: var(--tag); border-radius: 10px; }
+.story-connection h4 { margin: 0 0 6px; }
+.story-connection p { margin: 0; }
+.editor-note { color: var(--muted); font-size: 12px; }
+@media (max-width: 420px) { .actions { gap: 0; padding-left: 2px; padding-right: 6px; } .actions .iconbtn { width: 36px; } .brand { padding-left: 10px; gap: 6px; } }

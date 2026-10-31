@@ -81,7 +81,7 @@ with sync_playwright() as pw:
                 if not re.search(r"\d", s): bad.append(g)
             check(f"desktop: all {len(games)} quiz games play and score", not bad, ",".join(bad))
             # lesson check + spaced review
-            p.evaluate("localStorage.clear()")
+            p.evaluate("localStorage.clear(); store.lastRaw=null; store.conflict=false")
             p.evaluate("setMode('politics')"); p.wait_for_timeout(400)
             p.click('#checkcard [data-act="check"]'); p.wait_for_timeout(300)
             for _ in range(6):
@@ -94,7 +94,7 @@ with sync_playwright() as pw:
                 p.evaluate(f"setMode('{q['l']}')"); p.wait_for_timeout(60)
                 if not p.evaluate("at => [...panel.querySelectorAll('h2, h3, h4, .case b, b')].some(e => e.textContent.trim().startsWith(at) || e.textContent.includes(at))", q["at"]): bad_at.append(q["id"])
             check("desktop: every lesson-check 'Re-read' link finds its section", not bad_at, ",".join(bad_at))
-            p.evaluate("localStorage.clear(); setMode('nigeria')"); p.wait_for_timeout(300)
+            p.evaluate("localStorage.clear(); store.lastRaw=null; store.conflict=false; setMode('nigeria')"); p.wait_for_timeout(300)
             p.click('#checkcard [data-act="check"]'); p.wait_for_timeout(300)
             a = p.evaluate("(() => { const t = document.querySelector('#panel .q').textContent; const q = QB.find(x => x.q === t); return q.a; })()")
             p.click(f'.opts button:not([data-j="{a}"]) >> nth=0'); p.wait_for_timeout(150); wtxt = p.inner_text("#why")

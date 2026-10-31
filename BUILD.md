@@ -49,6 +49,15 @@ to its `geojson` folder.
 
 ## Publishing
 
+Stage 3 adds `tests/test_explorers.py`, `tests/test_offline_updates.py` and
+`tests/test_site_version.py` to the release gate. Offline tests exercise real
+service-worker installation, waiting updates, failed downloads and preserved saves.
+`build/site_version.py` versions the complete offline bundle, including worker logic
+and installation assets. The offline ZIP includes all six hosting files.
+
+Progress now lives in `mma.explorers.v1`; `mma.v1` is retained as a migration archive.
+See [combined release notes and family pilot](docs/STAGE-3.md).
+
 The release gate also runs `tests/test_learning_foundations.py`, so quiz-exit, progress migration,
 delayed-recall, saving, modal-focus and small-phone regressions stop publication.
 

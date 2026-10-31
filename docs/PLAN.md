@@ -1,6 +1,6 @@
 # Atlas: practical improvement plan
 
-31 October 2026 — approved by the owner in ChatGPT. Stage 1 is merged; Stage 2 is prepared for review. Later stages follow the sequence below.
+31 October 2026 — approved by the owner in ChatGPT. Stages 1 and 2 are merged; Stage 3 is in development. The owner subsequently approved combining remaining development on one branch and reviewing one release instead of merging each stage separately.
 
 ## Product direction
 
@@ -114,6 +114,6 @@ Measure first-task discoverability, completion, clarity of feedback, next-day/we
 
 ## Review checkpoints
 
-The owner approved this direction, first journey, sequence, and resource budgets on 31 October 2026. Implement Stage 1 first in a reviewable branch/PR, with screenshots and test evidence. Continue one stage at a time, adapting based on use. Do not publish an unreviewed redesign to the live app.
+The owner approved this direction, first journey, sequence, and resource budgets on 31 October 2026. Stages are development and validation milestones, not mandatory separate merges. Keep remaining work on one reviewable release branch/PR, with screenshots and test evidence, then merge once the release is ready. Prepare the Stage 4 family pilot alongside Stage 3; implement feedback-dependent refinements after actual use. Do not publish an unreviewed redesign to the live app.
 
 “Meet Nigeria again” is the agreed first journey. Refine individual stops and content during Stage 2. Map-provider integration is not a dependency for this plan.
