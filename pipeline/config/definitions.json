@@ -103,8 +103,8 @@
    "fingerprint": "66e4298bc88d27dd",
    "label": "Official naira rate, us dollar (selling rate)",
    "unit": "naira per us dollar",
-   "confirmed": "2026-10-24T14:26:28Z",
-   "how": "approved d27cdea38123310c"
+   "confirmed": "2026-10-31T07:51:14Z",
+   "how": "routine"
   },
   "ca": {
    "fingerprint": "bb40084b11583c4f",
