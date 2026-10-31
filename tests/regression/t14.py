@@ -28,7 +28,7 @@ with sync_playwright() as pw:
         p.click('[data-act="check"]'); p.wait_for_timeout(300)
         first=p.inner_text("#panel .q"); print(n,"retry first q is the missed one:", p.evaluate("t=>{const q=QB.find(x=>x.q===t);return saved.srs[q.id].w>0}", first))
         for i in range(3): answer(p,True)
-        print(n,"pass:",p.inner_text("#panel .score"),"mastered",p.evaluate("!!saved.mastered.politics"))
+        print(n,"pass:",p.inner_text("#panel .score"),"check passed",p.evaluate("!!saved.checks.politics"))
         p.click('#panel .btnrow [data-act="popview"]'); p.wait_for_timeout(900)
         print(n,"back to lesson: mode",p.evaluate("S.mode"),"scroll",st0,p.evaluate("panel.scrollTop"),"card status",p.inner_text("#checkcard .stat"))
         # goto from a fail
