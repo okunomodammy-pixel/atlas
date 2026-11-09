@@ -12,29 +12,13 @@
   "dataset": "CBN exchange rates API"
  },
  "fingerprint": "66e4298bc88d27dd",
- "edition": "2026-10-30",
- "edition_label": "CBN rates to 2026-10-30",
- "edition_date": "2026-10-30",
- "retrieved": "2026-10-31T07:51:14Z",
+ "edition": "2026-11-06",
+ "edition_label": "CBN rates to 2026-11-06",
+ "edition_date": "2026-11-06",
+ "retrieved": "2026-11-09T13:56:09Z",
  "status_basis": "official rates as published by the Central Bank of Nigeria",
  "series": {
   "NGA": {
-   "2025-09-25": [
-    1488.2578,
-    "observed"
-   ],
-   "2025-09-26": [
-    1480.657,
-    "observed"
-   ],
-   "2025-09-29": [
-    1476.3477,
-    "observed"
-   ],
-   "2025-09-30": [
-    1475.3473,
-    "observed"
-   ],
    "2025-10-02": [
     1455.2373,
     "observed"
@@ -1110,20 +1094,40 @@
    "2026-10-30": [
     1346.2565,
     "observed"
+   ],
+   "2026-11-02": [
+    1347.9435,
+    "observed"
+   ],
+   "2026-11-03": [
+    1346.9348,
+    "observed"
+   ],
+   "2026-11-04": [
+    1347.7983,
+    "observed"
+   ],
+   "2026-11-05": [
+    1348.7416,
+    "observed"
+   ],
+   "2026-11-06": [
+    1346.7945,
+    "observed"
    ]
   }
  },
  "unmatched": [],
  "invalid": [],
  "attempts": [
-  "HTTP 200 in 1.2s"
+  "HTTP 200 in 1.8s"
  ],
- "hash": "bb13bc1649105900",
+ "hash": "1bb2890cb2caee35",
  "raw": [
   {
    "label": "rates-US DOLLAR",
-   "file": "data/raw/cbn/7af2573a72465e81.json.gz",
-   "bytes": 818917
+   "file": "data/raw/cbn/6eec9404219d993c.json.gz",
+   "bytes": 819602
   }
  ]
 }
