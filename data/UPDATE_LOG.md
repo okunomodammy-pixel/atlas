@@ -2,6 +2,23 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-11-16 13:40 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
+- 2026-11-16 13:40 UTC · **gdp_pc** (imf NGDPDPC) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-16 13:40 UTC · **gdp_growth** (imf NGDP_RPCH) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-16 13:40 UTC · **cpi_avg** (imf PCPIPCH) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-16 13:40 UTC · **ca** (imf BCA_NGDPD) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-16 13:40 UTC · **unemp** (imf LUR) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-16 13:40 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD, 2026-11-11) · published: new edition: WDI, updated 2026-10-08 -> WDI, updated 2026-11-11
+- 2026-11-16 13:40 UTC · **income_group** (worldbank_country incomeLevel) · no change
+- 2026-11-16 13:40 UTC · **ng_cpi** (nbs cpi:All-Items, CPI Oct-2026) · published: new edition: NBS, CPI Sept-2026 -> NBS, CPI Oct-2026; 1 new periods; All-Items inflation: the history on the page ends at 14.06, not the headline 14.63; only the latest month was used
+- 2026-11-16 13:40 UTC · **ng_cpi_core** (nbs cpi:Core) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_cpi_food** (nbs cpi:Food) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_petrol** (nbs fuel:PMS) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_diesel** (nbs fuel:AGO) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_kerosene** (nbs fuel:NHK) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_lpg** (nbs fuel:LPG) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_gdp_q** (nbs gdp:real_yoy) · not due: last checked 2026-11-16; checked every 6 days
+- 2026-11-16 13:40 UTC · **ng_fx_usd** (cbn US DOLLAR:sellingrate, 2026-11-13) · published: new edition: CBN rates to 2026-11-06 -> CBN rates to 2026-11-13; 5 new periods
 - 2026-11-09 13:56 UTC · **gdp_usd** (imf NGDPD) · not due: last checked 2026-10-31; checked every 13 days
 - 2026-11-09 13:56 UTC · **gdp_pc** (imf NGDPDPC) · not due: last checked 2026-10-31; checked every 13 days
 - 2026-11-09 13:56 UTC · **gdp_growth** (imf NGDP_RPCH) · not due: last checked 2026-10-31; checked every 13 days

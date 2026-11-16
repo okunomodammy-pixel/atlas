@@ -33,8 +33,8 @@
    "fingerprint": "f5d1921dc2fda153",
    "label": "GDP per capita (current US$)",
    "unit": "current US$",
-   "confirmed": "2026-10-24T10:12:59Z",
-   "how": "approved e1b9390c2a673695"
+   "confirmed": "2026-11-16T13:40:58Z",
+   "how": "routine"
   },
   "income_group": {
    "fingerprint": "2d074b06ebf13d8c",
@@ -47,8 +47,8 @@
    "fingerprint": "4902097f21b2e091",
    "label": "Headline inflation (all items, year on year)",
    "unit": "% year on year",
-   "confirmed": "2026-10-24T14:26:28Z",
-   "how": "approved 7cdd819fd5dc8b45"
+   "confirmed": "2026-11-16T13:40:58Z",
+   "how": "routine"
   },
   "ng_cpi_core": {
    "fingerprint": "35dc053b46377780",
@@ -103,7 +103,7 @@
    "fingerprint": "66e4298bc88d27dd",
    "label": "Official naira rate, us dollar (selling rate)",
    "unit": "naira per us dollar",
-   "confirmed": "2026-11-09T13:56:09Z",
+   "confirmed": "2026-11-16T13:40:58Z",
    "how": "routine"
   },
   "ca": {

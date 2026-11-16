@@ -1,0 +1,89 @@
+{
+ "indicator": "ng_cpi",
+ "source": "nbs",
+ "source_code": "cpi:All-Items",
+ "name": "Headline inflation (all items, year on year)",
+ "unit": "% year on year",
+ "kind": "rate",
+ "definition": {
+  "label": "Headline inflation (all items, year on year)",
+  "unit": "% year on year",
+  "description": "Change in the consumer price index over 12 months, all items. Index base period 2024 = 100",
+  "dataset": "NBS homepage dashboard"
+ },
+ "fingerprint": "4902097f21b2e091",
+ "edition": "CPI Sept-2026",
+ "edition_label": "NBS, CPI Sept-2026",
+ "edition_date": null,
+ "retrieved": "2026-10-24T14:10:50Z",
+ "status_basis": "official statistics as published by NBS on its homepage dashboard",
+ "series": {
+  "NGA": {
+   "2025-09": [
+    21.0,
+    "observed"
+   ],
+   "2025-10": [
+    19.0,
+    "observed"
+   ],
+   "2025-11": [
+    17.33,
+    "observed"
+   ],
+   "2025-12": [
+    15.15,
+    "observed"
+   ],
+   "2026-01": [
+    15.1,
+    "observed"
+   ],
+   "2026-02": [
+    15.06,
+    "observed"
+   ],
+   "2026-03": [
+    15.38,
+    "observed"
+   ],
+   "2026-04": [
+    15.69,
+    "observed"
+   ],
+   "2026-05": [
+    15.93,
+    "observed"
+   ],
+   "2026-06": [
+    15.91,
+    "observed"
+   ],
+   "2026-07": [
+    15.43,
+    "observed"
+   ],
+   "2026-08": [
+    15.39,
+    "observed"
+   ],
+   "2026-09": [
+    14.63,
+    "observed"
+   ]
+  }
+ },
+ "unmatched": [],
+ "invalid": [],
+ "attempts": [
+  "HTTP 200 in 3.4s"
+ ],
+ "hash": "7cdd819fd5dc8b45",
+ "raw": [
+  {
+   "label": "homepage",
+   "file": "data/raw/nbs/aac7cf59876f7f09.json.gz",
+   "bytes": 160943
+  }
+ ]
+}

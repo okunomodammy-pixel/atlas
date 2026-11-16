@@ -13,10 +13,10 @@
   "organisation": "Country official statistics, National Statistical Organizations and/or Central Banks; National Accounts data files, Organisation for Economic Co-operation and Development (OECD); Staff estimates, World Bank (WB)"
  },
  "fingerprint": "f5d1921dc2fda153",
- "edition": "2026-10-08",
- "edition_label": "WDI, updated 2026-10-08",
- "edition_date": "2026-10-08",
- "retrieved": "2026-10-24T10:07:45Z",
+ "edition": "2026-11-11",
+ "edition_label": "WDI, updated 2026-11-11",
+ "edition_date": "2026-11-11",
+ "retrieved": "2026-11-16T13:40:58Z",
  "status_basis": "World Bank Indicators API: values are not flagged as estimates (obs_status blank)",
  "series": {
   "ABW": {
@@ -7019,10 +7019,9 @@
  "unmatched": [],
  "invalid": [],
  "attempts": [
-  "HTTP 502 in 0.1s",
-  "HTTP 200 in 8.8s"
+  "HTTP 200 in 57.7s"
  ],
- "hash": "e1b9390c2a673695",
+ "hash": "c5d319b311a722dd",
  "raw": [
   {
    "label": "indicator-NY.GDP.PCAP.CD",
@@ -7031,7 +7030,7 @@
   },
   {
    "label": "NY.GDP.PCAP.CD-p1",
-   "file": "data/raw/worldbank/24467a1550811139.json.gz",
+   "file": "data/raw/worldbank/552478fab7ccf80d.json.gz",
    "bytes": 474528
   }
  ]
