@@ -1,6 +1,6 @@
 // One canonical document, bounded assets, and explicit activation of updates.
-const C = "mma-3027fb7371";
-const PAGE = "c6bcd451a815d9c2cddc169d70d3a299e3f8cc1348dbeb72ce57aaf45aa9e5ff";
+const C = "mma-f5b7c3dcb6";
+const PAGE = "ad04d75c2640ad6d66f4783976ca96963c7ee1a7577771c76935a6b210e380c9";
 const DIGESTS = {"manifest.webmanifest":"5d152f0ed95038d95a66e302acdb93c80a58b0dc69e54bb220f31323129c1cd2","icon-192.png":"1884756be716d56c0e31e5bda46997fd745d20e6cc3742295ee0e76fdeb6f281","icon-512.png":"eb4111e138e62eb013352a27ad8f7527ffccd981c591f52b9997f151da44cbc6"};
 const PREFIX = "atlas:" + self.registration.scope;
 const CACHE = PREFIX + C;
