@@ -2,6 +2,23 @@
 
 Newest first. Written by pipeline/run.py; one line per indicator per run.
 
+- 2026-11-23 16:00 UTC · **gdp_usd** (imf NGDPD) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **gdp_pc** (imf NGDPDPC) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **gdp_growth** (imf NGDP_RPCH) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **cpi_avg** (imf PCPIPCH) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **ca** (imf BCA_NGDPD) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **unemp** (imf LUR) · not due: last checked 2026-11-16; checked every 13 days
+- 2026-11-23 16:00 UTC · **gdp_pc_obs** (worldbank NY.GDP.PCAP.CD, 2026-11-11) · no change
+- 2026-11-23 16:00 UTC · **income_group** (worldbank_country incomeLevel) · no change
+- 2026-11-23 16:00 UTC · **ng_cpi** (nbs cpi:All-Items, CPI Oct-2026) · held for review: 1 revisions beyond the threshold {'abs': 0.3}: NGA 2026-10: 14.63 -> 14.06
+- 2026-11-23 16:00 UTC · **ng_cpi_core** (nbs cpi:Core) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_cpi_food** (nbs cpi:Food) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_petrol** (nbs fuel:PMS) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_diesel** (nbs fuel:AGO) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_kerosene** (nbs fuel:NHK) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_lpg** (nbs fuel:LPG) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_gdp_q** (nbs gdp:real_yoy) · not due: last checked 2026-11-23; checked every 6 days
+- 2026-11-23 16:00 UTC · **ng_fx_usd** (cbn US DOLLAR:sellingrate, 2026-11-23) · published: new edition: CBN rates to 2026-11-13 -> CBN rates to 2026-11-23; 6 new periods
 - 2026-11-16 13:40 UTC · **gdp_usd** (imf NGDPD, 2026-10) · no change
 - 2026-11-16 13:40 UTC · **gdp_pc** (imf NGDPDPC) · not due: last checked 2026-11-16; checked every 13 days
 - 2026-11-16 13:40 UTC · **gdp_growth** (imf NGDP_RPCH) · not due: last checked 2026-11-16; checked every 13 days

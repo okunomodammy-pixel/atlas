@@ -1,0 +1,104 @@
+{
+ "indicator": "ng_cpi",
+ "hash": "d245a7d45e707c40",
+ "created": "2026-11-23T16:00:15Z",
+ "how_to_approve": "add \"ng_cpi\": \"d245a7d45e707c40\" under \"approve\" in pipeline/config/approvals.json",
+ "issues": {
+  "failures": [],
+  "review": [
+   "1 revisions beyond the threshold {'abs': 0.3}: NGA 2026-10: 14.63 -> 14.06"
+  ],
+  "notes": [
+   "12 new periods"
+  ]
+ },
+ "staged": {
+  "indicator": "ng_cpi",
+  "source": "nbs",
+  "source_code": "cpi:All-Items",
+  "name": "Headline inflation (all items, year on year)",
+  "unit": "% year on year",
+  "kind": "rate",
+  "definition": {
+   "label": "Headline inflation (all items, year on year)",
+   "unit": "% year on year",
+   "description": "Change in the consumer price index over 12 months, all items. Index base period 2024 = 100",
+   "dataset": "NBS homepage dashboard"
+  },
+  "fingerprint": "4902097f21b2e091",
+  "edition": "CPI Oct-2026",
+  "edition_label": "NBS, CPI Oct-2026",
+  "edition_date": null,
+  "retrieved": "2026-11-23T16:00:15Z",
+  "status_basis": "official statistics as published by NBS on its homepage dashboard",
+  "series": {
+   "NGA": {
+    "2025-10": [
+     19.0,
+     "observed"
+    ],
+    "2025-11": [
+     17.33,
+     "observed"
+    ],
+    "2025-12": [
+     15.15,
+     "observed"
+    ],
+    "2026-01": [
+     15.1,
+     "observed"
+    ],
+    "2026-02": [
+     15.06,
+     "observed"
+    ],
+    "2026-03": [
+     15.38,
+     "observed"
+    ],
+    "2026-04": [
+     15.69,
+     "observed"
+    ],
+    "2026-05": [
+     15.93,
+     "observed"
+    ],
+    "2026-06": [
+     15.91,
+     "observed"
+    ],
+    "2026-07": [
+     15.43,
+     "observed"
+    ],
+    "2026-08": [
+     15.39,
+     "observed"
+    ],
+    "2026-09": [
+     14.63,
+     "observed"
+    ],
+    "2026-10": [
+     14.06,
+     "observed"
+    ]
+   }
+  },
+  "unmatched": [],
+  "invalid": [],
+  "attempts": [
+   "HTTP 200 in 1.4s"
+  ],
+  "hash": "d245a7d45e707c40",
+  "raw": [
+   {
+    "label": "homepage",
+    "file": "data/raw/nbs/ac8e39e85e50bf79.json.gz",
+    "bytes": 161498
+   }
+  ]
+ }
+}

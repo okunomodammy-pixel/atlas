@@ -1,22 +1,20 @@
 {
- "time": "2026-11-16T13:40:58Z",
+ "time": "2026-11-23T16:00:15Z",
  "dry_run": false,
  "results": [
   {
    "indicator": "gdp_usd",
    "source": "imf",
    "code": "NGDPD",
-   "time": "2026-11-16T13:40:58Z",
-   "edition": "2026-10",
-   "places": 198,
-   "hash": "00b4cb0660e5ff19",
-   "outcome": "no change"
+   "time": "2026-11-23T16:00:15Z",
+   "outcome": "not due",
+   "reason": "last checked 2026-11-16; checked every 13 days"
   },
   {
    "indicator": "gdp_pc",
    "source": "imf",
    "code": "NGDPDPC",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
    "reason": "last checked 2026-11-16; checked every 13 days"
   },
@@ -24,7 +22,7 @@
    "indicator": "gdp_growth",
    "source": "imf",
    "code": "NGDP_RPCH",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
    "reason": "last checked 2026-11-16; checked every 13 days"
   },
@@ -32,7 +30,7 @@
    "indicator": "cpi_avg",
    "source": "imf",
    "code": "PCPIPCH",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
    "reason": "last checked 2026-11-16; checked every 13 days"
   },
@@ -40,7 +38,7 @@
    "indicator": "ca",
    "source": "imf",
    "code": "BCA_NGDPD",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
    "reason": "last checked 2026-11-16; checked every 13 days"
   },
@@ -48,7 +46,7 @@
    "indicator": "unemp",
    "source": "imf",
    "code": "LUR",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
    "reason": "last checked 2026-11-16; checked every 13 days"
   },
@@ -56,23 +54,17 @@
    "indicator": "gdp_pc_obs",
    "source": "worldbank",
    "code": "NY.GDP.PCAP.CD",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "edition": "2026-11-11",
    "places": 212,
    "hash": "c5d319b311a722dd",
-   "status_counts": {
-    "reported": 1643
-   },
-   "notes": [
-    "new edition: WDI, updated 2026-10-08 -> WDI, updated 2026-11-11"
-   ],
-   "outcome": "published"
+   "outcome": "no change"
   },
   {
    "indicator": "income_group",
    "source": "worldbank_country",
    "code": "incomeLevel",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "edition": null,
    "places": 216,
    "hash": "8a39647d87cdb5d3",
@@ -82,90 +74,92 @@
    "indicator": "ng_cpi",
    "source": "nbs",
    "code": "cpi:All-Items",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "edition": "CPI Oct-2026",
    "places": 1,
-   "hash": "3d77e749944ac1d1",
+   "hash": "d245a7d45e707c40",
    "status_counts": {
-    "observed": 1
+    "observed": 13
    },
    "notes": [
-    "new edition: NBS, CPI Sept-2026 -> NBS, CPI Oct-2026",
-    "1 new periods",
-    "All-Items inflation: the history on the page ends at 14.06, not the headline 14.63; only the latest month was used"
+    "12 new periods"
    ],
-   "outcome": "published"
+   "outcome": "held for review",
+   "review": [
+    "1 revisions beyond the threshold {'abs': 0.3}: NGA 2026-10: 14.63 -> 14.06"
+   ],
+   "approve_with": "d245a7d45e707c40"
   },
   {
    "indicator": "ng_cpi_core",
    "source": "nbs",
    "code": "cpi:Core",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_cpi_food",
    "source": "nbs",
    "code": "cpi:Food",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_petrol",
    "source": "nbs",
    "code": "fuel:PMS",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_diesel",
    "source": "nbs",
    "code": "fuel:AGO",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_kerosene",
    "source": "nbs",
    "code": "fuel:NHK",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_lpg",
    "source": "nbs",
    "code": "fuel:LPG",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_gdp_q",
    "source": "nbs",
    "code": "gdp:real_yoy",
-   "time": "2026-11-16T13:40:58Z",
+   "time": "2026-11-23T16:00:15Z",
    "outcome": "not due",
-   "reason": "last checked 2026-11-16; checked every 6 days"
+   "reason": "last checked 2026-11-23; checked every 6 days"
   },
   {
    "indicator": "ng_fx_usd",
    "source": "cbn",
    "code": "US DOLLAR:sellingrate",
-   "time": "2026-11-16T13:40:58Z",
-   "edition": "2026-11-13",
+   "time": "2026-11-23T16:00:15Z",
+   "edition": "2026-11-23",
    "places": 1,
-   "hash": "84047286c00afa2d",
+   "hash": "582089cc5b664f69",
    "status_counts": {
-    "observed": 274
+    "observed": 273
    },
    "notes": [
-    "new edition: CBN rates to 2026-11-06 -> CBN rates to 2026-11-13",
-    "5 new periods"
+    "new edition: CBN rates to 2026-11-13 -> CBN rates to 2026-11-23",
+    "6 new periods"
    ],
    "outcome": "published"
   }
